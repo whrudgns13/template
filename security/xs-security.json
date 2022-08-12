@@ -1,0 +1,14 @@
+{
+    "xsappname": "security_test",
+    "tenant-mode": "dedicated",
+	"roles" : [
+		"xs_authorization.read",
+		"xs_authorization.write",
+		"xs_idp.read",
+		"xs_idp.write",
+		"xs_user.read",
+		"xs_user.write",
+		"uaa.admin",
+		"scim.write"
+	]
+}

@@ -1,0 +1,15 @@
+{   
+    "welcomeFile" :"/webapp/index.html",
+    "routes": [
+        {
+            "source": "^/app",
+            "target": "/",
+            "destination": "server"
+        },
+        {
+            "source": "^/webapp",
+            "target": "/",
+            "destination": "ui5app"
+        }
+    ]
+}

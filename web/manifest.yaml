@@ -1,0 +1,10 @@
+applications:
+#frontend ui5 app
+  - name: webapp
+    path: uimodule/dist
+    routes:
+      - route: 68411aqsb-webapp.cfapps.us10.hana.ondemand.com
+    memory: 128M
+    buildpack: staticfile_buildpack
+    services: 
+      - security_test

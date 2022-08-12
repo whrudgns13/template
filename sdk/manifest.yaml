@@ -1,0 +1,12 @@
+applications:
+  - name: sdk
+    path: .
+    buildpacks:
+      - nodejs_buildpack
+    memory: 256M
+    command: npm run start:prod
+    routes:
+      - route : 68411aqsb-sdk.cfapps.us10.hana.ondemand.com
+    services : 
+      - security_test
+      - destination_test

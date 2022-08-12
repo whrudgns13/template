@@ -1,0 +1,25 @@
+applications:
+#approuter
+  - name: approuter
+    path: .
+    routes:
+      - route : 68411aqsb-approuter.cfapps.us10.hana.ondemand.com
+    memory: 128M
+    buildpacks:
+      - nodejs_buildpack
+    services: 
+      - security_test
+    env: 
+      destinations: >
+        [
+          {
+            "name" : "server",
+            "url":"https://68411aqsb-sdk.cfapps.us10.hana.ondemand.com",          
+            "forwardAuthToken":true
+          },
+          {
+            "name" : "ui5app",
+            "url":"https://68411aqsb-webapp.cfapps.us10.hana.ondemand.com"          
+          }
+        ]
+        
