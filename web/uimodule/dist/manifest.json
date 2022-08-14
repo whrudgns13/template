@@ -71,28 +71,59 @@
       },
       "routes": [
         {
-          "name": "RouteMainView",
-          "pattern": ":?query:",
+          "name": "CurrentUser",
+          "pattern": "currentUser",
           "target": [
-            "TargetMainView"
+            "CurrentUser"
+          ]
+        },
+        {
+          "name": "UserOverview",
+          "pattern": "userOverview",
+          "target": [
+            "UserOverview"
+          ]
+        },
+        {
+          "name" : "Users",
+          "pattern": "users",
+          "target" : [
+            "Users"
           ]
         }
       ],
       "targets": {
-        "TargetMainView": {
+        "UserOverview": {
+          "viewPath": "com.myorg.myUI5App.view.user",
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
-          "viewId": "MainView",
-          "viewName": "MainView"
+          "viewId": "UserOverview",
+          "viewName": "UserOverview"
+        },
+        "CurrentUser": {
+          "viewPath": "com.myorg.myUI5App.view.user",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "CurrentUser",
+          "viewName": "CurrentUser"
+        },
+        "Users" : {
+          "viewPath": "com.myorg.myUI5App.view.user",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Users",
+          "viewName": "Users"
         }
       }
     },
     "rootView": {
-      "viewName": "com.myorg.myUI5App.view.App",
+      "viewName": "com.myorg.myUI5App.view.MainToolPage",
       "type": "XML",
       "async": true,
-      "id": "App"
+      "id": "toolPage"
     }
   }
 }

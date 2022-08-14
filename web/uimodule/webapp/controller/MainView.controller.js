@@ -102,7 +102,8 @@ sap.ui.define(
                 const oListItem = oEvent.getSource().getParent();
                 const sPath = oListItem.getBindingContextPath("user");
                 let oUserModel = this._userModel;
-                let oListItemBindingUser = JSON.stringify(JSON.parse(oUserModel.getProperty(sPath)));
+                let oListItemBindingUser = JSON.parse(JSON.stringify(oUserModel.getProperty(sPath)));
+                //let oListItemBindingUser = JSON.stringify(JSON.parse(oUserModel.getProperty(sPath)));
 
                 oUserModel.setProperty("/userState", "edit");
                 oUserModel.setProperty("/user", oListItemBindingUser);
@@ -120,6 +121,7 @@ sap.ui.define(
                 oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
 
                 //get요청 외에는 csrf-token을 보내줘야 거부안당함
+                //approuter에서 csrfProtection를 false로 하면 csrf-token안보내도 됨
                 jQuery.ajax({
                     url: "/app/users",
                     type: "POST",
@@ -228,7 +230,9 @@ sap.ui.define(
                 let oUserFormContent = sap.ui.getCore().byId("userForm").getContent();
                 let oUserFormInputs = oUserFormContent.filter(oControl => oControl.getMetadata().getElementName() === "sap.m.Input");
                 let bCheck = true;
-
+                
+                //forEach에서 break나 continue사용못해서 some
+                //return false 면 continue / true break;
                 oUserFormInputs.some( oInput => {
                     let oInputValue = oInput.getValue();
                     

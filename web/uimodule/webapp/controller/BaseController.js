@@ -29,6 +29,14 @@ sap.ui.define(
                     this.getRouter().navTo("appHome", {}, true /* no history*/);
                 }
             },
+            onFCLOneColumn : function(){
+                let oFCL = this.getView().byId("fcl");
+                oFCL.setLayout("OneColumn");
+            },
+            onFCLTwoColumn : function(){
+                let oFCL = this.getView().byId("fcl");
+                oFCL.setLayout("TwoColumnsBeginExpanded");                
+            }
         });
     }
 );

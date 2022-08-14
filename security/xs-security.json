@@ -10,5 +10,9 @@
 		"xs_user.write",
 		"uaa.admin",
 		"scim.write"
-	]
+	],
+	"oauth2-configuration": {
+		"token-validity": 43200, 
+		"refresh-token-validity": 1800
+	}
 }

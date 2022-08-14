@@ -4,7 +4,8 @@
         {
             "source": "^/app",
             "target": "/",
-            "destination": "server"
+            "destination": "server",
+            "csrfProtection" : false
         },
         {
             "source": "^/webapp",

@@ -1,0 +1,87 @@
+<mvc:View controllerName="com.myorg.myUI5App.controller.user.Users" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
+    <f:FlexibleColumnLayout id="fcl" layout="OneColumn">
+        <f:beginColumnPages>
+            <f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
+                <!-- DynamicPage Title -->
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <Title text="Users" />
+                        </f:heading>
+                        <f:actions>
+                            <Button text="생성" press="onCreateDialog"/>
+                        </f:actions>
+                    </f:DynamicPageTitle>
+                </f:title>
+                <f:content>
+                    <Table 
+                        id="usersTable" 
+                        items="{user>/users/resources}"
+                        itemPress="onUserItemPress">
+                        <columns>
+                            <Column>
+                                <Text text="User_ID" />
+                            </Column>
+                            <Column>
+                                <Text text="User_Name" />
+                            </Column>
+                            <Column>
+                                <Text text="User_Email" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Active">
+                                <cells>
+                                    <Text text="{user>id}" />
+                                    <Text text="{user>name/familyName} {user>name/givenName}"/>
+                                    <Text text="{user>emails/0/value}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </f:content>
+            </f:DynamicPage>
+        </f:beginColumnPages>
+        <f:midColumnPages>
+            <f:DynamicPage>
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <Title text="{user>/user/userName} " />
+                        </f:heading>
+                        <f:actions>
+                            <Button text="Edit" type="Emphasized" press="onEditDialog" />
+                            <Button text="Delete" type="Emphasized" press="deleteUser"/>
+                            <Button press="onFCLOneColumn" type="Emphasized" icon="sap-icon://decline" />
+                        </f:actions>
+                    </f:DynamicPageTitle>
+                </f:title>
+                <f:content>
+                    <VBox>
+                        <form:SimpleForm title="{user>/selectedUser/userName}">
+                            <form:content>
+                                <Label text="ID" />
+                                <Text text="{user>/user/id}" />
+                                <Label text="userName" />
+                                <Text text="{user>/user/name/familyName} {user>/user/name/givenName}" />
+                                <Label text="emails" />
+                                <Text text="{user>/user/emails/0/value}" />
+                                <Label text="생성시간" />
+                                <Text text="{user>/user/meta/created}" />
+                                <Label text="마지막 업데이트" />
+                                <Text text="{user>/user/meta/lastModified}" />
+                            </form:content>
+                        </form:SimpleForm>
+                        <List headerText="Roles" items="{user>/user/groups}">
+                            <items>
+                                <ObjectListItem title="{user>value}"></ObjectListItem>
+                            </items>
+                        </List>
+                    </VBox>
+
+                </f:content>
+            </f:DynamicPage>
+
+        </f:midColumnPages>
+    </f:FlexibleColumnLayout>
+</mvc:View>

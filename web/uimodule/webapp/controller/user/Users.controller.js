@@ -1,13 +1,13 @@
 sap.ui.define(
     [
-        "./BaseController",
+        "../BaseController",
         "sap/ui/core/Fragment",
         "sap/m/MessageBox"
     ],
     function (Controller, Fragment, MessageBox) {
         "use strict";
 
-        return Controller.extend("com.myorg.myUI5App.controller.MainView", {
+        return Controller.extend("com.myorg.myUI5App.controller.user.Users", {
             onInit: function () {
                 this._setDefault();
             },
@@ -35,12 +35,12 @@ sap.ui.define(
                 }
             },
             _setDefault: function () {
+                this._FCL = this.getView().byId("fcl");
                 const oView = this.getView();
                 const oUserModel = new sap.ui.model.json.JSONModel({ user: this.getUserObj(), userState: "edit" });
                 oView.setModel(oUserModel, "user");
                 this._userModel = oView.getModel("user");
                 this.getUsers();
-                this.getCurrentUser();
             },
             getUsers: function () {
                 const _self = this;
@@ -62,51 +62,21 @@ sap.ui.define(
                     }
                 });
             },
-            getCurrentUser: function () {
-                let _self = this;
-
-                jQuery.ajax({
-                    url: "/app/users/currentUser",
-                    type: "GET",
-                    async: false,
-                    success: function (data, textStatus, xhr) {
-                        _self._userModel.setProperty("/currentUser", data);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-            },
-            onTableModeChange: function (oEvent) {
-                const oView = this.getView();
-                let oUsersTable = oView.byId("usersTable");
-                let oDeleteButton = oEvent.getSource();
-
-                if (oUsersTable.getMode() !== "Delete") {
-                    oDeleteButton.setType("Emphasized");
-                    oUsersTable.setMode("Delete");
-                    return;
-                }
-
-                oDeleteButton.setType("Default");
-                oUsersTable.setMode("None");
+            onUserItemPress : function(oEvent){
+                const oListItem = oEvent.getParameter("listItem");
+                const sPath = oListItem.getBindingContextPath("user");
+                const bindingObj = JSON.parse(JSON.stringify(this._userModel.getProperty(sPath)));
+                this._userModel.setProperty("/user",bindingObj);
+                this._FCL.getLayout()==="OneColumn" ? this.onFCLTwoColumn() : "";
             },
             onCreateDialog: function () {
-                if (this._userModel.getProperty("/userState") === "edit") {
-                    this._userModel.setProperty("/user", this.getUserObj());
-                }
+                this._userModel.setProperty("/user", this.getUserObj());
                 this._userModel.setProperty("/userState", "create");
+                this._FCL.getLayout()!=="OneColumn" ? this.onFCLOneColumn() : "";
                 this.onOpenUserDialog();
             },
-            onEditDialog: function (oEvent) {
-                const oListItem = oEvent.getSource().getParent();
-                const sPath = oListItem.getBindingContextPath("user");
-                let oUserModel = this._userModel;
-                let oListItemBindingUser = JSON.parse(JSON.stringify(oUserModel.getProperty(sPath)));
-                //let oListItemBindingUser = JSON.stringify(JSON.parse(oUserModel.getProperty(sPath)));
-
-                oUserModel.setProperty("/userState", "edit");
-                oUserModel.setProperty("/user", oListItemBindingUser);
+            onEditDialog: function () {
+                this._userModel.setProperty("/userState", "edit");
                 this.onOpenUserDialog();
             },
             onSubmit: function () {
@@ -115,11 +85,9 @@ sap.ui.define(
             },
             setUser: function () {
                 if(!this.validationCheck()) return;
-
                 const _self = this;
-                let oUser = this._userModel.getProperty("/user");
-                oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
-
+                this.addUserName();
+                
                 //get요청 외에는 csrf-token을 보내줘야 거부안당함
                 //approuter에서 csrfProtection를 false로 하면 csrf-token안보내도 됨
                 jQuery.ajax({
@@ -143,13 +111,9 @@ sap.ui.define(
                 this.onClose();
             },
             editUser: function () {
-                console.log(this.validationCheck());
                 if(!this.validationCheck()) return;
-
-                const _self = this;
-                const oUser = this._userModel.getProperty("/user");
-                oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
-
+                const _self = this;               
+                this.addUserName();
                 jQuery.ajax({
                     url: "/app/users",
                     type: "PUT",
@@ -169,11 +133,13 @@ sap.ui.define(
 
                 this.onClose();
             },
-            onDeleteUser: async function (oEvent) {
+            addUserName : function(){              
+                const oUser = this._userModel.getProperty("/user");
+                oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
+            },
+            deleteUser: async function (oEvent) {
                 const _self = this;
-                const oListItem = oEvent.getParameters("listItem").listItem;
-                const sPath = oListItem.getBindingContextPath("user");
-                const sUserId = this._userModel.getProperty(sPath).id;
+                const sUserId = this._userModel.getProperty("/user").id;
                 const bCheck = await this.showWarningBox();
 
                 if (bCheck) {

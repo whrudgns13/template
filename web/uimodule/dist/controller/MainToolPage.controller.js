@@ -1,0 +1,1 @@
+sap.ui.define(["./BaseController"],function(e){"use strict";return e.extend("com.myorg.myUI5App.controller.MainToolPage",{onItemSelect:function(e){const t=e.getParameter("item");this.navTo(t.getKey())}})});
