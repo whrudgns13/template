@@ -1,0 +1,36 @@
+<mvc:View controllerName="com.myorg.myUI5App.controller.security.Settings" xmlns="sap.m" xmlns:f="sap.f" xmlns:mvc="sap.ui.core.mvc">
+    <f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="OverView" />
+                </f:heading>
+                <f:actions>
+                    <Button text="Edit" press="onTokenTimeEdit" type="Emphasized" visible="{= ${setting>/visible} ? true : false}"/>
+                    <Button text="Save" press="onTokenTimeSave" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
+                    <Button text="Cancel" press="onCancel" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
+                </f:actions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:content>
+            <Panel headerText="토큰 유효성">
+                <content>
+                    <Label labelFor="tokenTimeSlider" text="토큰 유효성 엑세스(분)"/>
+                        <Slider id="tokenTimeSlider" enabled="{setting>/enabled}" class="sapUiSmallMarginBottom"
+                            enableTickmarks="true" min="0" max="60" step="5" width="100%"
+                            value="{setting>/security/tokenPolicySettings/accessTokenValidity}"
+                        >
+                            <ResponsiveScale tickmarksBetweenLabels="1"/>
+                        </Slider>
+                        <Label text="토큰 유효성 새로고침(시간)"/>
+                        <Slider id="refrashTokenTimeSlider" enabled="{setting>/enabled}" 
+                            enableTickmarks="true" min="0" max="144" step="5" width="100%"
+                            value="{setting>/security/tokenPolicySettings/refreshTokenValidity}"
+                        >
+                            <ResponsiveScale tickmarksBetweenLabels="1"/>
+                        </Slider>
+                </content>
+            </Panel>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

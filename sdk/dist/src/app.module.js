@@ -12,13 +12,15 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const user_controller_1 = require("./user/user.controller");
 const user_service_1 = require("./user/user.service");
+const security_service_1 = require("./security/security.service");
+const security_controller_1 = require("./security/security.controller");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [app_controller_1.AppController, user_controller_1.UserController],
-        providers: [app_service_1.AppService, user_service_1.UserService],
+        controllers: [app_controller_1.AppController, user_controller_1.UserController, security_controller_1.SecurityController],
+        providers: [app_service_1.AppService, user_service_1.UserService, security_service_1.SecurityService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

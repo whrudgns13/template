@@ -35,11 +35,11 @@ sap.ui.define(
                 }
             },
             _setDefault: function () {
-                this._FCL = this.getView().byId("fcl");
                 const oView = this.getView();
                 const oUserModel = new sap.ui.model.json.JSONModel({ user: this.getUserObj(), userState: "edit" });
                 oView.setModel(oUserModel, "user");
                 this._userModel = oView.getModel("user");
+                this._FCL = this.getView().byId("fcl");
                 this.getUsers();
             },
             getUsers: function () {
@@ -80,14 +80,16 @@ sap.ui.define(
                 this.onOpenUserDialog();
             },
             onSubmit: function () {
+                if(!this.validationCheck()) return;
+                const oUser = this._userModel.getProperty("/user");
                 const sUserState = this._userModel.getProperty("/userState");
-                sUserState === "create" ? this.setUser() : this.editUser();
+                oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
+                sUserState === "create" ? this.setUser() : this.editUser();                
             },
             setUser: function () {
-                if(!this.validationCheck()) return;
                 const _self = this;
-                this.addUserName();
-                
+                const oUser = this._userModel.getProperty("/user");
+
                 //get요청 외에는 csrf-token을 보내줘야 거부안당함
                 //approuter에서 csrfProtection를 false로 하면 csrf-token안보내도 됨
                 jQuery.ajax({
@@ -107,13 +109,13 @@ sap.ui.define(
                     }
                 });
 
-                this._userModel.setProperty("/user", this.getUserObj());
+                //this._userModel.setProperty("/user", this.getUserObj());
                 this.onClose();
             },
             editUser: function () {
-                if(!this.validationCheck()) return;
-                const _self = this;               
-                this.addUserName();
+                const _self = this;          
+                const oUser = this._userModel.getProperty("/user");
+
                 jQuery.ajax({
                     url: "/app/users",
                     type: "PUT",
@@ -133,11 +135,7 @@ sap.ui.define(
 
                 this.onClose();
             },
-            addUserName : function(){              
-                const oUser = this._userModel.getProperty("/user");
-                oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
-            },
-            deleteUser: async function (oEvent) {
+            deleteUser: async function () {
                 const _self = this;
                 const sUserId = this._userModel.getProperty("/user").id;
                 const bCheck = await this.showWarningBox();
@@ -198,7 +196,7 @@ sap.ui.define(
                 let bCheck = true;
                 
                 //forEach에서 break나 continue사용못해서 some
-                //return false 면 continue / true break;
+                //return false 면 continue / true면 break;
                 oUserFormInputs.some( oInput => {
                     let oInputValue = oInput.getValue();
                     

@@ -4,7 +4,12 @@ import {SecuritySettingsApi} from "../../SecuritySettingsAPI/security-settings-a
 export class SecurityService {
     private destination = { destinationName: 'destination-test' };
 
-    async updateToken(@Req() req, @Res() res){
+    async getSecuritySetting(){
+        const setting = await SecuritySettingsApi.readSettings().execute(this.destination);
+        return setting;
+    }
+
+    async updateSecuritySetting(@Req() req, @Res() res){
         const setting = await SecuritySettingsApi.updateSettings(req.body).execute(this.destination);
         return res.send(setting);
     }

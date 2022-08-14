@@ -90,6 +90,13 @@
           "target" : [
             "Users"
           ]
+        },
+        {
+          "name" : "Settings",
+          "pattern": "settings",
+          "target" : [
+            "Settings"
+          ]
         }
       ],
       "targets": {
@@ -116,6 +123,14 @@
           "clearControlAggregation": false,
           "viewId": "Users",
           "viewName": "Users"
+        },
+        "Settings" : {
+          "viewPath": "com.myorg.myUI5App.view.security",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Settings",
+          "viewName": "Settings"
         }
       }
     },

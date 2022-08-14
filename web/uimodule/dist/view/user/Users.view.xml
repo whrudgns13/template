@@ -47,7 +47,7 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="{user>/user/userName} " />
+                            <Title text="{user>/user/id}" />
                         </f:heading>
                         <f:actions>
                             <Button text="Edit" type="Emphasized" press="onEditDialog" />
@@ -58,7 +58,7 @@
                 </f:title>
                 <f:content>
                     <VBox>
-                        <form:SimpleForm title="{user>/selectedUser/userName}">
+                        <form:SimpleForm title="{user>/user/userName}">
                             <form:content>
                                 <Label text="ID" />
                                 <Text text="{user>/user/id}" />

@@ -11,8 +11,8 @@
 		"uaa.admin",
 		"scim.write"
 	],
-	"oauth2-configuration": {
-		"token-validity": 43200, 
-		"refresh-token-validity": 1800
+	"tokenPolicySettings": {
+		"accessTokenValidity" : 1800,
+		"refreshTokenValidity" : 7200
 	}
 }
