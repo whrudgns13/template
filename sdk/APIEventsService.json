@@ -1,0 +1,627 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "The Events service provides REST APIs that give information about events relating to account administrative operations in the SAP Cloud Management microservices, such as Accounts, Entitlements, Provisioning, and SaaS Provisioning, within central and local regions. \nUse the APIs in this service to get the list of all events that occurred in your central or local region. You can filter the events by various query parameters, such as a specific time frame, event type, or the type of entity associated with the event.   \nYou can also use the APIs to get all available event types relevant for your central or local region.   \nHere are a few examples of scenarios that can be implemented or built by reacting to account administrative events:   \n1. A global account admin can implement an automatic tagging system for newly created subaccounts by polling for subaccount creation events, Subaccount_Creation, from the Accounts service and then adding custom property to each one of the subaccounts according to predefined criteria.    \n2. Set up automatic notifications when a global account admin assigns quota to subaccounts. This scenario uses the SubaccountEntitlements_Update event from the Entitlements service. \n3. Send automatic alerts when a directory is deleted. This scenario uses the event AccountDirectory_Deletion from the Accounts service.    \n4. Use the subscription events information, SubaccountAppSubscription_Creation, from the SaaS Provisioning service to send emails notifying when applications are subscribed to from a subaccount. \nNOTE: These APIs are relevant only for cloud management tools feature set B. For details and information about whether this applies to your global account, see [Cloud Management Tools - Feature Set Overview](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/caf4e4e23aef4666ad8f125af393dfb2.html).\n\nSee also:\n* [Authorization](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/3670474a58c24ac2b082e76cbbd9dc19.html)\n* [Rate Limiting](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/77b217b3f57a45b987eb7fbc3305ce1e.html)\n* [Error Response Format](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/77fef2fb104b4b1795e2e6cee790e8b8.html)\n* [Asynchronous Jobs](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/latest/en-US/0a0a6ab0ad114d72a6611c1c6b21683e.html)",
+        "version": "1.0",
+        "title": "Events Service",
+        "termsOfService": "http://www.sap.com"
+    },
+    "host": "hostname",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "Events",
+            "description": "Events"
+        }
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/cloud-management/v1/events": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get events",
+                "description": "Get all events associated with administrative operations in your global accounts.<br/> The events you get depend on the scopes you used to access the API.<br/>To learn more about the scopes, see [SAP Cloud Management Service - Service Plans](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/a508b724bf6d457ca7ac024b8e4b8457.html).<br/><br/>Required scope: $XSAPPNAME.event.read",
+                "operationId": "getBusinessEvents",
+                "parameters": [
+                    {
+                        "name": "entityId",
+                        "in": "query",
+                        "description": "The ID of the entity associated with the event.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "entityType",
+                        "in": "query",
+                        "description": "The type of entity associated with the event.<br/>For example: Subaccount, Directory, Tenant.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "eventType",
+                        "in": "query",
+                        "description": "The type of the event that was triggered.<br/>There are two groups of event types, Central Events and Local Events group.<br/> The group you get depends on the scopes granted to you after you authorized to use the API.<br/>You can query any event listed in the group that is relevant for your scope.<br>The examples of some event types in each of the groups:<br/><br/>**Central Events group:** GlobalAccount_Update, AccountDirectory_Creation, AccountDirectory_Update, AccountDirectory_Update_Type, AccountDirectory_Deletion, Subaccount_Creation, Subaccount_Deletion, Subaccount_Update, Subaccount_Move, AccountDirectoryTenant_Creation, AccountDirectoryTenant_Deletion, GlobalAccountEntitlements_Update, EntityEntitlements_Update, EntityEntitlements_Move<br/><br/>**Local Events group:** SubaccountAppSubscription_Creation, SubaccountAppSubscription_Deletion, SubaccountAppSubscription_Update, AppRegistration_Creation, AppRegistration_Deletion, AppRegistration_Update, SubaccountTenant_Creation, SubaccountTenant_Update, SubaccountTenant_Deletion, EnvironmentInstance_Creation, EnvironmentInstance_Deletion, EnvironmentInstances_Deletion",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "fromActionTime",
+                        "in": "query",
+                        "description": "Start date and time to query the events by the action that triggered them.<br/>Use the Unix epoch time in milliseconds (you can find an online converter from a regular date-time format to the Unix epoch time format).<br/>For example:<br/>Monday, June 1, 2020 9:40:22 AM is 1590993622000 in Unix epoch milliseconds time.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "fromCreationTime",
+                        "in": "query",
+                        "description": "Start date and time to query the events by when they were created.<br/>Use the Unix epoch time in milliseconds (you can find an online converter from a regular date-time format to the Unix epoch time format).<br/>For example:<br/>Monday, June 10, 2020 04:32:22 AM is 1591752742000 in Unix epoch milliseconds time.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "The ID of the event.",
+                        "required": false,
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "collectionFormat": "multi"
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "description": "The page number to retrieve.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "The number of events to retrieve per page (max = 150).",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "sortField",
+                        "in": "query",
+                        "description": "Field by which to sort the events.",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "sortOrder",
+                        "in": "query",
+                        "description": "Sort order for the events.<br/>Can be ascending or descending.",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "ASC",
+                            "DESC"
+                        ]
+                    },
+                    {
+                        "name": "toActionTime",
+                        "in": "query",
+                        "description": "End date and time to query the events by the action that triggered them.<br/>Use the Unix epoch time in milliseconds (you can find an online converter from a regular date-time format to the Unix epoch time format).<br/>For example:<br/>Monday, June 4, 2020 11:40:22 AM is 1591260022000 in Unix epoch milliseconds time.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "toCreationTime",
+                        "in": "query",
+                        "description": "End date and time to query the events by when they were created.<br/>Use the Unix epoch time in milliseconds (you can find an online converter from a regular date-time format to the Unix epoch time format).<br/>For example:<br/>Monday, June 6, 2020 12:32:22 AM is 1591392742000 in Unix epoch milliseconds time.",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Found events (OK)",
+                        "schema": {
+                            "$ref": "#/definitions/BusinessEventsResponseCollection"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request<br/><br/>Possible reasons:<br/><br/>- The requested event type does not belong to the events group associated with the scope you used to access the API<br/>- Requested event type is unknown<br/>- Query arguments are invalid"
+                    },
+                    "401": {
+                        "description": "Unauthorized<br/><br/>Possible reasons:<br/><br/>- Invalid token<br/>- A token with the scopes for central region was used to access the Events APIs in a local region"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "429": {
+                        "description": "Rate Limit Exceeded"
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br/><br/>Possible reasons:<br/><br/>- Failed to obtain global account or subaccount info "
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+
+                        ]
+                    }
+                ]
+            }
+        },
+        "/cloud-management/v1/events/types": {
+            "get": {
+                "tags": [
+                    "Events"
+                ],
+                "summary": "Get event types",
+                "description": "Get all available event types, including their categories and their available search parameters.<br/>The event types you get are either for a central or for a local region, and the region you get depends on the scopes you used to access the API.<br/> To learn more about the scopes, see [SAP Cloud Management Service - Service Plans](https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/a508b724bf6d457ca7ac024b8e4b8457.html).<br/><br/>Required scope: $XSAPPNAME.event.read",
+                "operationId": "getBusinessEventTypes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/BusinessEventTypeResponseObject"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized<br/><br/>Possible reasons:<br/><br/>- Invalid token"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "429": {
+                        "description": "Rate Limit Exceeded"
+                    },
+                    "500": {
+                        "description": "Internal Server Error<br/><br/>Possible reasons:<br/><br/>- Failed to obtain global account or subaccount info "
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2": [
+
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "OAuth2": {
+            "type": "oauth2",
+            "tokenUrl": "https://{identityzone}.authentication.{landscape}.hana.ondemand.com/oauth/token",
+            "flow": "password",
+            "scopes": {
+            }
+        }
+    },
+    "definitions": {
+        "BusinessEventResponseObject": {
+            "type": "object",
+            "properties": {
+                "actionTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time the action triggered the event.<br/>The format is Unix epoch time in milliseconds."
+                },
+                "creationTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time when the event record was created.<br/>The format is Unix epoch time in milliseconds."
+                },
+                "details": {
+                    "type": "object",
+                    "description": "JSON object that contains description and details about the requested events.",
+                    "additionalProperties": {
+                        "type": "object"
+                    }
+                },
+                "entityId": {
+                    "type": "string",
+                    "description": "The ID of the entity associated with the event."
+                },
+                "entityType": {
+                    "type": "string",
+                    "description": "The type of entity associated with the event."
+                },
+                "eventOrigin": {
+                    "type": "string",
+                    "description": "The service that reported the event."
+                },
+                "eventType": {
+                    "type": "string",
+                    "description": "The type of the event that was triggered.<br/>There are two groups of event types: Local Events and Central Events group.<br/>Only event types that belong to one of the groups are returned as the result of a single API call.<br/>The event types group you get depends on the scope you used to access the API.<br>The examples of some of the events for each of the groups:<br/><br/>**Central Events group:** GlobalAccount_Update, AccountDirectory_Creation, AccountDirectory_Update, AccountDirectory_Update_Type, AccountDirectory_Deletion, Subaccount_Creation, Subaccount_Deletion, Subaccount_Update, Subaccount_Move, AccountDirectoryTenant_Creation, AccountDirectoryTenant_Deletion, GlobalAccountEntitlements_Update, EntityEntitlements_Update, EntityEntitlements_Move<br/><br/>**Local Events group:** SubaccountAppSubscription_Creation, SubaccountAppSubscription_Deletion, SubaccountAppSubscription_Update, AppRegistration_Creation, AppRegistration_Deletion, AppRegistration_Update, SubaccountTenant_Creation, SubaccountTenant_Update, SubaccountTenant_Deletion, EnvironmentInstance_Creation, EnvironmentInstance_Deletion, EnvironmentInstances_Deletion"
+                },
+                "globalAccountGUID": {
+                    "type": "string",
+                    "description": "The unique ID of the global account associated with the event."
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The ID of the event."
+                }
+            },
+            "title": "BusinessEventResponseObject"
+        },
+        "BusinessEventTypeResponseObject": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Category to which the event type belongs.\n* <b>LOCAL:</b> The event is associated with the local region within a multi-region universe.\n* <b>CENTRAL:</b> The event is associated with the central region within a multi-region universe.",
+                    "enum": [
+                        "CENTRAL",
+                        "LOCAL"
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the event type."
+                },
+                "searchParams": {
+                    "type": "array",
+                    "example": "https://<HOST>?searchParamKey1=searchParamValue1",
+                    "description": "List of all the search parameters for the event type.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the event that was triggered.<br/>There are two groups of event types: Local Events and Central Events group.<br/>Only event types that belong to one of the groups are returned as the result of a single API call.<br/>The event types group you get depends on the scope you used to access the API.<br>The examples of some of the events for each of the groups:<br/><br/>**Central Events group:** GlobalAccount_Update, AccountDirectory_Creation, AccountDirectory_Update, AccountDirectory_Update_Type, AccountDirectory_Deletion, Subaccount_Creation, Subaccount_Deletion, Subaccount_Update, Subaccount_Move, AccountDirectoryTenant_Creation, AccountDirectoryTenant_Deletion, GlobalAccountEntitlements_Update, EntityEntitlements_Update, EntityEntitlements_Move<br/><br/>**Local Events group:** SubaccountAppSubscription_Creation, SubaccountAppSubscription_Deletion, SubaccountAppSubscription_Update, AppRegistration_Creation, AppRegistration_Deletion, AppRegistration_Update, SubaccountTenant_Creation, SubaccountTenant_Update, SubaccountTenant_Deletion, EnvironmentInstance_Creation, EnvironmentInstance_Deletion, EnvironmentInstances_Deletion"
+                }
+            },
+            "title": "BusinessEventTypeResponseObject"
+        },
+        "BusinessEventsResponseCollection": {
+            "type": "object",
+            "properties": {
+                "events": {
+                    "type": "array",
+                    "description": "Lists of the events associated with the API call and used scopes.",
+                    "items": {
+                        "$ref": "#/definitions/BusinessEventResponseObject"
+                    }
+                },
+                "morePages": {
+                    "type": "boolean",
+                    "description": "Whether there are more pages."
+                },
+                "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The current page number."
+                },
+                "total": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total numbers of results."
+                },
+                "totalPages": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total numbers of pages."
+                }
+            },
+            "title": "BusinessEventsResponseCollection"
+        },
+        "EventResponseObject": {
+            "type": "object",
+            "properties": {
+                "actionTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time the action triggered the event.<br/>The format is Unix epoch time in milliseconds."
+                },
+                "creationTime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time when the event record was created.<br/>The format is Unix epoch time in milliseconds."
+                },
+                "details": {
+                    "type": "object",
+                    "description": "JSON object that contains description and details about the requested events.",
+                    "additionalProperties": {
+                        "type": "object"
+                    }
+                },
+                "entityId": {
+                    "type": "string",
+                    "description": "The ID of the entity associated with the event."
+                },
+                "entityType": {
+                    "type": "string",
+                    "description": "The type of entity associated with the event."
+                },
+                "eventOrigin": {
+                    "type": "string",
+                    "description": "The service that reported the event."
+                },
+                "eventType": {
+                    "type": "string",
+                    "description": "The type of the event that was triggered",
+                    "enum": [
+                        "AccountDirectoryTenant_Creation",
+                        "AccountDirectoryTenant_Deletion",
+                        "AccountDirectory_CancelSuspension",
+                        "AccountDirectory_Creation",
+                        "AccountDirectory_Deletion",
+                        "AccountDirectory_Suspension",
+                        "AccountDirectory_Update",
+                        "AccountDirectory_Update_Type",
+                        "AppRegistration_Creation",
+                        "AppRegistration_Deletion",
+                        "AppRegistration_Update",
+                        "ChangeCustomerOrderProcess_Completion",
+                        "ChangeGeoAccessOrderProcess_Completion",
+                        "EntityEntitlements_Move",
+                        "EntityEntitlements_Update",
+                        "EnvironmentInstance_Creation",
+                        "EnvironmentInstance_Deletion",
+                        "EnvironmentInstances_Deletion",
+                        "FollowupOrderProcess_Completion",
+                        "GlobalAccountCommercialModel_Update",
+                        "GlobalAccountEntitlements_Update",
+                        "GlobalAccountTenant_CancelSuspension",
+                        "GlobalAccountTenant_Creation",
+                        "GlobalAccountTenant_Deletion",
+                        "GlobalAccountTenant_Suspension",
+                        "GlobalAccountTermination_Completion",
+                        "GlobalAccount_CancelExpiration",
+                        "GlobalAccount_CancelSuspension",
+                        "GlobalAccount_Creation",
+                        "GlobalAccount_Deletion",
+                        "GlobalAccount_Expiration",
+                        "GlobalAccount_MigratedToFeatureSetB",
+                        "GlobalAccount_Suspension",
+                        "GlobalAccount_Update",
+                        "InitialOrderProcess_Completion",
+                        "Notification",
+                        "ReuseServiceRegistration_Creation",
+                        "ReuseServiceRegistration_Deletion",
+                        "ReuseServiceRegistration_Update",
+                        "SubaccountAppSubscriptionParameters_Update",
+                        "SubaccountAppSubscription_Creation",
+                        "SubaccountAppSubscription_Deletion",
+                        "SubaccountAppSubscription_Update",
+                        "SubaccountEntitlements_Update",
+                        "SubaccountReuseServiceSubscription_Creation",
+                        "SubaccountReuseServiceSubscription_Deletion",
+                        "SubaccountReuseServiceSubscription_Update",
+                        "SubaccountTenant_CancelSuspension",
+                        "SubaccountTenant_Creation",
+                        "SubaccountTenant_Deletion",
+                        "SubaccountTenant_Suspension",
+                        "SubaccountTenant_TerminationInfo",
+                        "SubaccountTenant_Update",
+                        "Subaccount_CancelSuspension",
+                        "Subaccount_Creation",
+                        "Subaccount_Deletion",
+                        "Subaccount_Move",
+                        "Subaccount_MoveToOtherGlobalAccount",
+                        "Subaccount_Suspension",
+                        "Subaccount_Update",
+                        "SupplementaryProductOrderProcess_Completion",
+                        "SupplementaryProductTerminationProcess_Completion",
+                        "TerminationDeleteOrderProcess_Completion",
+                        "TerminationNoticeOrderProcess_Completion",
+                        "TerminationOrderProcess_Completion",
+                        "TerminationSuspendOrderProcess_Completion",
+                        "TerminationUnsuspendFollowupOrderProcess_Completion",
+                        "TerminationUnsuspendOrderProcess_Completion"
+                    ]
+                },
+                "globalAccountGUID": {
+                    "type": "string",
+                    "description": "The unique ID of the global account associated with the event."
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The ID of the event."
+                }
+            },
+            "title": "EventResponseObject"
+        },
+        "EventTypeResponseObject": {
+            "type": "object",
+            "required": [
+                "category",
+                "type"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "Category to which the event type belongs.\n* <b>LOCAL:</b> The event is associated with the local region within a multi-region universe.\n* <b>CENTRAL:</b> The event is associated with the central region within a multi-region universe.",
+                    "enum": [
+                        "CENTRAL",
+                        "LOCAL",
+                        "NOTIFICATION"
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The description of the event type."
+                },
+                "searchParams": {
+                    "type": "array",
+                    "example": "https://<HOST>?searchParamKey1=searchParamValue1",
+                    "description": "List of all the search parameters for the event type.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The type of the event",
+                    "enum": [
+                        "AccountDirectoryTenant_Creation",
+                        "AccountDirectoryTenant_Deletion",
+                        "AccountDirectory_CancelSuspension",
+                        "AccountDirectory_Creation",
+                        "AccountDirectory_Deletion",
+                        "AccountDirectory_Suspension",
+                        "AccountDirectory_Update",
+                        "AccountDirectory_Update_Type",
+                        "AppRegistration_Creation",
+                        "AppRegistration_Deletion",
+                        "AppRegistration_Update",
+                        "ChangeCustomerOrderProcess_Completion",
+                        "ChangeGeoAccessOrderProcess_Completion",
+                        "EntityEntitlements_Move",
+                        "EntityEntitlements_Update",
+                        "EnvironmentInstance_Creation",
+                        "EnvironmentInstance_Deletion",
+                        "EnvironmentInstances_Deletion",
+                        "FollowupOrderProcess_Completion",
+                        "GlobalAccountCommercialModel_Update",
+                        "GlobalAccountEntitlements_Update",
+                        "GlobalAccountTenant_CancelSuspension",
+                        "GlobalAccountTenant_Creation",
+                        "GlobalAccountTenant_Deletion",
+                        "GlobalAccountTenant_Suspension",
+                        "GlobalAccountTermination_Completion",
+                        "GlobalAccount_CancelExpiration",
+                        "GlobalAccount_CancelSuspension",
+                        "GlobalAccount_Creation",
+                        "GlobalAccount_Deletion",
+                        "GlobalAccount_Expiration",
+                        "GlobalAccount_MigratedToFeatureSetB",
+                        "GlobalAccount_Suspension",
+                        "GlobalAccount_Update",
+                        "InitialOrderProcess_Completion",
+                        "Notification",
+                        "ReuseServiceRegistration_Creation",
+                        "ReuseServiceRegistration_Deletion",
+                        "ReuseServiceRegistration_Update",
+                        "SubaccountAppSubscriptionParameters_Update",
+                        "SubaccountAppSubscription_Creation",
+                        "SubaccountAppSubscription_Deletion",
+                        "SubaccountAppSubscription_Update",
+                        "SubaccountEntitlements_Update",
+                        "SubaccountReuseServiceSubscription_Creation",
+                        "SubaccountReuseServiceSubscription_Deletion",
+                        "SubaccountReuseServiceSubscription_Update",
+                        "SubaccountTenant_CancelSuspension",
+                        "SubaccountTenant_Creation",
+                        "SubaccountTenant_Deletion",
+                        "SubaccountTenant_Suspension",
+                        "SubaccountTenant_TerminationInfo",
+                        "SubaccountTenant_Update",
+                        "Subaccount_CancelSuspension",
+                        "Subaccount_Creation",
+                        "Subaccount_Deletion",
+                        "Subaccount_Move",
+                        "Subaccount_MoveToOtherGlobalAccount",
+                        "Subaccount_Suspension",
+                        "Subaccount_Update",
+                        "SupplementaryProductOrderProcess_Completion",
+                        "SupplementaryProductTerminationProcess_Completion",
+                        "TerminationDeleteOrderProcess_Completion",
+                        "TerminationNoticeOrderProcess_Completion",
+                        "TerminationOrderProcess_Completion",
+                        "TerminationSuspendOrderProcess_Completion",
+                        "TerminationUnsuspendFollowupOrderProcess_Completion",
+                        "TerminationUnsuspendOrderProcess_Completion"
+                    ]
+                }
+            },
+            "title": "EventTypeResponseObject"
+        },
+        "EventsResponseCollection": {
+            "type": "object",
+            "properties": {
+                "events": {
+                    "type": "array",
+                    "description": "Lists of the events associated with the API call and used scopes.",
+                    "items": {
+                        "$ref": "#/definitions/EventResponseObject"
+                    }
+                },
+                "morePages": {
+                    "type": "boolean",
+                    "description": "Whether there are more pages."
+                },
+                "pageNum": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "The current page number."
+                },
+                "total": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total numbers of results."
+                },
+                "totalPages": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Total numbers of pages."
+                }
+            },
+            "title": "EventsResponseCollection"
+        }
+    },
+    "x-sap-shortText": "Get information about events relating to administrative operations in your global accounts.",
+    "externalDocs": {
+        "description": "Using the Events Service APIs",
+        "url": "https://help.sap.com/viewer/65de2977205c403bbc107264b8eccf4b/Cloud/en-US/94e1895c16274df2a59196b81e28d1c4.html"
+    },
+    "x-sap-stateInfo": {
+        "state": "Active"
+    },
+    "security": [
+        {
+            "OAuth2": [
+
+            ]
+        }
+    ],
+    "x-servers": [
+        {
+            "url": "https://events-service.cfapps.{landscape}.hana.ondemand.com",
+            "templates": {
+                "landscape": {
+                    "enum": [
+                        "eu10",
+                        "us10",
+                        "ap21"
+                    ],
+                    "default": "eu10"
+                }
+            }
+        }
+    ],
+    "schemes": [
+        "https"
+    ]
+}

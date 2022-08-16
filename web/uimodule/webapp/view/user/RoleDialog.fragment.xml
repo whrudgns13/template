@@ -1,0 +1,13 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
+    <SelectDialog        
+        confirm="onRoleConfirm"
+        cancel="onClose"
+        items="{roles>/resources}"
+        multiSelect="true"
+    >
+    <StandardListItem
+        title="{roles>displayName}"
+        description="{roles>description}"
+        type="Active" />
+    </SelectDialog>
+</core:FragmentDefinition>

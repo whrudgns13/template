@@ -6,9 +6,9 @@
                     <Title text="OverView" />
                 </f:heading>
                 <f:actions>
-                    <Button text="Edit" press="onTokenTimeEdit" type="Emphasized" visible="{= ${setting>/visible} ? true : false}"/>
+                    <Button text="Edit" press="onChangeState" type="Emphasized" visible="{= ${setting>/visible} ? true : false}"/>
                     <Button text="Save" press="onTokenTimeSave" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
-                    <Button text="Cancel" press="onCancel" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
+                    <Button text="Cancel" press="onChangeState" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
                 </f:actions>
             </f:DynamicPageTitle>
         </f:title>

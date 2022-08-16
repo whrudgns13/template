@@ -32,7 +32,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.102.0",
       "libs": {
@@ -97,6 +97,13 @@
           "target" : [
             "Settings"
           ]
+        },
+        {
+          "name" : "Events",
+          "pattern": "events",
+          "target" : [
+            "EventLogs"
+          ]
         }
       ],
       "targets": {
@@ -131,6 +138,14 @@
           "clearControlAggregation": false,
           "viewId": "Settings",
           "viewName": "Settings"
+        },
+        "EventLogs" : {
+          "viewPath": "com.myorg.myUI5App.view.events",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "EventLogs",
+          "viewName": "EventLogs"          
         }
       }
     },

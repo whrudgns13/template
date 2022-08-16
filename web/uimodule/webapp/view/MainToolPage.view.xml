@@ -11,9 +11,10 @@
                         <tnt:NavigationListItem text="Current User" key="CurrentUser"/>
                         <tnt:NavigationListItem text="Users" key="Users"/>
                     </tnt:NavigationListItem>
-                    <tnt:NavigationListItem text="Security" icon="sap-icon://building">
+                    <tnt:NavigationListItem text="Security" icon="sap-icon://shield">
                         <tnt:NavigationListItem text="Settings" key="Settings"/>
                     </tnt:NavigationListItem>
+                    <tnt:NavigationListItem text="Event Logs" icon="sap-icon://shield"/>
                 </tnt:NavigationList>
             </tnt:SideNavigation>
         </tnt:sideContent>

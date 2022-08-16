@@ -37,10 +37,28 @@ sap.ui.define(
             _setDefault: function () {
                 const oView = this.getView();
                 const oUserModel = new sap.ui.model.json.JSONModel({ user: this.getUserObj(), userState: "edit" });
+                const oRolesModel = new sap.ui.model.json.JSONModel();
                 oView.setModel(oUserModel, "user");
+                oView.setModel(oRolesModel,"roles");
                 this._userModel = oView.getModel("user");
+                this._rolesModel = oView.getModel("roles");
                 this._FCL = this.getView().byId("fcl");
                 this.getUsers();
+                this.getRoles();
+            },
+            getRoles : function(){
+                const _self = this;
+                jQuery.ajax({
+                    url: "/app/group",
+                    type: "GET",
+                    success: function (data, textStatus, xhr) {
+                        console.log(data);
+                        _self._rolesModel.setProperty("/",data);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
             },
             getUsers: function () {
                 const _self = this;
@@ -69,15 +87,21 @@ sap.ui.define(
                 this._userModel.setProperty("/user",bindingObj);
                 this._FCL.getLayout()==="OneColumn" ? this.onFCLTwoColumn() : "";
             },
-            onCreateDialog: function () {
+            onCreateDialog: function (oEvent) {
                 this._userModel.setProperty("/user", this.getUserObj());
                 this._userModel.setProperty("/userState", "create");
                 this._FCL.getLayout()!=="OneColumn" ? this.onFCLOneColumn() : "";
-                this.onOpenUserDialog();
+                this._dialogName = this.getCustomDataKey(oEvent.getSource());
+                this.onOpenDialog();
             },
-            onEditDialog: function () {
+            onEditDialog: function (oEvent) {
                 this._userModel.setProperty("/userState", "edit");
-                this.onOpenUserDialog();
+                this._dialogName = this.getCustomDataKey(oEvent.getSource());
+                this.onOpenDialog(oEvent);
+            },
+            getCustomDataKey(oControl){
+                const sCustomDataKey = oControl.getCustomData()[0].getKey();
+                return sCustomDataKey;
             },
             onSubmit: function () {
                 if(!this.validationCheck()) return;
@@ -89,7 +113,8 @@ sap.ui.define(
             setUser: function () {
                 const _self = this;
                 const oUser = this._userModel.getProperty("/user");
-
+                oUser.displayName = "displayName test";
+                
                 //get요청 외에는 csrf-token을 보내줘야 거부안당함
                 //approuter에서 csrfProtection를 false로 하면 csrf-token안보내도 됨
                 jQuery.ajax({
@@ -108,8 +133,7 @@ sap.ui.define(
                         console.log(error);
                     }
                 });
-
-                //this._userModel.setProperty("/user", this.getUserObj());
+                
                 this.onClose();
             },
             editUser: function () {
@@ -151,6 +175,7 @@ sap.ui.define(
                         },
                         success: function (data, status, xhr) {
                             status === "success" ? new sap.m.MessageToast.show("삭제 성공") : "";
+                            _self.onFCLOneColumn();
                             _self.getUsers();
                         },
                         error: function (error) {
@@ -171,51 +196,30 @@ sap.ui.define(
                     });
                 });
             },
-            onOpenUserDialog: function () {
+            onRoleConfirm : function(oEvent){
+                const oSelectedItems = oEvent.getParameter("selectedItems");
+            },
+            onOpenDialog: function (oEvent) {
+                if(oEvent) this._dialogName = this.getCustomDataKey(oEvent.getSource());
+                
                 const oView = this.getView();
-
-                if (!this.oDialog) {
-                    this.oDialog = Fragment.load({
-                        name: "com.myorg.myUI5App.view.UserDialog",
+                const sDialogName = this._dialogName;
+                
+                if (!this[sDialogName]) {
+                    this[sDialogName] = Fragment.load({
+                        name: `com.myorg.myUI5App.view.user.${sDialogName}`,
                         controller: this
                     })
                 }
 
-                this.oDialog.then(dialog => {
+                this[sDialogName].then(dialog => {
                     oView.addDependent(dialog);
                     dialog.open();
                 });
             },
             onClose: function () {
-                this.oDialog.then(dialog => dialog.close());
-            },
-            validationCheck: function () {
-                const mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
-                let oUserFormContent = sap.ui.getCore().byId("userForm").getContent();
-                let oUserFormInputs = oUserFormContent.filter(oControl => oControl.getMetadata().getElementName() === "sap.m.Input");
-                let bCheck = true;
-                
-                //forEach에서 break나 continue사용못해서 some
-                //return false 면 continue / true면 break;
-                oUserFormInputs.some( oInput => {
-                    let oInputValue = oInput.getValue();
-                    
-                    if (!oInputValue) {
-                        oInput.setValueState("Error");
-                        bCheck = false;
-                        return false;
-                    }
-
-                    if (oInput.getType() === "Email" && !oInputValue.match(mailregex)) {
-                        console.log(`emails`);
-                        oInput.setValueState("Error");
-                        bCheck = false;
-                        return false;
-                    }
-                    
-                    oInput.setValueState("None");
-                })
-                return bCheck;
+                const sDialogName = this._dialogName;
+                this[sDialogName].then(dialog => dialog.close());
             }
         });
     }

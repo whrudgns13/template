@@ -89,7 +89,8 @@ sap.ui.define(
             setUser: function () {
                 const _self = this;
                 const oUser = this._userModel.getProperty("/user");
-
+                oUser.name.sabeon = "test";
+                console.log(oUser);
                 //get요청 외에는 csrf-token을 보내줘야 거부안당함
                 //approuter에서 csrfProtection를 false로 하면 csrf-token안보내도 됨
                 jQuery.ajax({
@@ -151,6 +152,7 @@ sap.ui.define(
                         },
                         success: function (data, status, xhr) {
                             status === "success" ? new sap.m.MessageToast.show("삭제 성공") : "";
+                            _self.onFCLOneColumn();
                             _self.getUsers();
                         },
                         error: function (error) {

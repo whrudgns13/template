@@ -1,4 +1,4 @@
-<mvc:View controllerName="com.myorg.myUI5App.controller.user.Users" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
+<mvc:View xmlns:core="sap.ui.core" controllerName="com.myorg.myUI5App.controller.user.Users" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
     <f:FlexibleColumnLayout id="fcl" layout="OneColumn">
         <f:beginColumnPages>
             <f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
@@ -9,7 +9,11 @@
                             <Title text="Users" />
                         </f:heading>
                         <f:actions>
-                            <Button text="생성" press="onCreateDialog"/>
+                            <Button text="생성" press="onCreateDialog">
+                                <customData>
+                                    <core:CustomData key="UserDialog" value="UserDialog"/>
+                                </customData>
+                            </Button>
                         </f:actions>
                     </f:DynamicPageTitle>
                 </f:title>
@@ -50,7 +54,11 @@
                             <Title text="{user>/user/id}" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Edit" type="Emphasized" press="onEditDialog" />
+                            <Button text="Edit" type="Emphasized" press="onEditDialog">
+                                <customData>
+                                    <core:CustomData key="UserDialog" value="UserDialog"/>
+                                </customData>
+                            </Button>
                             <Button text="Delete" type="Emphasized" press="deleteUser"/>
                             <Button press="onFCLOneColumn" type="Emphasized" icon="sap-icon://decline" />
                         </f:actions>
@@ -72,7 +80,18 @@
                                 <Text text="{user>/user/meta/lastModified}" />
                             </form:content>
                         </form:SimpleForm>
-                        <List headerText="Roles" items="{user>/user/groups}">
+                        <List items="{user>/user/groups}">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Text text="역활"/>
+                                    <ToolbarSpacer/>
+                                    <Button text="역활 추가" press="onOpenDialog">
+                                        <customData>
+                                            <core:CustomData key="RoleDialog" value="RoleDialog"/>
+                                        </customData>
+                                    </Button> 
+                                </OverflowToolbar>
+                            </headerToolbar>
                             <items>
                                 <ObjectListItem title="{user>value}"></ObjectListItem>
                             </items>
