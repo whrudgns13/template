@@ -4,7 +4,7 @@
  * This is a generated file powered by the SAP Cloud SDK for JavaScript.
  */
 import { OpenApiRequestBuilder } from '@sap-cloud-sdk/openapi';
-import type { ScimGroups, ScimGroup, ScimGroupPatch } from './schema';
+import type { ScimGroups, ScimGroup, ScimGroupPatch, ScimGroupMember } from './schema';
 /**
  * Representation of the 'SCIMGroupsRoleCollectionsApi'.
  * This API is part of the 'PlatformAPI' service.
@@ -64,5 +64,22 @@ export const SCIMGroupsRoleCollectionsApi = {
           pathParameters: { id },
           body
         }
+  ),
+  //추가
+  updateGroupUsingPost: (id: string, body: ScimGroupMember) => new OpenApiRequestBuilder<any>(
+    'post',
+    '/Groups/{id}/members',
+    {
+          pathParameters: { id },
+          body
+        }
+  ),
+  //삭제
+  deleteGroupUsingDelete: (groupId: string, userId : string) => new OpenApiRequestBuilder<any>(
+    'delete',
+    '/Groups/{groupId}/members/{userId}',
+    {
+      pathParameters: { groupId,userId }
+    }
   )
 };

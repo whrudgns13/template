@@ -7,4 +7,4 @@ applications:
     memory: 128M
     buildpack: staticfile_buildpack
     services: 
-      - security_test
+      - security_test-application

@@ -1,0 +1,1 @@
+sap.ui.define(["../BaseController"],function(e){"use strict";return e.extend("com.myorg.myUI5App.events.EventLogs",{onInit:function(){this.getEvents()},getEvents:function(){jQuery.ajax({url:"/app/events",type:"GET",success:function(e){console.log(e)},error:function(e){console.log(e)}})}})});

@@ -74,6 +74,9 @@ sap.ui.define(
                     success: function (data, textStatus, xhr) {
                         _self.csrfToken = xhr.getResponseHeader("x-csrf-token");
                         _self._userModel.setProperty("/users", data);
+                        if(_self._userPath){
+                            _self._userModel.setProperty("/user",_self._userModel.getProperty(_self._userPath))
+                        } 
                     },
                     error: function (error) {
                         console.log(error);
@@ -85,30 +88,15 @@ sap.ui.define(
                 const sPath = oListItem.getBindingContextPath("user");
                 const bindingObj = JSON.parse(JSON.stringify(this._userModel.getProperty(sPath)));
                 this._userModel.setProperty("/user",bindingObj);
+                this._userPath = sPath;
                 this._FCL.getLayout()==="OneColumn" ? this.onFCLTwoColumn() : "";
-            },
-            onCreateDialog: function (oEvent) {
-                this._userModel.setProperty("/user", this.getUserObj());
-                this._userModel.setProperty("/userState", "create");
-                this._FCL.getLayout()!=="OneColumn" ? this.onFCLOneColumn() : "";
-                this._dialogName = this.getCustomDataKey(oEvent.getSource());
-                this.onOpenDialog();
-            },
-            onEditDialog: function (oEvent) {
-                this._userModel.setProperty("/userState", "edit");
-                this._dialogName = this.getCustomDataKey(oEvent.getSource());
-                this.onOpenDialog(oEvent);
-            },
-            getCustomDataKey(oControl){
-                const sCustomDataKey = oControl.getCustomData()[0].getKey();
-                return sCustomDataKey;
             },
             onSubmit: function () {
                 if(!this.validationCheck()) return;
                 const oUser = this._userModel.getProperty("/user");
                 const sUserState = this._userModel.getProperty("/userState");
                 oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
-                sUserState === "create" ? this.setUser() : this.editUser();                
+                sUserState === "create" ? this.setUser() : this.editUser();
             },
             setUser: function () {
                 const _self = this;
@@ -196,14 +184,97 @@ sap.ui.define(
                     });
                 });
             },
-            onRoleConfirm : function(oEvent){
-                const oSelectedItems = oEvent.getParameter("selectedItems");
+            onUserRoleDelete : async function(oEvent){               
+                const oListItem = oEvent.getParameter("listItem");
+                const bCheck = await this.showWarningBox();
+                const _self = this; 
+                const oDelete = {
+                    groupId : oListItem.getTitle(),
+                    userId : this._userModel.getProperty("/user/id")
+                };
+
+                if (bCheck) {
+                    jQuery.ajax({
+                        url: "/app/group",
+                        type: "DELETE",
+                        data: JSON.stringify(oDelete),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            "X-CSRF-Token": _self.csrfToken
+                        },
+                        success: function (data, status, xhr) {
+                            status === "success" ? new sap.m.MessageToast.show("삭제 성공") : "";
+                            _self.getUsers();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }              
             },
-            onOpenDialog: function (oEvent) {
-                if(oEvent) this._dialogName = this.getCustomDataKey(oEvent.getSource());
+            onSetRole : function(oEvent){
+                const _self = this;
+                const oSelectedItems = oEvent.getParameter("selectedItems");
+                const aRoleId = oSelectedItems.map(selectedItem=>selectedItem.getTitle());
+                const sUserId = this._userModel.getProperty("/user/id");
+                
+                aRoleId.forEach(roleId=>{
+                    const oGroups = {
+                        id : roleId,
+                        group : {
+                            "type" : "USER",
+                            "value" : sUserId,
+                            "origin" : "sap.default"
+                        }
+                    };
+
+                    jQuery.ajax({
+                        url : "/app/group",
+                        type : "POST",
+                        data : JSON.stringify(oGroups),
+                        headers : {
+                            "Content-Type" : "application/json",
+                            "X-CSRF-Token": _self.csrfToken
+                        },
+                        success: function (data, status, xhr) {
+                            status === "success" ? new sap.m.MessageToast.show("역활 추가 성공") : "";
+                            _self.getUsers();
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+
+                });
+            },
+            onOpenDialog: function(oEvent) {
+                const sDialogName = this.getCustomDataKey(oEvent.getSource());
+                const sDialogValue = this.getCustomDataValue(oEvent.getSource());
+                this._dialogName = sDialogName;
+
+                switch(sDialogValue){
+                    case "Create" : 
+                        this._userModel.setProperty("/user", this.getUserObj());
+                        this._userModel.setProperty("/userState", "create");
+                        this._FCL.getLayout()!=="OneColumn" ? this.onFCLOneColumn() : "";
+                    break;
+                    case "Edit" : 
+                        this._userModel.setProperty("/userState", "edit");
+                    break;
+                    case "addRole" : 
+                        let aRoles = this._rolesModel.getProperty("/resources");
+                        let aUserRoles = this._userModel.getProperty("/user/groups");
+                        const newRoles = aRoles.filter(role=> {
+                            const iIndex = aUserRoles.findIndex(userRole=> role.id===userRole.value);
+                            if(iIndex>-1) return false;
+                            return true
+                        });
+
+                        this._rolesModel.setProperty("/resources",newRoles);
+                    break;
+                }
                 
                 const oView = this.getView();
-                const sDialogName = this._dialogName;
                 
                 if (!this[sDialogName]) {
                     this[sDialogName] = Fragment.load({
@@ -220,7 +291,16 @@ sap.ui.define(
             onClose: function () {
                 const sDialogName = this._dialogName;
                 this[sDialogName].then(dialog => dialog.close());
-            }
+            },
+            getCustomDataKey(oControl){
+                const sCustomDataKey = oControl.getCustomData()[0].getKey();
+                return sCustomDataKey;
+            },
+            getCustomDataValue(oControl){
+                const sCustomDataValue = oControl.getCustomData()[0].getValue();
+                return sCustomDataValue;
+            },
+            
         });
     }
 );

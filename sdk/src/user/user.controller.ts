@@ -1,4 +1,5 @@
 import { Controller, Delete, Get, Patch, Post, Put, Req, Res } from '@nestjs/common';
+import e from 'express';
 import { UserService } from './user.service';
 
 
@@ -6,8 +7,12 @@ import { UserService } from './user.service';
 export class UserController {
     constructor(private readonly userService: UserService) {}
     @Get()
-    getUsers(){
-        return this.userService.getUsers();
+    getUsers(@Req() req, @Res() res){
+        if(req.authInfo.checkScope("$XSAPPNAME.User")){
+            return this.userService.getUsers(req, res);
+        }else{
+            res.status(403).send("Forbidden");
+        }
     }
 
     @Get('/currentUser')

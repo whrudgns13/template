@@ -3,7 +3,7 @@
         <f:title>
             <f:DynamicPageTitle>
                 <f:heading>
-                    <Title text="OverView" />
+                    <Title text="Settings" />
                 </f:heading>
                 <f:actions>
                     <Button text="Edit" press="onChangeState" type="Emphasized" visible="{= ${setting>/visible} ? true : false}"/>

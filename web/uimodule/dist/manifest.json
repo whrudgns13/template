@@ -97,6 +97,13 @@
           "target" : [
             "Settings"
           ]
+        },
+        {
+          "name" : "Events",
+          "pattern": "events",
+          "target" : [
+            "EventLogs"
+          ]
         }
       ],
       "targets": {
@@ -131,6 +138,14 @@
           "clearControlAggregation": false,
           "viewId": "Settings",
           "viewName": "Settings"
+        },
+        "EventLogs" : {
+          "viewPath": "com.myorg.myUI5App.view.events",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "EventLogs",
+          "viewName": "EventLogs"          
         }
       }
     },

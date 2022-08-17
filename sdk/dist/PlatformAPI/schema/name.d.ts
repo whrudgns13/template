@@ -5,5 +5,4 @@ export declare type Name = {
     'honorificSuffix'?: string;
     'formatted'?: string;
     'middleName'?: string;
-    'sabeon'?: string;
 } | Record<string, any>;

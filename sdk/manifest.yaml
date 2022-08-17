@@ -8,5 +8,5 @@ applications:
     routes:
       - route : 68411aqsb-sdk.cfapps.us10.hana.ondemand.com
     services : 
-      - security_test
       - destination_test
+      - security_test-application

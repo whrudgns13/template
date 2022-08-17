@@ -8,8 +8,9 @@ applications:
     buildpacks:
       - nodejs_buildpack
     services: 
-      - security_test
+      - security_test-application
     env: 
+      SESSION_TIMEOUT: 40
       destinations: >
         [
           {

@@ -16,6 +16,13 @@ exports.SCIMGroupsRoleCollectionsApi = {
     patchGroupUsingPatch: (id, body) => new openapi_1.OpenApiRequestBuilder('patch', '/Groups/{id}', {
         pathParameters: { id },
         body
+    }),
+    updateGroupUsingPost: (id, body) => new openapi_1.OpenApiRequestBuilder('post', '/Groups/{id}/members', {
+        pathParameters: { id },
+        body
+    }),
+    deleteGroupUsingDelete: (groupId, userId) => new openapi_1.OpenApiRequestBuilder('delete', '/Groups/{groupId}/members/{userId}', {
+        pathParameters: { groupId, userId }
     })
 };
 //# sourceMappingURL=scim-groups-role-collections-api.js.map

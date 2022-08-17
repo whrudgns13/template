@@ -36,6 +36,34 @@ sap.ui.define(
             onFCLTwoColumn : function(){
                 let oFCL = this.getView().byId("fcl");
                 oFCL.setLayout("TwoColumnsBeginExpanded");                
+            },
+            validationCheck: function () {
+                const mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
+                let oUserFormContent = sap.ui.getCore().byId("userForm").getContent();
+                let oUserFormInputs = oUserFormContent.filter(oControl => oControl.getMetadata().getElementName() === "sap.m.Input");
+                let bCheck = true;
+                
+                //forEach에서 break나 continue사용못해서 some
+                //return false 면 continue / true면 break;
+                oUserFormInputs.some( oInput => {
+                    let oInputValue = oInput.getValue();
+                    
+                    if (!oInputValue) {
+                        oInput.setValueState("Error");
+                        bCheck = false;
+                        return false;
+                    }
+
+                    if (oInput.getType() === "Email" && !oInputValue.match(mailregex)) {
+                        console.log(`emails`);
+                        oInput.setValueState("Error");
+                        bCheck = false;
+                        return false;
+                    }
+                    
+                    oInput.setValueState("None");
+                })
+                return bCheck;
             }
         });
     }

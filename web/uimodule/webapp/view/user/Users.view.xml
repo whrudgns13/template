@@ -9,9 +9,9 @@
                             <Title text="Users" />
                         </f:heading>
                         <f:actions>
-                            <Button text="생성" press="onCreateDialog">
+                            <Button text="Create" press="onOpenDialog">
                                 <customData>
-                                    <core:CustomData key="UserDialog" value="UserDialog"/>
+                                    <core:CustomData key="UserDialog" value="Create"/>
                                 </customData>
                             </Button>
                         </f:actions>
@@ -21,7 +21,8 @@
                     <Table 
                         id="usersTable" 
                         items="{user>/users/resources}"
-                        itemPress="onUserItemPress">
+                        itemPress="onUserItemPress"
+                        >
                         <columns>
                             <Column>
                                 <Text text="User_ID" />
@@ -34,7 +35,7 @@
                             </Column>
                         </columns>
                         <items>
-                            <ColumnListItem type="Active">
+                            <ColumnListItem type="Navigation" >
                                 <cells>
                                     <Text text="{user>id}" />
                                     <Text text="{user>name/familyName} {user>name/givenName}"/>
@@ -54,9 +55,9 @@
                             <Title text="{user>/user/id}" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Edit" type="Emphasized" press="onEditDialog">
+                            <Button text="Edit" type="Emphasized" press="onOpenDialog">
                                 <customData>
-                                    <core:CustomData key="UserDialog" value="UserDialog"/>
+                                    <core:CustomData key="UserDialog" value="Edit"/>
                                 </customData>
                             </Button>
                             <Button text="Delete" type="Emphasized" press="deleteUser"/>
@@ -71,7 +72,7 @@
                                 <Label text="ID" />
                                 <Text text="{user>/user/id}" />
                                 <Label text="userName" />
-                                <Text text="{user>/user/name/familyName} {user>/user/name/givenName}" />
+                                <Text text="{user>/user/userName}" />
                                 <Label text="emails" />
                                 <Text text="{user>/user/emails/0/value}" />
                                 <Label text="생성시간" />
@@ -80,27 +81,25 @@
                                 <Text text="{user>/user/meta/lastModified}" />
                             </form:content>
                         </form:SimpleForm>
-                        <List items="{user>/user/groups}">
+                        <List items="{user>/user/groups}" mode="Delete" delete="onUserRoleDelete">
                             <headerToolbar>
                                 <OverflowToolbar>
-                                    <Text text="역활"/>
+                                    <Text text="역할"/>
                                     <ToolbarSpacer/>
-                                    <Button text="역활 추가" press="onOpenDialog">
+                                    <Button text="역할 추가" press="onOpenDialog">
                                         <customData>
-                                            <core:CustomData key="RoleDialog" value="RoleDialog"/>
+                                            <core:CustomData key="RoleDialog" value="addRole"/>
                                         </customData>
                                     </Button> 
                                 </OverflowToolbar>
                             </headerToolbar>
                             <items>
-                                <ObjectListItem title="{user>value}"></ObjectListItem>
+                                <StandardListItem title="{user>value}" />
                             </items>
                         </List>
                     </VBox>
-
                 </f:content>
             </f:DynamicPage>
-
         </f:midColumnPages>
     </f:FlexibleColumnLayout>
 </mvc:View>

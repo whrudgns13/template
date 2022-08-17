@@ -1,18 +1,46 @@
 {
-    "xsappname": "security_test",
+    "xsappname": "security_test-application",
     "tenant-mode": "dedicated",
-	"roles" : [
-		"xs_authorization.read",
-		"xs_authorization.write",
-		"xs_idp.read",
-		"xs_idp.write",
-		"xs_user.read",
-		"xs_user.write",
-		"uaa.admin",
-		"scim.write"
-	],
-	"tokenPolicySettings": {
-		"accessTokenValidity" : 1800,
-		"refreshTokenValidity" : 7200
-	}
+	"scopes": [
+        {
+            "name": "$XSAPPNAME.User",
+            "description": "User"
+        },
+        {
+            "name": "$XSAPPNAME.Admin",
+            "description": "Admin"
+        }
+    ],
+    "role-templates": [
+        {
+            "name": "User",
+            "description": "User",
+            "scope-references": [
+                "$XSAPPNAME.User"
+            ]
+        },
+        {
+            "name": "Admin",
+            "description": "Admin",
+            "scope-references": [
+                "$XSAPPNAME.Admin"
+            ]
+        }
+    ],
+    "role-collections": [
+        {
+            "name": "User",
+            "description": "User",
+            "role-template-references": [
+                "$XSAPPNAME.User"
+            ]
+        },
+        {
+            "name": "Admin",
+            "description": "Admin",
+            "role-template-references": [
+                "$XSAPPNAME.Admin"
+            ]
+        }
+    ]
 }

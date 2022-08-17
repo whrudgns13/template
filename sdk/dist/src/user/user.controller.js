@@ -19,8 +19,13 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    getUsers() {
-        return this.userService.getUsers();
+    getUsers(req, res) {
+        if (req.authInfo.checkScope("$XSAPPNAME.User")) {
+            return this.userService.getUsers(req, res);
+        }
+        else {
+            res.status(403).send("Forbidden");
+        }
     }
     getCurrentUser(req, res) {
         return this.userService.getCurrentUser(req, res);
@@ -38,8 +43,10 @@ let UserController = class UserController {
 };
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUsers", null);
 __decorate([
