@@ -71,6 +71,13 @@
       },
       "routes": [
         {
+          "name": "MainPage",
+          "pattern": "",
+          "target": [
+            "MainPage"
+          ]
+        },
+        {
           "name": "CurrentUser",
           "pattern": "currentUser",
           "target": [
@@ -104,11 +111,28 @@
           "target" : [
             "EventLogs"
           ]
+        },
+        {
+          "name" : "Forbidden",
+          "pattern": "forbidden",
+          "target" : [
+            "Forbidden"
+          ]
         }
       ],
       "targets": {
+        "MainPage" : {
+          "controlId": "mainApp",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "MainToolPage",
+          "viewName": "MainToolPage"
+        },
         "UserOverview": {
           "viewPath": "com.myorg.myUI5App.view.user",
+          "parent": "MainPage",
+          "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
@@ -118,6 +142,7 @@
         "CurrentUser": {
           "viewPath": "com.myorg.myUI5App.view.user",
           "viewType": "XML",
+          "parent": "MainPage",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "CurrentUser",
@@ -125,6 +150,8 @@
         },
         "Users" : {
           "viewPath": "com.myorg.myUI5App.view.user",
+          "parent": "MainPage",
+          "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
@@ -134,6 +161,7 @@
         "Settings" : {
           "viewPath": "com.myorg.myUI5App.view.security",
           "viewType": "XML",
+          "parent": "MainPage",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "Settings",
@@ -142,18 +170,27 @@
         "EventLogs" : {
           "viewPath": "com.myorg.myUI5App.view.events",
           "viewType": "XML",
+          "parent": "MainPage",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "EventLogs",
           "viewName": "EventLogs"          
+        },
+        "Forbidden" : {
+          "controlId": "mainApp",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Forbidden",
+          "viewName": "Forbidden"          
         }
       }
     },
     "rootView": {
-      "viewName": "com.myorg.myUI5App.view.MainToolPage",
+      "viewName": "com.myorg.myUI5App.view.App",
       "type": "XML",
       "async": true,
-      "id": "toolPage"
+      "id": "mainApp"
     }
   }
 }

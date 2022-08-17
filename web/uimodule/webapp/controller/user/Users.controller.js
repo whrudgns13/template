@@ -267,7 +267,7 @@ sap.ui.define(
                         const newRoles = aRoles.filter(role=> {
                             const iIndex = aUserRoles.findIndex(userRole=> role.id===userRole.value);
                             if(iIndex>-1) return false;
-                            return true
+                            return true;
                         });
 
                         this._rolesModel.setProperty("/resources",newRoles);
@@ -299,8 +299,7 @@ sap.ui.define(
             getCustomDataValue(oControl){
                 const sCustomDataValue = oControl.getCustomData()[0].getValue();
                 return sCustomDataValue;
-            },
-            
+            },            
         });
     }
 );
