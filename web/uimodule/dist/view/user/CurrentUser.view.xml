@@ -1,4 +1,4 @@
-<mvc:View controllerName="com.myorg.myUI5App.controller.user.CurrentUser" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
+<mvc:View controllerName="com.myorg.myUI5App.controller.user.CurrentUser" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
     <f:FlexibleColumnLayout id="fcl">
         <f:beginColumnPages>
             <f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
@@ -10,28 +10,7 @@
                     </f:DynamicPageTitle>
                 </f:title>
                 <f:content>
-                    <VBox>
-                        <form:SimpleForm title="Current User Info">
-                            <form:content>
-                                <Label text="ID" />
-                                <Text text="{currentUser>/id}" />
-                                <Label text="userName" />
-                                <Text text="{currentUser>/name/familyName} {currentUser>/name/givenName}" />
-                                <Label text="emails" />
-                                <Text text="{currentUser>/emails/0/value}" />
-                                <Label text="생성시간" />
-                                <Text text="{currentUser>/meta/created}" />
-                                <Label text="마지막 업데이트" />
-                                <Text text="{currentUser>/meta/lastModified}" />
-                            </form:content>
-                        </form:SimpleForm>
-                        <List headerText="Current User Roles" items="{currentUser>/groups}">
-                            <items>
-                                <ObjectListItem title="{currentUser>value}"></ObjectListItem>
-                            </items>
-                        </List>
-                    </VBox>
-                    
+                    <core:Fragment fragmentName="com.myorg.myUI5App.view.user.UserDetail"  type="XML" />
                 </f:content>
             </f:DynamicPage>
         </f:beginColumnPages>

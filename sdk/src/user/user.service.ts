@@ -5,9 +5,9 @@ import {SCIMUsersShadowUsersApi} from "../../PlatformAPI/scim-users-shadow-users
 export class UserService {    
     private destination = { destinationName: 'destination-test' };
 
-    async getUsers(@Req() req, @Res() res) {
+    async getUsers() {
         const oUsers = await SCIMUsersShadowUsersApi.getAllUsersUsingGet().execute(this.destination);
-        return res.send(oUsers);
+        return oUsers;
     }
 
     async getCurrentUser(@Req() req, @Res() res) {

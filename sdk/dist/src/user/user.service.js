@@ -19,9 +19,9 @@ let UserService = class UserService {
     constructor() {
         this.destination = { destinationName: 'destination-test' };
     }
-    async getUsers(req, res) {
+    async getUsers() {
         const oUsers = await scim_users_shadow_users_api_1.SCIMUsersShadowUsersApi.getAllUsersUsingGet().execute(this.destination);
-        return res.send(oUsers);
+        return oUsers;
     }
     async getCurrentUser(req, res) {
         const sCurrentUserId = req.authInfo.getTokenInfo().getUserId();
@@ -42,13 +42,6 @@ let UserService = class UserService {
         return res.send(oUser);
     }
 };
-__decorate([
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], UserService.prototype, "getUsers", null);
 __decorate([
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),

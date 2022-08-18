@@ -1,9 +1,8 @@
 <mvc:View
     xmlns:mvc="sap.ui.core.mvc" 
     displayBlock="true" xmlns="sap.m">
-    <Page showHeader="false">
-        <content>
-            <Text text="권한이 없습니다."/>
-        </content>
-    </Page>
+    <MessagePage
+      title="403 Forbidden"
+      text="권한이 없습니다"
+      description="조경훈한태 문의하세요"/>
 </mvc:View>

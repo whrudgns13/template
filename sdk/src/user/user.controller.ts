@@ -6,13 +6,10 @@ import { UserService } from './user.service';
 @Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) {}
+    
     @Get()
-    getUsers(@Req() req, @Res() res){
-        if(req.authInfo.checkScope("$XSAPPNAME.User")){
-            return this.userService.getUsers(req, res);
-        }else{
-            res.status(403).send("Forbidden");
-        }
+    getUsers(){
+        return this.userService.getUsers();
     }
 
     @Get('/currentUser')

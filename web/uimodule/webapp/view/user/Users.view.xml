@@ -66,7 +66,8 @@
                     </f:DynamicPageTitle>
                 </f:title>
                 <f:content>
-                    <VBox>
+                    <core:Fragment fragmentName="com.myorg.myUI5App.view.user.UserDetail"  type="XML" />
+                    <!-- <VBox>
                         <form:SimpleForm title="{user>/user/userName}">
                             <form:content>
                                 <Label text="ID" />
@@ -81,7 +82,7 @@
                                 <Text text="{user>/user/meta/lastModified}" />
                             </form:content>
                         </form:SimpleForm>
-                        <List items="{user>/user/groups}" mode="Delete" delete="onUserRoleDelete">
+                        <List items="{user>/user/groups}" mode="Delete" delete="onDeleteUserRole">
                             <headerToolbar>
                                 <OverflowToolbar>
                                     <Text text="역할"/>
@@ -97,7 +98,7 @@
                                 <StandardListItem title="{user>value}" />
                             </items>
                         </List>
-                    </VBox>
+                    </VBox> -->
                 </f:content>
             </f:DynamicPage>
         </f:midColumnPages>

@@ -1,8 +1,9 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
     <SelectDialog        
-        confirm="onSetRole"
+        confirm="onCreateUserRole"
         cancel="onClose"
         items="{roles>/resources}"
+        search="onRoleSearch"
         multiSelect="true"
     >
     <StandardListItem
