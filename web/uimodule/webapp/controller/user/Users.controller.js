@@ -37,11 +37,12 @@ sap.ui.define(
             _setDefault: function () {
                 const oView = this.getView();
                 const oUserModel = new sap.ui.model.json.JSONModel();
-                const oUsersModel = new sap.ui.model.json.JSONModel({ userState: "edit" });
+                const oUsersModel = new sap.ui.model.json.JSONModel();
                 const oRolesModel = new sap.ui.model.json.JSONModel();
                 oView.setModel(oUserModel, "user");
                 oView.setModel(oUsersModel, "users");
                 oView.setModel(oRolesModel, "roles");
+                this._userState = "Edit";
                 this._userModel = oView.getModel("user");
                 this._usersModel = oView.getModel("users");
                 this._rolesModel = oView.getModel("roles");
@@ -51,67 +52,36 @@ sap.ui.define(
             },
             onUserItemPress: function (oEvent) {
                 const oListItem = oEvent.getParameter("listItem");
-                const sPath = oListItem.getBindingContextPath("user");
-                const bindingObj = JSON.parse(JSON.stringify(this._userModel.getProperty(sPath)));
-                this._userModel.setProperty("/", bindingObj);
+                const sPath = oListItem.getBindingContextPath("users");
+                const oBinding = JSON.parse(JSON.stringify(this._usersModel.getProperty(sPath)));
+                this._userModel.setProperty("/", oBinding);
                 this._userPath = sPath;
                 this._FCL.getLayout() === "OneColumn" ? this.onFCLTwoColumn() : "";
             },
             onSubmit: function () {
                 if (!this.validationCheck()) return;
-                const oUser = this._userModel.getProperty("/user");
-                const sUserState = this._userModel.getProperty("/userState");
+                const oUser = this._userModel.getProperty("/");
                 oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
-                sUserState === "create" ? this.saveUser() : this.editUser();
+                this._userState === "create" ? this.saveUser() : this.editUser();
             },
             saveUser: function () {
-                const oUser = this._userModel.getProperty("/user");
+                const oUser = this._userModel.getProperty("/");
                 oUser.displayName = "displayName test";
                 this.callSDK("POST",oUser);
                 this.onClose();
             },
             editUser: function () {
-                const oUser = this._userModel.getProperty("/user");
+                const oUser = this._userModel.getProperty("/");
                 this.callSDK("PUT",oUser);
                 this.onClose();
             },
             deleteUser: async function () {
-                const _self = this;
-                const sUserId = this._userModel.getProperty("/user/id");
+                const sUserId = this._userModel.getProperty("/id");
                 const bCheck = await this.showWarningBox();
 
                 if (bCheck) {
                     this.callSDK("DELETE",{id : sUserId});
                 }
-            },
-            onDeleteUserRole: async function (oEvent) {
-                const oListItem = oEvent.getParameter("listItem");
-                const bCheck = await this.showWarningBox();
-                const oDelete = {
-                    groupId: oListItem.getTitle(),
-                    userId: this._userModel.getProperty("/user/id")
-                };
-
-                if (bCheck) {
-                    this.callSDK("DELETE",oDelete,"/app/group");
-                }
-            },
-            onCreateUserRole: function (oEvent) {
-                const oSelectedItems = oEvent.getParameter("selectedItems");
-                const aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
-                const sUserId = this._userModel.getProperty("/user/id");
-
-                aRoleId.forEach(roleId => {
-                    const oGroups = {
-                        id: roleId,
-                        group: {
-                            "type": "USER",
-                            "value": sUserId,
-                            "origin": "sap.default"
-                        }
-                    };
-                    this.callSDK("POST",oGroups,"/app/group");
-                });
             },
             onOpenDialog: function (oEvent) {
                 const sDialogName = this.getCustomDataKey(oEvent.getSource());
@@ -120,16 +90,16 @@ sap.ui.define(
 
                 switch (sDialogValue) {
                     case "Create":
-                        this._userModel.setProperty("/user", this.getUserObj());
-                        this._userModel.setProperty("/userState", "create");
+                        this._userModel.setProperty("/", this.getUserObj());
+                        this._userState = "create";
                         this._FCL.getLayout() !== "OneColumn" ? this.onFCLOneColumn() : "";
                         break;
                     case "Edit":
-                        this._userModel.setProperty("/userState", "edit");
+                        this._userState = "edit";
                         break;
                     case "addRole":
                         let aRoles = this._rolesModel.getProperty("/resources");
-                        let aUserRoles = this._userModel.getProperty("/user/groups");
+                        let aUserRoles = this._userModel.getProperty("/groups");
                         const newRoles = aRoles.filter(role => {
                             const iIndex = aUserRoles.findIndex(userRole => role.id === userRole.value);
                             if (iIndex > -1) return false;
@@ -153,16 +123,6 @@ sap.ui.define(
                     oView.addDependent(dialog);
                     dialog.open();
                 });
-            },
-            onRoleSearch : function(oEvent){
-                const sValue = oEvent.getParameter("value");
-                const oFilter = new sap.ui.model.Filter("id", "Contains", sValue);
-                const oBinding = oEvent.getParameter("itemsBinding");
-                oBinding.filter([oFilter]);
-            },
-            onClose: function () {
-                const sDialogName = this._dialogName;
-                this[sDialogName].then(dialog => dialog.close());
             },
             getCustomDataKey(oControl) {
                 const sCustomDataKey = oControl.getCustomData()[0].getKey();

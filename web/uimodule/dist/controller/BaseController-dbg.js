@@ -36,7 +36,8 @@ sap.ui.define(
                 }
             },
             callSDK: function (sMethod, oData,sUrl) {
-                const _self = this;                
+                const _self = this;
+                const oViewId = this.getView().getId();
                 const oHeader = getHeader(sMethod);
                 const sCallUrl = sUrl ? sUrl : "/app/users";
 
@@ -55,13 +56,14 @@ sap.ui.define(
                             setCurrentUser(data);
                             return;
                         }
-
-                        if(sMethod==="GET"){
+                        
+                        //재귀시 여기
+                        if(sMethod==="GET" && sCallUrl=== "/app/users"){
                             setUsers(data, xhr);
                             return;
                         }
 
-                        _self.callSDK("GET");
+                        oViewId.indexOf("Users") > 0 ? _self.callSDK("GET") : _self.callSDK("GET",{},"/app/users/currentUser"); 
                         statusMessage(sMethod, textStatus);
                     },
                     error: function (error) {
@@ -70,7 +72,6 @@ sap.ui.define(
                 });
 
                 function getHeader(sMethod) {
-                    console.log(_self);
                     if (sMethod !== "GET") {
                         return {
                             "Content-Type": "application/json",
@@ -83,16 +84,16 @@ sap.ui.define(
 
                 function setUsers(data, xhr) {
                     _self.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
-                    _self._userModel.setProperty("/users", data);
+                    _self._usersModel.setProperty("/", data);
                     if (_self._userPath) setUser();           
                 }
                 
                 function setUser(){
-                    _self._userModel.setProperty("/user", _self._userModel.getProperty(_self._userPath))
+                    _self._userModel.setProperty("/", _self._usersModel.getProperty(_self._userPath));
                 }
 
                 function setCurrentUser(data){
-                    _self._userModel.setProperty("/user",data);
+                    _self._userModel.setProperty("/",data);
                 }
                 
                 function setRoles(data){
@@ -115,6 +116,44 @@ sap.ui.define(
                         }
                     }
                 }
+            },
+            onDeleteUserRole: async function (oEvent) {
+                const oListItem = oEvent.getParameter("listItem");
+                const bCheck = await this.showWarningBox();
+                const oDelete = {
+                    groupId: oListItem.getTitle(),
+                    userId: this._userModel.getProperty("/id")
+                };
+
+                if (bCheck) {
+                    this.callSDK("DELETE",oDelete,"/app/group");
+                }
+            },
+            onCreateUserRole: function (oEvent) {
+                const oSelectedItems = oEvent.getParameter("selectedItems");
+                const aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
+                const sUserId = this._userModel.getProperty("/id");
+                
+                aRoleId.forEach(roleId => {
+                    const oGroups = {
+                        id: roleId,
+                        group: {
+                            "type": "USER",
+                            "value": sUserId,
+                            "origin": "sap.default"
+                        }
+                    };
+                    this.callSDK("POST",oGroups,"/app/group");
+                });
+            },
+            onRoleSearch: function (oEvent) {
+                const sValue = oEvent.getParameter("value");
+                const oFilter = new sap.ui.model.Filter("id", "Contains", sValue);
+                const oBinding = oEvent.getParameter("itemsBinding");
+                oBinding.filter([oFilter]);
+            },
+            onClose: function () {
+                this.oDialog.then(dialog => dialog.close());
             },
             onFCLOneColumn : function(){
                 let oFCL = this.getView().byId("fcl");
@@ -142,7 +181,6 @@ sap.ui.define(
                     }
 
                     if (oInput.getType() === "Email" && !oInputValue.match(mailregex)) {
-                        console.log(`emails`);
                         oInput.setValueState("Error");
                         bCheck = false;
                         return false;

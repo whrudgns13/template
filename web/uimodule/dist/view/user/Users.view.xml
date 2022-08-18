@@ -20,7 +20,7 @@
                 <f:content>
                     <Table 
                         id="usersTable" 
-                        items="{user>/users/resources}"
+                        items="{users>/resources}"
                         itemPress="onUserItemPress"
                         >
                         <columns>
@@ -37,9 +37,9 @@
                         <items>
                             <ColumnListItem type="Navigation" >
                                 <cells>
-                                    <Text text="{user>id}" />
-                                    <Text text="{user>name/familyName} {user>name/givenName}"/>
-                                    <Text text="{user>emails/0/value}" />
+                                    <Text text="{users>id}" />
+                                    <Text text="{users>name/familyName} {users>name/givenName}"/>
+                                    <Text text="{users>emails/0/value}" />
                                 </cells>
                             </ColumnListItem>
                         </items>
@@ -52,7 +52,7 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="{user>/user/id}" />
+                            <Title text="{user>/id}" />
                         </f:heading>
                         <f:actions>
                             <Button text="Edit" type="Emphasized" press="onOpenDialog">
