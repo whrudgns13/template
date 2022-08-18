@@ -1,5 +1,5 @@
 sap.ui.define([
-    "../BaseController",
+    "./UserCommon",
     "sap/ui/core/Fragment",
     "sap/m/MessageBox"
 ],
@@ -21,10 +21,10 @@ sap.ui.define([
                 oView.setModel(oRolesModel, "roles");
                 this._userModel = oView.getModel("user");
                 this._rolesModel = oView.getModel("roles");
-                this.callSDK("GET",{},"/app/users/currentUser");
-                this.callSDK("GET",{},"/app/group");
+                this.callSDK("GET","/app/users/currentUser");
+                this.callSDK("GET","/app/group");
             },
-            onOpenDialog: function (oEvent) {
+            onOpenDialog: function () {
                 let aRoles = this._rolesModel.getProperty("/resources");
                 let aUserRoles = this._userModel.getProperty("/groups");
                 const newRoles = aRoles.filter(role => {
