@@ -1,5 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
-    <SelectDialog        
+    <SelectDialog
+        title=""
         confirm="onCreateUserRole"
         cancel="onClose"
         items="{roles>/resources}"

@@ -57,12 +57,13 @@ sap.ui.define(
                             return;
                         }
                         
-                        //재귀시 여기
+                      
                         if(sMethod==="GET" && sCallUrl=== "/app/users"){
                             setUsers(data, xhr);
                             return;
                         }
-
+                        
+                        //id로 판단해서 정보 다시가져오기
                         oViewId.indexOf("Users") > 0 ? _self.callSDK("GET") : _self.callSDK("GET",{},"/app/users/currentUser"); 
                         statusMessage(sMethod, textStatus);
                     },
