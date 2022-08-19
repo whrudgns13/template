@@ -33,6 +33,14 @@ sap.ui.define(
                 } else {
                     this.getRouter().navTo("appHome", {}, true /* no history*/);
                 }
+            },
+            getCustomDataKey(oControl) {
+                let sCustomDataKey = oControl.getCustomData()[0].getKey();
+                return sCustomDataKey;
+            },
+            getCustomDataValue(oControl) {
+                let sCustomDataValue = oControl.getCustomData()[0].getValue();
+                return sCustomDataValue;
             }
         });
     }

@@ -36,20 +36,33 @@ sap.ui.define(
             },
             _setDefault: function () {
                 let oView = this.getView();
-                let oUserModel = new sap.ui.model.json.JSONModel();
-                let oUsersModel = new sap.ui.model.json.JSONModel();
-                let oRolesModel = new sap.ui.model.json.JSONModel();
-                oView.setModel(oUserModel, "user");
-                oView.setModel(oUsersModel, "users");
-                oView.setModel(oRolesModel, "roles");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "user");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "users");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "roles");
                 this._userState = "Edit";
                 this._userModel = oView.getModel("user");
                 this._usersModel = oView.getModel("users");
                 this._rolesModel = oView.getModel("roles");
                 this._FCL = this.getView().byId("fcl");
-                this.callSDK("GET","/app/users");
-                this.callSDK("GET","/app/group");
-                
+                this.getUsers();
+                this.getRoles();
+            },
+            getUsers: function () {
+                this.callSDK("GET", "/app/users", undefined, this.setUsers);
+            },
+            getRoles: function () {
+                this.callSDK("GET", "/app/group", undefined, this.setRoles);
+            },
+            setUsers: function (data, xhr) {
+                this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
+                this._usersModel.setProperty("/", data);
+                if (this._userPath) this.setUser();
+            },
+            setUser: function () {
+                this._userModel.setProperty("/", this._usersModel.getProperty(this._userPath));
+            },
+            setRoles: function (data) {
+                this._rolesModel.setProperty("/", data);
             },
             onUserItemPress: function (oEvent) {
                 let oListItem = oEvent.getParameter("listItem");
@@ -68,12 +81,12 @@ sap.ui.define(
             saveUser: function () {
                 let oUser = this._userModel.getProperty("/");
                 oUser.displayName = "displayName test";
-                this.callSDK("POST", "/app/users", oUser);
+                this.callSDK("POST", "/app/users", oUser, this.getUsers);
                 this.onClose();
             },
             editUser: function () {
                 let oUser = this._userModel.getProperty("/");
-                this.callSDK("PUT", "/app/users", oUser);
+                this.callSDK("PUT", "/app/users", oUser, this.getUsers);
                 this.onClose();
             },
             deleteUser: async function () {
@@ -81,7 +94,7 @@ sap.ui.define(
                 let bCheck = await this.showWarningBox();
 
                 if (bCheck) {
-                    this.callSDK("DELETE", "/app/users", {id : sUserId});
+                    this.callSDK("DELETE", "/app/users", { id: sUserId }, this.getUsers);
                 }
             },
             onOpenDialog: function (oEvent) {
@@ -125,14 +138,39 @@ sap.ui.define(
                     dialog.open();
                 });
             },
-            getCustomDataKey(oControl) {
-                let sCustomDataKey = oControl.getCustomData()[0].getKey();
-                return sCustomDataKey;
+            onClose: function () {
+                let sDialogName = this._dialogName;
+                this[sDialogName].then(dialog => dialog.close());
             },
-            getCustomDataValue(oControl) {
-                let sCustomDataValue = oControl.getCustomData()[0].getValue();
-                return sCustomDataValue;
+            onDeleteUserRole: async function (oEvent) {
+                let oListItem = oEvent.getParameter("listItem");
+                let bCheck = await this.showWarningBox();
+                let oDelete = {
+                    groupId: oListItem.getTitle(),
+                    userId: this._userModel.getProperty("/id")
+                };
+
+                if (bCheck) {
+                    this.callSDK("DELETE", "/app/group", oDelete, this.getUsers);
+                }
             },
+            onCreateUserRole: function (oEvent) {
+                let oSelectedItems = oEvent.getParameter("selectedItems");
+                let aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
+                let sUserId = this._userModel.getProperty("/id");
+
+                aRoleId.forEach(roleId => {
+                    let oGroups = {
+                        id: roleId,
+                        group: {
+                            "type": "USER",
+                            "value": sUserId,
+                            "origin": "sap.default"
+                        }
+                    };
+                    this.callSDK("POST", "/app/group", oGroups, this.getUsers);
+                });
+            }
         });
     }
 );

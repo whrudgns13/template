@@ -99,6 +99,13 @@
           ]
         },
         {
+          "name" : "Roles",
+          "pattern": "Roles",
+          "target" : [
+            "Roles"
+          ]
+        },
+        {
           "name" : "Settings",
           "pattern": "settings",
           "target" : [
@@ -157,6 +164,16 @@
           "clearControlAggregation": false,
           "viewId": "Users",
           "viewName": "Users"
+        },
+        "Roles" : {
+          "viewPath": "com.myorg.myUI5App.view.user",
+          "parent": "MainPage",
+          "controlId": "app",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "Roles",
+          "viewName": "Roles"
         },
         "Settings" : {
           "viewPath": "com.myorg.myUI5App.view.security",

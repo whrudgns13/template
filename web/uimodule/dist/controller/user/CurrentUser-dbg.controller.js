@@ -1,12 +1,11 @@
 sap.ui.define([
     "./UserCommon",
-    "sap/ui/core/Fragment",
-    "sap/m/MessageBox"
+    "sap/ui/core/Fragment"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Fragment ,MessageBox) {
+    function (Controller, Fragment) {
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.user.CurrentUser", {
@@ -15,14 +14,25 @@ sap.ui.define([
             },
             _setDefault: function () {
                 const oView = this.getView();
-                const oUserModel = new sap.ui.model.json.JSONModel();
-                const oRolesModel = new sap.ui.model.json.JSONModel();
-                oView.setModel(oUserModel, "user");
-                oView.setModel(oRolesModel, "roles");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "user");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "roles");
                 this._userModel = oView.getModel("user");
                 this._rolesModel = oView.getModel("roles");
-                this.callSDK("GET","/app/users/currentUser");
-                this.callSDK("GET","/app/group");
+                this.getUser();
+                this.getRoles();
+            },
+            getUser: function () {
+                this.callSDK("GET", "/app/users/currentUser", undefined, this.setUser);
+            },
+            getRoles: function () {
+                this.callSDK("GET", "/app/group", undefined, this.setRoles);
+            },
+            setUser: function (data, xhr) {
+                this._userModel.setProperty("/", data);
+                this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
+            },
+            setRoles: function (data) {
+                this._rolesModel.setProperty("/", data);
             },
             onOpenDialog: function () {
                 let aRoles = this._rolesModel.getProperty("/resources");
@@ -39,7 +49,7 @@ sap.ui.define([
 
                 if (!this.oDialog) {
                     this.oDialog = Fragment.load({
-                        name: `com.myorg.myUI5App.view.user.RoleDialog`,
+                        name: `com.myorg.myUI5App.view.user.RolesDialog`,
                         controller: this
                     })
                 }
@@ -47,6 +57,38 @@ sap.ui.define([
                 this.oDialog.then(dialog => {
                     oView.addDependent(dialog);
                     dialog.open();
+                });
+            },
+            onClose: function () {
+                this.oDialog.then(dialog => dialog.close());
+            },
+            onDeleteUserRole: async function (oEvent) {
+                let oListItem = oEvent.getParameter("listItem");
+                let bCheck = await this.showWarningBox();
+                let oDelete = {
+                    groupId: oListItem.getTitle(),
+                    userId: this._userModel.getProperty("/id")
+                };
+
+                if (bCheck) {
+                    this.callSDK("DELETE", "/app/group", oDelete, this.getUser);
+                }
+            },
+            onCreateUserRole: function (oEvent) {
+                let oSelectedItems = oEvent.getParameter("selectedItems");
+                let aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
+                let sUserId = this._userModel.getProperty("/id");
+
+                aRoleId.forEach(roleId => {
+                    let oGroups = {
+                        id: roleId,
+                        group: {
+                            "type": "USER",
+                            "value": sUserId,
+                            "origin": "sap.default"
+                        }
+                    };
+                    this.callSDK("POST", "/app/group", oGroups, this.getUser);
                 });
             }
         });

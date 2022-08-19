@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
+    <Dialog title="Role">
+        <content>
+            <f:SimpleForm id="roleForm">
+                <f:content>
+                    <Label text="Name" labelFor="FirstName" required="true"/>
+                    <Input value="{role>/displayName}" />
+                    <Label text="Description"  required="true"/>
+                    <Input value="{role>/description}"/>
+                </f:content>
+            </f:SimpleForm>
+        </content>
+        <beginButton>
+            <Button text="Submit" type="Emphasized" press="onSubmit" />
+        </beginButton>
+        <endButton>
+            <Button text="Cancel" press="onClose" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

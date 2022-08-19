@@ -11,7 +11,7 @@
                         <f:actions>
                             <Button text="Create" press="onOpenDialog">
                                 <customData>
-                                    <core:CustomData key="UserDialog" value="Create"/>
+                                    <core:CustomData key="CreateEditUserDialog" value="Create"/>
                                 </customData>
                             </Button>
                         </f:actions>
@@ -57,7 +57,7 @@
                         <f:actions>
                             <Button text="Edit" type="Emphasized" press="onOpenDialog">
                                 <customData>
-                                    <core:CustomData key="UserDialog" value="Edit"/>
+                                    <core:CustomData key="CreateEditUserDialog" value="Edit"/>
                                 </customData>
                             </Button>
                             <Button text="Delete" type="Emphasized" press="deleteUser"/>
@@ -67,38 +67,6 @@
                 </f:title>
                 <f:content>
                     <core:Fragment fragmentName="com.myorg.myUI5App.view.user.UserDetail"  type="XML" />
-                    <!-- <VBox>
-                        <form:SimpleForm title="{user>/user/userName}">
-                            <form:content>
-                                <Label text="ID" />
-                                <Text text="{user>/user/id}" />
-                                <Label text="userName" />
-                                <Text text="{user>/user/userName}" />
-                                <Label text="emails" />
-                                <Text text="{user>/user/emails/0/value}" />
-                                <Label text="생성시간" />
-                                <Text text="{user>/user/meta/created}" />
-                                <Label text="마지막 업데이트" />
-                                <Text text="{user>/user/meta/lastModified}" />
-                            </form:content>
-                        </form:SimpleForm>
-                        <List items="{user>/user/groups}" mode="Delete" delete="onDeleteUserRole">
-                            <headerToolbar>
-                                <OverflowToolbar>
-                                    <Text text="역할"/>
-                                    <ToolbarSpacer/>
-                                    <Button text="역할 추가" press="onOpenDialog">
-                                        <customData>
-                                            <core:CustomData key="RoleDialog" value="addRole"/>
-                                        </customData>
-                                    </Button> 
-                                </OverflowToolbar>
-                            </headerToolbar>
-                            <items>
-                                <StandardListItem title="{user>value}" />
-                            </items>
-                        </List>
-                    </VBox> -->
                 </f:content>
             </f:DynamicPage>
         </f:midColumnPages>

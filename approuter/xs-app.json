@@ -1,11 +1,10 @@
-{   
-    "welcomeFile" :"/webapp/index.html",
+{
+    "welcomeFile": "/webapp/index.html",
     "routes": [
         {
             "source": "^/app",
             "target": "/",
-            "destination": "server",
-            "csrfProtection" : false
+            "destination": "server"
         },
         {
             "source": "^/webapp",

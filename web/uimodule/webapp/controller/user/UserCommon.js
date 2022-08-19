@@ -3,41 +3,25 @@ sap.ui.define(
         "../BaseController",
         "sap/m/MessageBox"
     ],
-    function (Controller,MessageBox) {
+    function (Controller, MessageBox) {
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.user.UserCommon", {
-            callSDK: function (sMethod, sUrl, oData) {
+            callSDK: function (sMethod, sUrl, oData, fnCallback) {
                 let _self = this;
-                let oViewId = this.getView().getId();
                 let oHeader = getHeader(sMethod);
-             
+
                 jQuery.ajax({
-                    url : sUrl,
+                    url: sUrl,
                     type: sMethod,
                     headers: oHeader,
                     data: JSON.stringify(oData),
                     success: function (data, textStatus, xhr) {
-                        if(sMethod==="GET" && sUrl=== "/app/users"){
-                            setUsers(data, xhr);
-                            return;
+                        if (textStatus === "success") {
+                            fnCallback.bind(this)(data, xhr);
                         }
-                        
-                        if(sMethod==="GET" && sUrl==="/app/group"){
-                            setRoles(data);
-                            return;
-                        }
-
-                        if(sMethod==="GET" && sUrl==="/app/users/currentUser"){
-                            setCurrentUser(data);
-                            return;
-                        }
-                        
-                        //id로 판단해서 정보 다시가져오기
-                        //그냥 view에 직접적으로 넣는 방법도??
-                        oViewId.indexOf("Users") > 0 ? _self.callSDK("GET","/app/users") : _self.callSDK("GET","/app/users/currentUser"); 
                         statusMessage(sMethod, textStatus);
-                    },
+                    }.bind(_self),
                     error: function (error) {
                         console.log(error);
                     }
@@ -52,70 +36,23 @@ sap.ui.define(
                     }
                     return { "X-CSRF-Token": "Fetch" };
                 }
-                
-                function setUsers(data, xhr) {
-                    _self.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
-                    _self._usersModel.setProperty("/", data);
-                    if (_self._userPath) setUser();           
-                }
-                
-                function setUser(){
-                    _self._userModel.setProperty("/", _self._usersModel.getProperty(_self._userPath));
-                }
 
-                function setCurrentUser(data){
-                    _self._userModel.setProperty("/",data);
-                }
-                
-                function setRoles(data){
-                    _self._rolesModel.setProperty("/", data);
-                }
-
-                function statusMessage(sMethod,textStatus){
-                    if(textStatus==="success"){
-                        switch (sMethod){
-                            case "POST" : 
+                function statusMessage(sMethod, textStatus) {
+                    if (textStatus === "success") {
+                        switch (sMethod) {
+                            case "POST":
                                 new sap.m.MessageToast.show("생성 성공");
-                            break;
-                            case "PUT" : 
+                                break;
+                            case "PUT":
                                 new sap.m.MessageToast.show("변경 성공");
-                            break;
-                            case "DELETE" : 
+                                break;
+                            case "DELETE":
                                 new sap.m.MessageToast.show("삭제 성공");
-                                sUrl === "/app/user" ? _self.onFCLOneColumn() : "";
-                            break;
+                                sUrl === "/app/users" ? _self.onFCLOneColumn() : "";
+                                break;
                         }
                     }
                 }
-            },
-            onDeleteUserRole: async function (oEvent) {
-                let oListItem = oEvent.getParameter("listItem");
-                let bCheck = await this.showWarningBox();
-                let oDelete = {
-                    groupId: oListItem.getTitle(),
-                    userId: this._userModel.getProperty("/id")
-                };
-
-                if (bCheck) {
-                    this.callSDK("DELETE", "/app/group", oDelete);
-                }
-            },
-            onCreateUserRole: function (oEvent) {
-                let oSelectedItems = oEvent.getParameter("selectedItems");
-                let aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
-                let sUserId = this._userModel.getProperty("/id");
-                
-                aRoleId.forEach(roleId => {
-                    let oGroups = {
-                        id: roleId,
-                        group: {
-                            "type": "USER",
-                            "value": sUserId,
-                            "origin": "sap.default"
-                        }
-                    };
-                    this.callSDK("POST", "/app/group", oGroups);
-                });
             },
             onRoleSearch: function (oEvent) {
                 let sValue = oEvent.getParameter("value");
@@ -123,25 +60,25 @@ sap.ui.define(
                 let oBinding = oEvent.getParameter("itemsBinding");
                 oBinding.filter([oFilter]);
             },
-            onFCLOneColumn : function(){
+            onFCLOneColumn: function () {
                 let oFCL = this.getView().byId("fcl");
                 oFCL.setLayout("OneColumn");
             },
-            onFCLTwoColumn : function(){
+            onFCLTwoColumn: function () {
                 let oFCL = this.getView().byId("fcl");
-                oFCL.setLayout("TwoColumnsBeginExpanded");                
+                oFCL.setLayout("TwoColumnsBeginExpanded");
             },
             validationCheck: function () {
                 let mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
                 let oUserFormContent = sap.ui.getCore().byId("userForm").getContent();
                 let oUserFormInputs = oUserFormContent.filter(oControl => oControl.getMetadata().getElementName() === "sap.m.Input");
                 let bCheck = true;
-                
+
                 //forEach에서 break나 continue사용못해서 some
                 //return false 면 continue / true면 break;
-                oUserFormInputs.some( oInput => {
+                oUserFormInputs.some(oInput => {
                     let oInputValue = oInput.getValue();
-                    
+
                     if (!oInputValue) {
                         oInput.setValueState("Error");
                         bCheck = false;
@@ -153,7 +90,7 @@ sap.ui.define(
                         bCheck = false;
                         return false;
                     }
-                    
+
                     oInput.setValueState("None");
                 })
                 return bCheck;

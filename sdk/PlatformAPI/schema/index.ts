@@ -19,4 +19,5 @@ export * from './scim-users';
 export * from './scim-user';
 export * from './scim-user-postput';
 export * from './scim-group-patch';
+export * from './scim-group-post';
 export * from './scim-group-member-patch';

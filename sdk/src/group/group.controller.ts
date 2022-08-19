@@ -3,20 +3,25 @@ import { GroupService } from './group.service';
 
 @Controller('group')
 export class GroupController {
-    constructor(private readonly groupService: GroupService) {}
-    
+    constructor(private readonly groupService: GroupService) { }
+
     @Get()
-    getRoles(){
+    getRoles() {
         return this.groupService.getRoles();
     }
 
     @Post()
-    updateUserRole(@Req() req, @Res() res){
+    updateUserRole(@Req() req, @Res() res) {
         return this.groupService.updateUserRole(req, res);
     }
-    
+
     @Delete()
-    deleteUserRole(@Req() req, @Res() res){
+    deleteUserRole(@Req() req, @Res() res) {
         return this.groupService.deleteUserRole(req, res);
+    }
+
+    @Post("/role")
+    createRoles(@Req() req, @Res() res) {
+        return this.groupService.createRoles(req, res);
     }
 }
