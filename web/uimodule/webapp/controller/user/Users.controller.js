@@ -115,9 +115,7 @@ sap.ui.define(
                         let aRoles = this._rolesModel.getProperty("/resources");
                         let aUserRoles = this._userModel.getProperty("/groups");
                         let newRoles = aRoles.filter(role => {
-                            let iIndex = aUserRoles.findIndex(userRole => role.id === userRole.value);
-                            if (iIndex > -1) return false;
-                            return true;
+                            return aUserRoles.some(userRole => role.id === userRole.value);;
                         });
 
                         this._rolesModel.setProperty("/resources", newRoles);

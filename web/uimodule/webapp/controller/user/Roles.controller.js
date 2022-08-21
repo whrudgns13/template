@@ -69,19 +69,17 @@ sap.ui.define([
             onRoleItemPress: function (oEvent) {
                 let oListItem = oEvent.getParameter("listItem");
                 let sPath = oListItem.getBindingContextPath("roles");
-                let oBinding = this._rolesModel.getProperty(`${sPath}`);
+                let oBinding = this._rolesModel.getProperty(sPath);
                 let aUsers = this._usersModel.getProperty("/resources");
                 let aBindingUsers = oBinding.members;
 
                 //role에는 아이디만들어오고 이메일이나 이름이 안들어와서..
                 let aUserFilter = aUsers.filter(oUser => {
-                    let iIndex = aBindingUsers.findIndex(oBindingUser => oUser.id === oBindingUser.value);
-                    if (iIndex > -1) return true;
-                    return false;
+                    return aBindingUsers.some(oBindingUser => oUser.id === oBindingUser.value);
                 });
 
                 oBinding.members = aUserFilter;
-                this._roleModel.setProperty("/members", oBinding);
+                this._roleModel.setProperty("/", oBinding);
                 this._FCL.getLayout() === "OneColumn" ? this.onFCLTwoColumn() : "";
             }
 
