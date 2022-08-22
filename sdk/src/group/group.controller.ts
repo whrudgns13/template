@@ -6,22 +6,22 @@ export class GroupController {
     constructor(private readonly groupService: GroupService) { }
 
     @Get()
-    getRoles() {
-        return this.groupService.getRoles();
+    getRoleColleactions() {
+        return this.groupService.getRoleColleactions();
     }
 
     @Post()
-    addUserRole(@Req() req, @Res() res) {
-        return this.groupService.addUserRole(req, res);
+    addUserRoleColleaction(@Req() req, @Res() res) {
+        return this.groupService.addUserRoleColleaction(req, res);
     }
 
     @Delete()
-    deleteUserRole(@Req() req, @Res() res) {
-        return this.groupService.deleteUserRole(req, res);
+    deleteUserRoleColleaction(@Req() req, @Res() res) {
+        return this.groupService.deleteUserRoleColleaction(req, res);
     }
 
     @Delete("/role")
-    deleteRole(@Req() req, @Res() res) {
-        return this.groupService.deleteRole(req, res);
+    deleteRoleColleaction(@Req() req, @Res() res) {
+        return this.groupService.deleteRoleColleaction(req, res);
     }
 }

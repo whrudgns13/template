@@ -20,7 +20,12 @@
                     <Table 
                         class="sapFDynamicPageAlignContent"
                         itemPress="onRoleItemPress"
-                        items="{roles>/}"
+                        items="{
+                            path : 'roles>/',
+                            sorter : {
+                                path : 'appName'
+                            }
+                        }"
                         >
                         <headerToolbar>
                             <OverflowToolbar>
@@ -29,8 +34,11 @@
                             </OverflowToolbar>
                         </headerToolbar>
                         <columns>
-                            <Column>
+                            <Column mergeDuplicates="true">
                                 <Text text="Role Name" />
+                            </Column>
+                            <Column mergeDuplicates="true">
+                                <Text text="Application ID" />
                             </Column>
                             <Column>
                                 <Text text="Role Template" />
@@ -41,11 +49,13 @@
                             <Column>
                                 <Text text="Description" />
                             </Column>
+                            
                         </columns>
                         <items>
                             <ColumnListItem type="Navigation">
                                 <cells>
                                     <Text text="{roles>appName}" />
+                                    <Text text="{roles>roleTemplateAppId}" />
                                     <Text text="{roles>roleTemplateName}" />
                                     <Text text="{roles>name}" />
                                     <Text text="{roles>description}" />
