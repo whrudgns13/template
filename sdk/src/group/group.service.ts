@@ -9,22 +9,22 @@ export class GroupService {
         return roles;
     }
 
-    async updateUserRole(@Req() req, @Res() res) {
+    async addUserRole(@Req() req, @Res() res) {
         const body = req.body;
-        const role = await SCIMGroupsRoleCollectionsApi.updateGroupUsingPost(body.id, body.group)
+        const role = await SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
             .execute(this.destination);
         return res.send(role);
     }
 
     async deleteUserRole(@Req() req, @Res() res) {
         const body = req.body;
-        const role = await SCIMGroupsRoleCollectionsApi.deleteGroupUsingDelete(body.groupId, body.userId)
+        const role = await SCIMGroupsRoleCollectionsApi.deleteUserRoleUsingDelete(body.groupId, body.userId)
             .execute(this.destination);
         return res.send(role);
     }
 
-    async createRoles(@Req() req, @Res() res) {
-        const role = await SCIMGroupsRoleCollectionsApi.createGroupRoles(req.body).execute(this.destination);
+    async deleteRole(@Req() req, @Res() res) {
+        const role = await SCIMGroupsRoleCollectionsApi.deleteGroupRole(req.body.id).execute(this.destination);
         return res.send(role);
     }
 }

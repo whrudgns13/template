@@ -4,4 +4,5 @@ export type ScimGroupPost = {
     'displayName'?: string;
     'description'?: string;
     'members'?: ScimGroupMember[];
+    'schemas'?: string[];
 } | Record<string, any>;

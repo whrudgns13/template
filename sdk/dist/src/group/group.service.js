@@ -23,16 +23,20 @@ let GroupService = class GroupService {
         const roles = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.getAllGroupsUsingGet().execute(this.destination);
         return roles;
     }
-    async updateUserRole(req, res) {
+    async addUserRole(req, res) {
         const body = req.body;
-        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.updateGroupUsingPost(body.id, body.group)
+        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
             .execute(this.destination);
         return res.send(role);
     }
     async deleteUserRole(req, res) {
         const body = req.body;
-        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.deleteGroupUsingDelete(body.groupId, body.userId)
+        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.deleteUserRoleUsingDelete(body.groupId, body.userId)
             .execute(this.destination);
+        return res.send(role);
+    }
+    async deleteRole(req, res) {
+        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.deleteGroupRole(req.body.id).execute(this.destination);
         return res.send(role);
     }
 };
@@ -42,7 +46,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], GroupService.prototype, "updateUserRole", null);
+], GroupService.prototype, "addUserRole", null);
 __decorate([
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
@@ -50,6 +54,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], GroupService.prototype, "deleteUserRole", null);
+__decorate([
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], GroupService.prototype, "deleteRole", null);
 GroupService = __decorate([
     (0, common_1.Injectable)()
 ], GroupService);

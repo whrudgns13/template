@@ -30,5 +30,6 @@ __exportStar(require("./scim-users"), exports);
 __exportStar(require("./scim-user"), exports);
 __exportStar(require("./scim-user-postput"), exports);
 __exportStar(require("./scim-group-patch"), exports);
+__exportStar(require("./scim-group-post"), exports);
 __exportStar(require("./scim-group-member-patch"), exports);
 //# sourceMappingURL=index.js.map

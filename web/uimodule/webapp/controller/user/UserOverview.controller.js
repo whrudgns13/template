@@ -1,5 +1,5 @@
 sap.ui.define([
-    "./UserCommon"
+    "../BaseController"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller

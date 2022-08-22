@@ -1,6 +1,6 @@
 sap.ui.define(
     [
-        "./UserCommon",
+        "../BaseController",
         "sap/ui/core/Fragment",
         "sap/m/MessageBox"
     ],
@@ -115,8 +115,10 @@ sap.ui.define(
                         let aRoles = this._rolesModel.getProperty("/resources");
                         let aUserRoles = this._userModel.getProperty("/groups");
                         let newRoles = aRoles.filter(role => {
-                            return aUserRoles.some(userRole => role.id === userRole.value);;
-                        });
+                            let iIndex = aUserRoles.findIndex(userRole => role.id === userRole.value);
+                            if (iIndex > -1) return false;
+                            return true;
+                        })
 
                         this._rolesModel.setProperty("/resources", newRoles);
                         break;
@@ -126,7 +128,7 @@ sap.ui.define(
 
                 if (!this[sDialogName]) {
                     this[sDialogName] = Fragment.load({
-                        name: `com.myorg.myUI5App.view.user.${sDialogName}`,
+                        name: `com.myorg.myUI5App.view.user.dialog.${sDialogName}`,
                         controller: this
                     })
                 }
@@ -152,7 +154,7 @@ sap.ui.define(
                     this.callSDK("DELETE", "/app/group", oDelete, this.getUsers);
                 }
             },
-            onCreateUserRole: function (oEvent) {
+            onAddUserRole: function (oEvent) {
                 let oSelectedItems = oEvent.getParameter("selectedItems");
                 let aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
                 let sUserId = this._userModel.getProperty("/id");

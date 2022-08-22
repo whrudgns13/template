@@ -1,14 +1,18 @@
-<mvc:View xmlns:core="sap.ui.core" controllerName="com.myorg.myUI5App.controller.user.Roles" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
+<mvc:View xmlns:core="sap.ui.core" controllerName="com.myorg.myUI5App.controller.role.RoleCollections" xmlns="sap.m" xmlns:f="sap.f" xmlns:form="sap.ui.layout.form" xmlns:mvc="sap.ui.core.mvc">
     <f:FlexibleColumnLayout id="fcl" layout="OneColumn">
         <f:beginColumnPages>
             <f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="Roles" />
+                            <Title text="Role Collection" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Create" press="onOpenDialog"/>
+                            <Button text="Create" press="onOpenDialog">
+                                <customData>
+                                    <core:CustomData key="CreateEditRoleDialog" value="Create"/>
+                                </customData>
+                            </Button>
                         </f:actions>
                     </f:DynamicPageTitle>
                 </f:title>
@@ -26,7 +30,7 @@
                         </headerToolbar>
                         <columns>
                             <Column>
-                                <Text text="RoleName" />
+                                <Text text="Name" />
                             </Column>
                             <Column>
                                 <Text text="Description" />
@@ -52,13 +56,28 @@
                             <Title text="{role>/id}" />
                         </f:heading>
                         <f:actions>
+                            <Button text="Edit" type="Emphasized" press="onOpenDialog">
+                                <customData>
+                                    <core:CustomData key="CreateEditRoleDialog" value="Edit"/>
+                                </customData>
+                            </Button>
                             <Button text="Delete" type="Emphasized" press="deleteRole"/>
                             <Button press="onFCLOneColumn" type="Emphasized" icon="sap-icon://decline" />
                         </f:actions>
                     </f:DynamicPageTitle>
                 </f:title>
                 <f:content>
-                    <Table items="{role>/members}">
+                    <Table items="{role>/members}" mode="Delete" delete="deleteRoleUser">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <ToolbarSpacer/>
+                                <Button text="유저 추가" press="onOpenDialog">
+                                    <customData>
+                                        <core:CustomData key="AddUserDialog" value="addUser"/>
+                                    </customData>
+                                </Button> 
+                            </OverflowToolbar>
+                        </headerToolbar>
                         <columns>
                             <Column>
                                 <Text text="User_ID" />
@@ -71,7 +90,7 @@
                             </Column>
                         </columns>
                         <items>
-                            <ColumnListItem >
+                            <ColumnListItem type="Active">
                                 <cells>
                                     <Text text="{role>id}" />
                                     <Text text="{role>name/familyName} {role>name/givenName}"/>

@@ -92,43 +92,50 @@
           ]
         },
         {
-          "name" : "Users",
+          "name": "Users",
           "pattern": "users",
-          "target" : [
+          "target": [
             "Users"
           ]
         },
         {
-          "name" : "Roles",
-          "pattern": "Roles",
-          "target" : [
+          "name": "Roles",
+          "pattern": "roles",
+          "target": [
             "Roles"
           ]
         },
         {
-          "name" : "Settings",
+          "name": "RoleCollections",
+          "pattern": "roleCollections",
+          "target": [
+            "RoleCollections"
+          ]
+        },
+        {
+          "name": "Settings",
           "pattern": "settings",
-          "target" : [
+          "target": [
             "Settings"
           ]
         },
         {
-          "name" : "Events",
+          "name": "Events",
           "pattern": "events",
-          "target" : [
+          "target": [
             "EventLogs"
           ]
         },
         {
-          "name" : "Forbidden",
+          "name": "Forbidden",
           "pattern": "forbidden",
-          "target" : [
+          "target": [
             "Forbidden"
           ]
         }
       ],
       "targets": {
-        "MainPage" : {
+        "MainPage": {
           "controlId": "mainApp",
           "viewType": "XML",
           "transition": "slide",
@@ -155,7 +162,7 @@
           "viewId": "CurrentUser",
           "viewName": "CurrentUser"
         },
-        "Users" : {
+        "Users": {
           "viewPath": "com.myorg.myUI5App.view.user",
           "parent": "MainPage",
           "controlId": "app",
@@ -165,8 +172,8 @@
           "viewId": "Users",
           "viewName": "Users"
         },
-        "Roles" : {
-          "viewPath": "com.myorg.myUI5App.view.user",
+        "Roles": {
+          "viewPath": "com.myorg.myUI5App.view.role",
           "parent": "MainPage",
           "controlId": "app",
           "viewType": "XML",
@@ -175,7 +182,17 @@
           "viewId": "Roles",
           "viewName": "Roles"
         },
-        "Settings" : {
+        "RoleCollections": {
+          "viewPath": "com.myorg.myUI5App.view.role",
+          "parent": "MainPage",
+          "controlId": "app",
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "RoleCollections",
+          "viewName": "RoleCollections"
+        },
+        "Settings": {
           "viewPath": "com.myorg.myUI5App.view.security",
           "viewType": "XML",
           "parent": "MainPage",
@@ -184,22 +201,22 @@
           "viewId": "Settings",
           "viewName": "Settings"
         },
-        "EventLogs" : {
+        "EventLogs": {
           "viewPath": "com.myorg.myUI5App.view.events",
           "viewType": "XML",
           "parent": "MainPage",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "EventLogs",
-          "viewName": "EventLogs"          
+          "viewName": "EventLogs"
         },
-        "Forbidden" : {
+        "Forbidden": {
           "controlId": "mainApp",
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "Forbidden",
-          "viewName": "Forbidden"          
+          "viewName": "Forbidden"
         }
       }
     },

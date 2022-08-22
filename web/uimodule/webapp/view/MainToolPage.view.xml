@@ -10,7 +10,10 @@
                     <tnt:NavigationListItem text="User" icon="sap-icon://employee" key="UserOverview">
                         <tnt:NavigationListItem text="Current User" key="CurrentUser"/>
                         <tnt:NavigationListItem text="Users" key="Users"/>
-                        <tnt:NavigationListItem text="Roles" key="Roles"/>
+                    </tnt:NavigationListItem>
+                    <tnt:NavigationListItem text="Role" icon="sap-icon://role">
+                         <tnt:NavigationListItem text="Roles" key="Roles"/>
+                         <tnt:NavigationListItem text="RoleCollections" key="RoleCollections"/>
                     </tnt:NavigationListItem>
                     <tnt:NavigationListItem text="Security" icon="sap-icon://shield">
                         <tnt:NavigationListItem text="Settings" key="Settings"/>

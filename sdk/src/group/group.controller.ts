@@ -11,8 +11,8 @@ export class GroupController {
     }
 
     @Post()
-    updateUserRole(@Req() req, @Res() res) {
-        return this.groupService.updateUserRole(req, res);
+    addUserRole(@Req() req, @Res() res) {
+        return this.groupService.addUserRole(req, res);
     }
 
     @Delete()
@@ -20,8 +20,8 @@ export class GroupController {
         return this.groupService.deleteUserRole(req, res);
     }
 
-    @Post("/role")
-    createRoles(@Req() req, @Res() res) {
-        return this.groupService.createRoles(req, res);
+    @Delete("/role")
+    deleteRole(@Req() req, @Res() res) {
+        return this.groupService.deleteRole(req, res);
     }
 }

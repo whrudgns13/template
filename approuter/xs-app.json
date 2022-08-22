@@ -9,7 +9,8 @@
         {
             "source": "^/webapp",
             "target": "/",
-            "destination": "ui5app"
+            "destination": "ui5app",
+            "scope": "$XSAPPNAME.User"
         }
     ]
 }

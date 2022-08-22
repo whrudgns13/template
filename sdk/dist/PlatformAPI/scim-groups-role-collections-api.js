@@ -17,12 +17,15 @@ exports.SCIMGroupsRoleCollectionsApi = {
         pathParameters: { id },
         body
     }),
-    updateGroupUsingPost: (id, body) => new openapi_1.OpenApiRequestBuilder('post', '/Groups/{id}/members', {
+    addUserRoleUsingPost: (id, body) => new openapi_1.OpenApiRequestBuilder('post', '/Groups/{id}/members', {
         pathParameters: { id },
         body
     }),
-    deleteGroupUsingDelete: (groupId, userId) => new openapi_1.OpenApiRequestBuilder('delete', '/Groups/{groupId}/members/{userId}', {
+    deleteUserRoleUsingDelete: (groupId, userId) => new openapi_1.OpenApiRequestBuilder('delete', '/Groups/{groupId}/members/{userId}', {
         pathParameters: { groupId, userId }
+    }),
+    deleteGroupRole: (roleId) => new openapi_1.OpenApiRequestBuilder('delete', '/Groups/{roleId}', {
+        pathParameters: { roleId }
     })
 };
 //# sourceMappingURL=scim-groups-role-collections-api.js.map

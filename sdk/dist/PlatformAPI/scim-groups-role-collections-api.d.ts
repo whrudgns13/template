@@ -10,6 +10,7 @@ export declare const SCIMGroupsRoleCollectionsApi: {
     getGroupUsingGet: (id: string) => OpenApiRequestBuilder<ScimGroup>;
     updateGroupUsingPut: (id: string, body: ScimGroup) => OpenApiRequestBuilder<any>;
     patchGroupUsingPatch: (id: string, body: ScimGroupPatch) => OpenApiRequestBuilder<any>;
-    updateGroupUsingPost: (id: string, body: ScimGroupMember) => OpenApiRequestBuilder<any>;
-    deleteGroupUsingDelete: (groupId: string, userId: string) => OpenApiRequestBuilder<any>;
+    addUserRoleUsingPost: (id: string, body: ScimGroupMember) => OpenApiRequestBuilder<any>;
+    deleteUserRoleUsingDelete: (groupId: string, userId: string) => OpenApiRequestBuilder<any>;
+    deleteGroupRole: (roleId: string) => OpenApiRequestBuilder<any>;
 };

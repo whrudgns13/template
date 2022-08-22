@@ -1,5 +1,5 @@
 sap.ui.define([
-    "./UserCommon",
+    "../BaseController",
     "sap/ui/core/Fragment"
 ],
     /**

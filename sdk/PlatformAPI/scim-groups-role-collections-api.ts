@@ -67,8 +67,8 @@ export const SCIMGroupsRoleCollectionsApi = {
       body
     }
   ),
-  //추가
-  updateGroupUsingPost: (id: string, body: ScimGroupMember) => new OpenApiRequestBuilder<any>(
+  //롤에 유저 추가
+  addUserRoleUsingPost: (id: string, body: ScimGroupMember) => new OpenApiRequestBuilder<any>(
     'post',
     '/Groups/{id}/members',
     {
@@ -76,20 +76,21 @@ export const SCIMGroupsRoleCollectionsApi = {
       body
     }
   ),
-  //삭제
-  deleteGroupUsingDelete: (groupId: string, userId: string) => new OpenApiRequestBuilder<any>(
+  //롤에 해당한 유저 삭제
+  deleteUserRoleUsingDelete: (groupId: string, userId: string) => new OpenApiRequestBuilder<any>(
     'delete',
     '/Groups/{groupId}/members/{userId}',
     {
       pathParameters: { groupId, userId }
     }
   ),
-  //role생성
-  createGroupRoles: (body: ScimGroupPost) => new OpenApiRequestBuilder<any>(
-    'post',
-    '/Groups',
+
+  deleteGroupRole: (roleId: string) => new OpenApiRequestBuilder<any>(
+    'delete',
+    '/Groups/{roleId}',
     {
-      body
+      pathParameters: { roleId }
     }
   )
+
 };

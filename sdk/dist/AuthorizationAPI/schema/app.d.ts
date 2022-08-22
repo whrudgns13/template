@@ -1,0 +1,23 @@
+import type { AppAttribute } from './app-attribute';
+import type { OAuth2Configuration } from './o-auth-2-configuration';
+import type { RoleTemplate } from './role-template';
+import type { Scope } from './scope';
+export declare type App = {
+    'appid'?: string;
+    'attributes'?: AppAttribute[];
+    'authorities'?: string[];
+    'description'?: string;
+    'foreign-scope-references'?: string[];
+    'masterAppId'?: string;
+    'oauth2-configuration'?: OAuth2Configuration;
+    'orgId'?: string;
+    'planId'?: string;
+    'planName'?: string;
+    'role-templates'?: RoleTemplate[];
+    'scopes'?: Scope[];
+    'serviceinstanceid'?: string;
+    'spaceId'?: string;
+    'tenant-mode'?: string;
+    'userName'?: string;
+    'xsappname'?: string;
+} | Record<string, any>;

@@ -20,9 +20,6 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getRolePermission(req, res) {
-        if (!req.authInfo.checkScope("$XSAPPNAME.User")) {
-            res.status(403).send("Forbidden");
-        }
         if (req.authInfo.checkScope("$XSAPPNAME.Admin"))
             res.send({ permission: true });
         res.send({ permission: false });
