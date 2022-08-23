@@ -15,14 +15,16 @@ export const RoleCollectionsApi = {
    * @param queryParameters - Object containing the following keys: showGroups, showRoles, showUsers.
    * @returns The request builder, use the `execute()` method to trigger the request.
    */
-  getRoleCollections: (queryParameters?: {'showGroups'?: boolean,
-  'showRoles'?: boolean,
-  'showUsers'?: boolean}) => new OpenApiRequestBuilder<RoleCollection[]>(
+  getRoleCollections: (queryParameters?: {
+    'showGroups'?: boolean,
+    'showRoles'?: boolean,
+    'showUsers'?: boolean
+  }) => new OpenApiRequestBuilder<RoleCollection[]>(
     'get',
     '/sap/rest/authorization/v2/rolecollections',
     {
-          queryParameters
-        }
+      queryParameters
+    }
   ),
   /**
    * Creates a role collection. You must include a role name at a minimum. The description is created as null if you don't include one. You can include role references as defined by the role name, the application ID, and role template name. To assign group members, use the /Groups endpoint. Groups are mapped to role collections in the Authorization and Trust Management service. For more information, see [Add Member](https://docs.cloudfoundry.org/api/uaa/version/74.4.0/index.html#add-member) in the documentation of Cloud Foundry or [User Management SCIM](https://api.sap.com/api/PlatformAPI/resource) SAP API Business Hub. Refer to the model below to see limitations for individual parameter values.
@@ -33,22 +35,24 @@ export const RoleCollectionsApi = {
     'post',
     '/sap/rest/authorization/v2/rolecollections',
     {
-          body
-        }
+      body
+    }
   ),
   /**
    * Returns all role collections, which exist within the current subaccount. The result in paged, enabling you to handle large responses.
    * @param queryParameters - Object containing the following keys: showGroups, showRoles, showUsers.
    * @returns The request builder, use the `execute()` method to trigger the request.
    */
-  getRoleCollectionsByPaging: (queryParameters?: {'showGroups'?: boolean,
-  'showRoles'?: boolean,
-  'showUsers'?: boolean}) => new OpenApiRequestBuilder<RoleCollection[]>(
+  getRoleCollectionsByPaging: (queryParameters?: {
+    'showGroups'?: boolean,
+    'showRoles'?: boolean,
+    'showUsers'?: boolean
+  }) => new OpenApiRequestBuilder<RoleCollection[]>(
     'get',
     '/sap/rest/authorization/v2/rolecollections/pages',
     {
-          queryParameters
-        }
+      queryParameters
+    }
   ),
   /**
    * Returns the specified page of role collection search result. The role collections are the result of a previous paged GET request for role collections of the current subaccount.
@@ -56,15 +60,17 @@ export const RoleCollectionsApi = {
    * @param queryParameters - Object containing the following keys: showGroups, showRoles, showUsers.
    * @returns The request builder, use the `execute()` method to trigger the request.
    */
-  getRoleCollectionsByPaging2: (pageId: string, queryParameters?: {'showGroups'?: boolean,
-  'showRoles'?: boolean,
-  'showUsers'?: boolean}) => new OpenApiRequestBuilder<RoleCollection[]>(
+  getRoleCollectionsByPaging2: (pageId: string, queryParameters?: {
+    'showGroups'?: boolean,
+    'showRoles'?: boolean,
+    'showUsers'?: boolean
+  }) => new OpenApiRequestBuilder<RoleCollection[]>(
     'get',
     '/sap/rest/authorization/v2/rolecollections/pages/{pageId}',
     {
-          pathParameters: { pageId },
-          queryParameters
-        }
+      pathParameters: { pageId },
+      queryParameters
+    }
   ),
   /**
    * Returns information about a role collection identified by the name of the role collection.
@@ -72,13 +78,13 @@ export const RoleCollectionsApi = {
    * @param queryParameters - Object containing the following keys: withUsers.
    * @returns The request builder, use the `execute()` method to trigger the request.
    */
-  getRoleCollectionByName: (roleCollectionName: string, queryParameters?: {'withUsers'?: boolean}) => new OpenApiRequestBuilder<RoleCollection>(
+  getRoleCollectionByName: (roleCollectionName: string, queryParameters?: { 'withUsers'?: boolean }) => new OpenApiRequestBuilder<RoleCollection>(
     'get',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}',
     {
-          pathParameters: { roleCollectionName },
-          queryParameters
-        }
+      pathParameters: { roleCollectionName },
+      queryParameters
+    }
   ),
   /**
    * Updates the description of a role collection specified by the name of the role collection. You can't change any other attribute of the role collection. Refer to the model below to see limitations for individual parameter values.
@@ -90,9 +96,9 @@ export const RoleCollectionsApi = {
     'put',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}',
     {
-          pathParameters: { roleCollectionName },
-          body
-        }
+      pathParameters: { roleCollectionName },
+      body
+    }
   ),
   /**
    * Deletes a role collection specified by the name of the role collection.
@@ -103,8 +109,8 @@ export const RoleCollectionsApi = {
     'delete',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}',
     {
-          pathParameters: { roleCollectionName }
-        }
+      pathParameters: { roleCollectionName }
+    }
   ),
   /**
    * Returns information about the roles of a role collection specified by the name of the role collection.
@@ -115,8 +121,8 @@ export const RoleCollectionsApi = {
     'get',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}/roles',
     {
-          pathParameters: { roleCollectionName }
-        }
+      pathParameters: { roleCollectionName }
+    }
   ),
   /**
    * Updates a role collection with an array of roles. Specify the roles by role name, application ID, and role template name. These roles are added to the roles already included in the role collection.
@@ -128,9 +134,9 @@ export const RoleCollectionsApi = {
     'put',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}/roles',
     {
-          pathParameters: { roleCollectionName },
-          body
-        }
+      pathParameters: { roleCollectionName },
+      body
+    }
   ),
   /**
    * Adds a role reference, specified by role name, application ID, and role template name, to a role collection.
@@ -144,8 +150,8 @@ export const RoleCollectionsApi = {
     'put',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}/roles/{roleTemplateAppId}/{roleName}/{roleTemplateName}',
     {
-          pathParameters: { roleCollectionName, roleName, roleTemplateAppId, roleTemplateName }
-        }
+      pathParameters: { roleCollectionName, roleName, roleTemplateAppId, roleTemplateName }
+    }
   ),
   /**
    * Deletes a role specified by the role reference from a role collection.
@@ -159,7 +165,7 @@ export const RoleCollectionsApi = {
     'delete',
     '/sap/rest/authorization/v2/rolecollections/{roleCollectionName}/roles/{roleTemplateAppId}/{roleName}/{roleTemplateName}',
     {
-          pathParameters: { roleCollectionName, roleName, roleTemplateAppId, roleTemplateName }
-        }
+      pathParameters: { roleCollectionName, roleName, roleTemplateAppId, roleTemplateName }
+    }
   )
 };

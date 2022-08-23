@@ -23,8 +23,15 @@ export class GroupService {
         return res.send(role);
     }
 
-    async deleteRoleColleaction(@Req() req, @Res() res) {
-        const role = await SCIMGroupsRoleCollectionsApi.deleteGroupRole(req.body.id).execute(this.destination);
-        return res.send(role);
-    }
+    // async deleteRoleColleaction(@Req() req, @Res() res) {
+    //     const role = await SCIMGroupsRoleCollectionsApi.deleteGroupRole(req.body.id).execute(this.destination);
+    //     return res.send(role);
+    // }
+
+    // async updateRoleColleaction(@Req() req, @Res() res) {
+    //     const body = req.body;
+    //     const role = await SCIMGroupsRoleCollectionsApi.patchGroupUsingPatch(body.id, body)
+    //         .addCustomHeaders({ 'If-Match': '*' }).execute(this.destination);
+    //     return res.send(role);
+    // }
 }

@@ -2,8 +2,7 @@ import { GroupService } from './group.service';
 export declare class GroupController {
     private readonly groupService;
     constructor(groupService: GroupService);
-    getRoles(): Promise<import("../../PlatformAPI").ScimGroups>;
-    addUserRole(req: any, res: any): Promise<any>;
-    deleteUserRole(req: any, res: any): Promise<any>;
-    deleteRole(req: any, res: any): Promise<any>;
+    getRoleColleactions(): Promise<import("../../PlatformAPI").ScimGroups>;
+    addUserRoleColleaction(req: any, res: any): Promise<any>;
+    deleteUserRoleColleaction(req: any, res: any): Promise<any>;
 }

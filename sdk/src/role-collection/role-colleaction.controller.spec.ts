@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RoleColleactionController } from './role-colleaction.controller';
+import { RoleCollectionController } from './role-collection.controller';
 
 describe('RoleColleactionController', () => {
-  let controller: RoleColleactionController;
+  let controller: RoleCollectionController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [RoleColleactionController],
+      controllers: [RoleCollectionController],
     }).compile();
 
-    controller = module.get<RoleColleactionController>(RoleColleactionController);
+    controller = module.get<RoleCollectionController>(RoleCollectionController);
   });
 
   it('should be defined', () => {

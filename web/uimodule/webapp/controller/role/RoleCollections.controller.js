@@ -15,17 +15,19 @@ sap.ui.define([
             _setDefault: function () {
                 let oView = this.getView();
                 oView.setModel(new sap.ui.model.json.JSONModel(), "users");
-                //oView.setModel(new sap.ui.model.json.JSONModel(), "usersFilter");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "Collections");
+                oView.setModel(new sap.ui.model.json.JSONModel(this.getRoleTemplate()), "Collection");
                 oView.setModel(new sap.ui.model.json.JSONModel(), "roles");
-                oView.setModel(new sap.ui.model.json.JSONModel(this.getRoleTemplate()), "role");
+                oView.setModel(new sap.ui.model.json.JSONModel({ state: "Create" }), "state");
                 this._usersModel = oView.getModel("users");
-                //this._usersFilterModel = oView.getModel("usersFilter");
+                this._CollectionsModel = oView.getModel("Collections");
+                this._CollectionModel = oView.getModel("Collection");
                 this._rolesModel = oView.getModel("roles");
-                this._roleModel = oView.getModel("role");
+                this._state = oView.getModel("state");
                 this._FCL = oView.byId("fcl");
-                this.getRoleColleactions();
+                this.getRoleCollections();
+                this.getRoles();
                 this.getUsers();
-                this._roleState = "Create";
             },
             getUsers: function () {
                 this.callSDK("GET", "/app/users", undefined, this.setUsers);
@@ -33,16 +35,24 @@ sap.ui.define([
             setUsers: function (data) {
                 this._usersModel.setProperty("/", data);
             },
-            getRoleColleactions: function () {
-                this.callSDK("GET", "/app/group", undefined, this.setRoleColleactions);
+            getRoleCollections: function () {
+                this.callSDK("GET", "/app/role-collection", undefined, this.setRoleCollections);
             },
-            setRoleColleactions: function (data, xhr) {
+            setRoleCollections: function (data, xhr) {
+                this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
+                this._CollectionsModel.setProperty("/", data);
+                if (this._CollectionPath) this.setRoleCollection();
+            },
+            setRoleCollection: function () {
+                let oCollection = this._CollectionsModel.getProperty(this._CollectionPath);
+                this._CollectionModel.setProperty("/", oCollection);
+            },
+            getRoles: function () {
+                this.callSDK("GET", "/app/roles", undefined, this.setRoles);
+            },
+            setRoles: function (data, xhr) {
                 this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
                 this._rolesModel.setProperty("/", data);
-                if (this._rolePath) this.setRoleColleaction();
-            },
-            setRoleColleaction: function () {
-                this._roleModel.setProperty("/", this.userFilter(this._rolePath));
             },
             getRoleTemplate: function () {
                 return {
@@ -58,29 +68,43 @@ sap.ui.define([
 
                 switch (sDialogValue) {
                     case "Create":
-                        this._roleModel.setProperty("/", this.getRoleTemplate());
+                        this._CollectionModel.setProperty("/", this.getRoleTemplate());
                         this._FCL.getLayout() !== "OneColumn" ? this.onFCLOneColumn() : "";
-                        this._roleState = "Create";
+                        this._state.setProperty("/state", "Create");
                         break;
                     case "Edit":
-                        this._roleState = "Edit";
+                        this._state.setProperty("/state", "Edit");
                         break;
                     case "addUser":
                         let aUsers = this._usersModel.getProperty("/resources");
-                        let aRoleUsers = this._roleModel.getProperty("/members");
+                        let aCollectionUsers = this._CollectionModel.getProperty("/userReferences");
                         let newUsers = aUsers.filter(user => {
-                            let iIndex = aRoleUsers.findIndex(userRole => user.id === userRole.id);
+                            let iIndex = aCollectionUsers.findIndex(CollectionUser => user.id === CollectionUser.id);
                             if (iIndex > -1) return false;
                             return true;
                         });
 
                         //add 했을때 Users는 다시 콜하지 않기때문에 기존데이터는 변경하면 안됨
+                        //this._usersModel.setProperty("/resources", newUsers);
                         this._usersModel.setProperty("/filter", newUsers);
+                        break;
+
+                    case "addRole":
+                        let aRoles = this._rolesModel.getProperty("/");
+                        let aCollectionRoles = this._CollectionModel.getProperty("/roleReferences");
+                        let newRoles = aRoles.filter(role => {
+                            let iIndex = aCollectionRoles.findIndex(CollectionRef => role.name === CollectionRef.name);
+                            if (iIndex > -1) return false;
+                            return true;
+                        });
+
+                        this._rolesModel.setProperty("/", newRoles);
                         break;
                 }
 
                 if (!this[sDialogName]) {
                     this[sDialogName] = Fragment.load({
+                        id: this.getView().getId(),
                         name: `com.myorg.myUI5App.view.role.dialog.${sDialogName}`,
                         controller: this
                     });
@@ -96,73 +120,76 @@ sap.ui.define([
                 this[sDialogName].then(dialog => dialog.close());
             },
             onSubmit: function () {
-                let oRole = this._roleModel.getProperty("/");
-                this.callSDK("POST", "/app/role-colleaction", oRole, this.getRoleColleactions);
+                let oForm = this.getView().byId("CollectionForm");
+                if (!this.validationCheck(oForm)) return;
+
+                let oCollection = this._CollectionModel.getProperty("/");
+                if (this._state.getProperty("/state") === "Create") {
+                    this.createCollection(oCollection);
+                } else {
+                    this.editCollection(oCollection); 1
+                }
+
+                this.onClose();
             },
-            onRoleItemPress: function (oEvent) {
+            createCollection: function (oCollection) {
+                this.callSDK("POST", "/app/role-collection", oCollection, this.getRoleCollections);
+            },
+            editCollection: function ({ name, description }) {
+                let oGroups = { id: name, Collection: { description } };
+                this.callSDK("PUT", "/app/role-collection", oGroups, this.getRoleCollections);
+            },
+            onCollectionsItemPress: function (oEvent) {
                 let oListItem = oEvent.getParameter("listItem");
-                let sPath = oListItem.getBindingContextPath("roles");
-                this._rolePath = sPath;
-                this._roleModel.setProperty("/", this.userFilter(sPath));
+                let sPath = oListItem.getBindingContextPath("Collections");
+                this._CollectionPath = sPath;
+                this._CollectionModel.setProperty("/", this._CollectionsModel.getProperty(sPath));
                 this._FCL.getLayout() === "OneColumn" ? this.onFCLTwoColumn() : "";
             },
-            userFilter: function (sPath) {
-                let aUsers = this._usersModel.getProperty("/resources");
-                let oBinding = this._rolesModel.getProperty(sPath);
-                let aBindingUsers = oBinding.members;
-
-                //role에는 아이디만들어오고 이메일이나 이름이 안들어와서..
-                let aUserFilter = aUsers.filter(oUser => {
-                    return aBindingUsers.some(oBindingUser => {
-                        if (oBindingUser.value) {
-                            return oUser.id === oBindingUser.value
-                        }
-                        return oUser.id === oBindingUser.id
-                    });
-                });
-
-                oBinding.members = aUserFilter;
-                return oBinding;
-            },
-            deleteRole: async function () {
-                let sRoleId = this._roleModel.getProperty("/id");
+            deleteRoleCollection: async function () {
+                let sCollectionId = this._CollectionModel.getProperty("/name");
                 let bCheck = await this.showWarningBox();
 
                 if (bCheck) {
-                    this.callSDK("DELETE", "/app/group/role", { id: sRoleId }, this.getRoleColleactions);
+                    this.callSDK("DELETE", "/app/role-collection", { id: sCollectionId }, this.getRoleCollections);
                     this.onFCLOneColumn();
                 }
             },
-            onAddUserRole: function (oEvent) {
+            onAddUserCollection: function (oEvent) {
                 let oSelectedItems = oEvent.getParameter("selectedItems");
                 let aUserId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
-                let sRoleId = this._roleModel.getProperty("/id");
+                let sCollectionId = this._CollectionModel.getProperty("/name");
 
                 aUserId.forEach(userId => {
                     let oGroups = {
-                        id: sRoleId,
+                        id: sCollectionId,
                         group: {
                             "type": "USER",
                             "value": userId,
                             "origin": "sap.default"
                         }
                     }
-                    this.callSDK("POST", "/app/group", oGroups, this.getRoleColleactions);
+                    this.callSDK("POST", "/app/group", oGroups, this.getRoleCollections);
                 })
             },
-            deleteRoleUser: async function (oEvent) {
+            deleteCollectionUser: async function (oEvent) {
                 let oListItem = oEvent.getParameter("listItem");
                 let bCheck = await this.showWarningBox();
-                console.log(oListItem);
 
                 let oDelete = {
-                    groupId: this._roleModel.getProperty("/id"),
-                    userId: this._roleModel.getProperty(`${oListItem.getBindingContextPath("role")}/id`)
+                    groupId: this._CollectionModel.getProperty("/name"),
+                    userId: this._CollectionModel.getProperty(`${oListItem.getBindingContextPath("Collection")}/id`)
                 };
 
                 if (bCheck) {
-                    this.callSDK("DELETE", "/app/group", oDelete, this.getRoleColleactions);
+                    this.callSDK("DELETE", "/app/group", oDelete, this.getRoleCollections);
                 }
             },
+            onRolesSearch: function (oEvent) {
+                let sValue = oEvent.getParameter("value");
+                let oFilter = new sap.ui.model.Filter("name", "Contains", sValue);
+                let oBinding = oEvent.getParameter("itemsBinding");
+                oBinding.filter([oFilter]);
+            }
         });
     });

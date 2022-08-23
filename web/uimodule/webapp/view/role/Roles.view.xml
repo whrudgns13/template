@@ -8,17 +8,18 @@
                             <Title text="Roles" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Create" press="onOpenDialog">
+                            <!-- <Button text="Create" press="onOpenDialog">
                                 <customData>
                                     <core:CustomData key="CreateEditRoleDialog" value="Create"/>
                                 </customData>
-                            </Button>
+                            </Button> -->
                         </f:actions>
                     </f:DynamicPageTitle>
                 </f:title>
                 <f:content>
                     <Table 
                         class="sapFDynamicPageAlignContent"
+                        growing="true"                        
                         itemPress="onRoleItemPress"
                         items="{
                             path : 'roles>/',
@@ -44,15 +45,14 @@
                                 <Text text="Role Template" />
                             </Column>
                             <Column>
-                                <Text text="Role Colleaction" />
+                                <Text text="Role TemplateName" />
                             </Column>
                             <Column>
                                 <Text text="Description" />
-                            </Column>
-                            
+                            </Column>                            
                         </columns>
                         <items>
-                            <ColumnListItem type="Navigation">
+                            <ColumnListItem type="Active">
                                 <cells>
                                     <Text text="{roles>appName}" />
                                     <Text text="{roles>roleTemplateAppId}" />
@@ -66,5 +66,49 @@
                 </f:content>          
             </f:DynamicPage>
         </f:beginColumnPages>
+        <f:midColumnPages>
+            <f:DynamicPage>
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <Title text="{role>/appName}" />
+                        </f:heading>
+                        <f:actions>
+                            <!-- <Button text="Create" press="onOpenDialog">
+                                <customData>
+                                    <core:CustomData key="CreateEditRoleDialog" value="Create"/>
+                                </customData>
+                            </Button> -->
+                             <Button press="onFCLOneColumn" type="Emphasized" icon="sap-icon://decline" />
+                        </f:actions>
+                    </f:DynamicPageTitle>
+                </f:title>
+                <f:content>
+                    <Table
+                        headerText="범위" 
+                        class="sapFDynamicPageAlignContent"
+                        itemPress="onRoleItemPress"
+                        items="{role>/scopes}"
+                        >
+                        <columns>
+                            <Column>
+                                <Text text="Name" />
+                            </Column>
+                            <Column>
+                                <Text text="Description" />
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{role>name}" />
+                                    <Text text="{role>description}" />                                    
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </f:content>          
+            </f:DynamicPage>
+        </f:midColumnPages>
     </f:FlexibleColumnLayout>
 </mvc:View>

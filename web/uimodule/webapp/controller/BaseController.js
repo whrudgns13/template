@@ -4,8 +4,9 @@ sap.ui.define(
         "sap/ui/core/routing/History",
         "sap/ui/core/UIComponent",
         "com/myorg/myUI5App/model/formatter",
+        "sap/m/MessageBox"
     ],
-    function (Controller, History, UIComponent, formatter) {
+    function (Controller, History, UIComponent, formatter, MessageBox) {
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.BaseController", {
@@ -103,18 +104,19 @@ sap.ui.define(
                 let oFCL = this.getView().byId("fcl");
                 oFCL.setLayout("TwoColumnsBeginExpanded");
             },
-            validationCheck: function () {
+            validationCheck: function (oForm) {
                 let mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
-                let oUserFormContent = sap.ui.getCore().byId("userForm").getContent();
-                let oUserFormInputs = oUserFormContent.filter(oControl => oControl.getMetadata().getElementName() === "sap.m.Input");
+                let oFormContent = oForm.getContent();
+                let oFormInputs = oFormContent.filter(oControl => oControl.getMetadata().getElementName() === "sap.m.Input");
                 let bCheck = true;
 
                 //forEach에서 break나 continue사용못해서 some
                 //return false 면 continue / true면 break;
-                oUserFormInputs.some(oInput => {
+                oFormInputs.some(oInput => {
                     let oInputValue = oInput.getValue();
+                    let oInputVisible = oInput.getVisible();
 
-                    if (!oInputValue) {
+                    if (!oInputValue && oInputVisible) {
                         oInput.setValueState("Error");
                         bCheck = false;
                         return false;

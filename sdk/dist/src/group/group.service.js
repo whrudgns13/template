@@ -19,24 +19,20 @@ let GroupService = class GroupService {
     constructor() {
         this.destination = { destinationName: 'destination-test' };
     }
-    async getRoles() {
+    async getRoleColleactions() {
         const roles = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.getAllGroupsUsingGet().execute(this.destination);
         return roles;
     }
-    async addUserRole(req, res) {
+    async addUserRoleColleaction(req, res) {
         const body = req.body;
         const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
             .execute(this.destination);
         return res.send(role);
     }
-    async deleteUserRole(req, res) {
+    async deleteUserRoleColleaction(req, res) {
         const body = req.body;
         const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.deleteUserRoleUsingDelete(body.groupId, body.userId)
             .execute(this.destination);
-        return res.send(role);
-    }
-    async deleteRole(req, res) {
-        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.deleteGroupRole(req.body.id).execute(this.destination);
         return res.send(role);
     }
 };
@@ -46,21 +42,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], GroupService.prototype, "addUserRole", null);
+], GroupService.prototype, "addUserRoleColleaction", null);
 __decorate([
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], GroupService.prototype, "deleteUserRole", null);
-__decorate([
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], GroupService.prototype, "deleteRole", null);
+], GroupService.prototype, "deleteUserRoleColleaction", null);
 GroupService = __decorate([
     (0, common_1.Injectable)()
 ], GroupService);

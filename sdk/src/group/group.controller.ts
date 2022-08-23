@@ -20,8 +20,14 @@ export class GroupController {
         return this.groupService.deleteUserRoleColleaction(req, res);
     }
 
-    @Delete("/role")
-    deleteRoleColleaction(@Req() req, @Res() res) {
-        return this.groupService.deleteRoleColleaction(req, res);
-    }
+    // @Patch()
+    // updateRoleColleaction(@Req() req, @Res() res) {
+    //     return this.groupService.updateRoleColleaction(req, res);
+    // }
+
+
+    // @Delete("/role")
+    // deleteRoleColleaction(@Req() req, @Res() res) {
+    //     return this.groupService.deleteRoleColleaction(req, res);
+    // }
 }

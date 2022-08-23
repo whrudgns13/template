@@ -1,7 +1,6 @@
 export declare class GroupService {
     private destination;
-    getRoles(): Promise<import("../../PlatformAPI").ScimGroups>;
-    addUserRole(req: any, res: any): Promise<any>;
-    deleteUserRole(req: any, res: any): Promise<any>;
-    deleteRole(req: any, res: any): Promise<any>;
+    getRoleColleactions(): Promise<import("../../PlatformAPI").ScimGroups>;
+    addUserRoleColleaction(req: any, res: any): Promise<any>;
+    deleteUserRoleColleaction(req: any, res: any): Promise<any>;
 }

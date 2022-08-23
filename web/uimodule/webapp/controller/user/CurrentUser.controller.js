@@ -49,7 +49,7 @@ sap.ui.define([
 
                 if (!this.oDialog) {
                     this.oDialog = Fragment.load({
-                        name: `com.myorg.myUI5App.view.user.RolesDialog`,
+                        name: `com.myorg.myUI5App.view.user.dialog.RolesDialog`,
                         controller: this
                     })
                 }

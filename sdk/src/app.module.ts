@@ -9,14 +9,14 @@ import { EventsController } from './events/events.controller';
 import { EventsService } from './events/events.service';
 import { GroupService } from './group/group.service';
 import { GroupController } from './group/group.controller';
-import { RoleColleactionService } from './role-colleaction/role-colleaction.service';
-import { RoleColleactionController } from './role-colleaction/role-colleaction.controller';
+import { RoleCollectionService } from './role-collection/role-collection.service';
+import { RoleCollectionController } from './role-collection/role-collection.controller';
 import { RolesController } from './roles/roles.controller';
 import { RolesService } from './roles/roles.service';
 
 @Module({
   imports: [],
-  controllers: [AppController, UserController, SecurityController, EventsController, GroupController, RoleColleactionController, RolesController],
-  providers: [AppService, UserService, SecurityService, EventsService, GroupService, RoleColleactionService, RolesService],
+  controllers: [AppController, UserController, SecurityController, EventsController, GroupController, RoleCollectionController, RolesController],
+  providers: [AppService, UserService, SecurityService, EventsService, GroupService, RoleCollectionService, RolesService],
 })
 export class AppModule { }

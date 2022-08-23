@@ -18,8 +18,8 @@ const events_controller_1 = require("./events/events.controller");
 const events_service_1 = require("./events/events.service");
 const group_service_1 = require("./group/group.service");
 const group_controller_1 = require("./group/group.controller");
-const role_colleaction_service_1 = require("./role-colleaction/role-colleaction.service");
-const role_colleaction_controller_1 = require("./role-colleaction/role-colleaction.controller");
+const role_collection_service_1 = require("./role-collection/role-collection.service");
+const role_collection_controller_1 = require("./role-collection/role-collection.controller");
 const roles_controller_1 = require("./roles/roles.controller");
 const roles_service_1 = require("./roles/roles.service");
 let AppModule = class AppModule {
@@ -27,8 +27,8 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [app_controller_1.AppController, user_controller_1.UserController, security_controller_1.SecurityController, events_controller_1.EventsController, group_controller_1.GroupController, role_colleaction_controller_1.RoleColleactionController, roles_controller_1.RolesController],
-        providers: [app_service_1.AppService, user_service_1.UserService, security_service_1.SecurityService, events_service_1.EventsService, group_service_1.GroupService, role_colleaction_service_1.RoleColleactionService, roles_service_1.RolesService],
+        controllers: [app_controller_1.AppController, user_controller_1.UserController, security_controller_1.SecurityController, events_controller_1.EventsController, group_controller_1.GroupController, role_collection_controller_1.RoleCollectionController, roles_controller_1.RolesController],
+        providers: [app_service_1.AppService, user_service_1.UserService, security_service_1.SecurityService, events_service_1.EventsService, group_service_1.GroupService, role_collection_service_1.RoleCollectionService, roles_service_1.RolesService],
     })
 ], AppModule);
 exports.AppModule = AppModule;

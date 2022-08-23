@@ -73,7 +73,8 @@ sap.ui.define(
                 this._FCL.getLayout() === "OneColumn" ? this.onFCLTwoColumn() : "";
             },
             onSubmit: function () {
-                if (!this.validationCheck()) return;
+                let oForm = this.getView().byId("userForm");
+                if (!this.validationCheck(oForm)) return;
                 let oUser = this._userModel.getProperty("/");
                 oUser.userName = `${oUser.name.familyName} ${oUser.name.givenName}`;
                 this._userState === "create" ? this.saveUser() : this.editUser();
@@ -128,6 +129,7 @@ sap.ui.define(
 
                 if (!this[sDialogName]) {
                     this[sDialogName] = Fragment.load({
+                        id: oView.getId(),
                         name: `com.myorg.myUI5App.view.user.dialog.${sDialogName}`,
                         controller: this
                     })

@@ -19,17 +19,14 @@ let GroupController = class GroupController {
     constructor(groupService) {
         this.groupService = groupService;
     }
-    getRoles() {
-        return this.groupService.getRoles();
+    getRoleColleactions() {
+        return this.groupService.getRoleColleactions();
     }
-    addUserRole(req, res) {
-        return this.groupService.addUserRole(req, res);
+    addUserRoleColleaction(req, res) {
+        return this.groupService.addUserRoleColleaction(req, res);
     }
-    deleteUserRole(req, res) {
-        return this.groupService.deleteUserRole(req, res);
-    }
-    deleteRole(req, res) {
-        return this.groupService.deleteRole(req, res);
+    deleteUserRoleColleaction(req, res) {
+        return this.groupService.deleteUserRoleColleaction(req, res);
     }
 };
 __decorate([
@@ -37,7 +34,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], GroupController.prototype, "getRoles", null);
+], GroupController.prototype, "getRoleColleactions", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Req)()),
@@ -45,7 +42,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], GroupController.prototype, "addUserRole", null);
+], GroupController.prototype, "addUserRoleColleaction", null);
 __decorate([
     (0, common_1.Delete)(),
     __param(0, (0, common_1.Req)()),
@@ -53,15 +50,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
-], GroupController.prototype, "deleteUserRole", null);
-__decorate([
-    (0, common_1.Delete)("/role"),
-    __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], GroupController.prototype, "deleteRole", null);
+], GroupController.prototype, "deleteUserRoleColleaction", null);
 GroupController = __decorate([
     (0, common_1.Controller)('group'),
     __metadata("design:paramtypes", [group_service_1.GroupService])
