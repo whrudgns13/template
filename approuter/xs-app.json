@@ -1,5 +1,11 @@
 {
     "welcomeFile": "/webapp/index.html",
+    "login" : {
+        "callbackEndpoint": "/login/callback"
+    },
+    "logout" : {
+        "logoutEndpoint": "/logout"
+    },
     "routes": [
         {
             "source": "^/app",
@@ -11,6 +17,11 @@
             "target": "/",
             "destination": "ui5app",
             "scope": "$XSAPPNAME.User"
+        },
+        {
+            "source": "^/user-api(.*)",
+            "target": "$1",
+            "service": "sap-approuter-userapi"
         }
     ]
 }

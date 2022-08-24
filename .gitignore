@@ -1,2 +1,6 @@
 node_modules
 web/uimodule/dist/
+approuter/default-env.json
+approuter/default-services.json
+sdk/default-env.json
+sdk/default-services.json
