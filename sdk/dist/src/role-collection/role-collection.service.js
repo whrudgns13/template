@@ -35,6 +35,18 @@ let RoleCollectionService = class RoleCollectionService {
         const role = await role_collections_api_1.RoleCollectionsApi.deleteRoleCollectionByName(req.body.id).execute(this.destination);
         return res.send(role);
     }
+    async addRolesToRoleCollection(req, res) {
+        let body = req.body;
+        const role = await role_collections_api_1.RoleCollectionsApi.addRolesToRoleCollection(body.collectionName, body.roleReference).execute(this.destination);
+        return res.send(role);
+    }
+    async deleteRoleFromRoleCollection(req, res) {
+        let body = req.body;
+        const role = await role_collections_api_1.RoleCollectionsApi
+            .deleteRoleFromRoleCollection(body.roleCollectionName, body.roleName, body.roleTemplateAppId, body.roleTemplateName)
+            .execute(this.destination);
+        return res.send(role);
+    }
 };
 __decorate([
     __param(0, (0, common_1.Req)()),
@@ -64,6 +76,20 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], RoleCollectionService.prototype, "deleteRoleCollectionByName", null);
+__decorate([
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RoleCollectionService.prototype, "addRolesToRoleCollection", null);
+__decorate([
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], RoleCollectionService.prototype, "deleteRoleFromRoleCollection", null);
 RoleCollectionService = __decorate([
     (0, common_1.Injectable)()
 ], RoleCollectionService);

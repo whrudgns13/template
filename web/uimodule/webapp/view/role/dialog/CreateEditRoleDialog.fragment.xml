@@ -1,12 +1,12 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
-    <Dialog title="Role Colleaction">
+    <Dialog title="Role Collection">
         <content>
-            <f:SimpleForm id="colleactionForm">
+            <f:SimpleForm id="collectionForm">
                 <f:content>
                     <Label text="Name" required="true" visible="{= ${state>/state}==='Create' ? true : false}"/>
-                    <Input value="{colleaction>/name}" visible="{= ${state>/state}==='Create' ? true : false}"/>
+                    <Input value="{Collection>/name}" visible="{= ${state>/state}==='Create' ? true : false}"/>
                     <Label text="Description" />
-                    <TextArea value="{colleaction>/description}"/>
+                    <TextArea value="{Collection>/description}"/>
                 </f:content>
             </f:SimpleForm>
         </content>

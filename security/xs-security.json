@@ -1,7 +1,7 @@
 {
     "xsappname": "security_test-application",
     "tenant-mode": "dedicated",
-	"scopes": [
+    "scopes": [
         {
             "name": "$XSAPPNAME.User",
             "description": "User"
@@ -11,11 +11,18 @@
             "description": "Admin"
         }
     ],
-    "attributes" : [{ 
-        "name" : "Country", 
-        "valueType" : "string",
-        "valueRequired" : "false" 
-    }],
+    "attributes": [
+        {
+            "name": "Country",
+            "valueType": "string",
+            "valueRequired": "false"
+        },
+        {
+            "name": "displayName",
+            "valueType": "string",
+            "valueRequired": "false"
+        }
+    ],
     "role-templates": [
         {
             "name": "User",
@@ -38,7 +45,14 @@
                 "$XSAPPNAME.User",
                 "$XSAPPNAME.Admin"
             ],
-            "attribute-references": [ { "name" : "Country" } ]  
+            "attribute-references": [
+                {
+                    "name": "Country"
+                },
+                {
+                    "name": "displayName"
+                }
+            ]
         }
     ],
     "role-collections": [
@@ -62,6 +76,6 @@
             "role-template-references": [
                 "$XSAPPNAME.AssistantRole"
             ]
-        }        
+        }
     ]
 }

@@ -156,7 +156,7 @@ sap.ui.define(
                     this.callSDK("DELETE", "/app/group", oDelete, this.getUsers);
                 }
             },
-            onAddUserRole: function (oEvent) {
+            onAddUserRoleCollection: function (oEvent) {
                 let oSelectedItems = oEvent.getParameter("selectedItems");
                 let aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
                 let sUserId = this._userModel.getProperty("/id");

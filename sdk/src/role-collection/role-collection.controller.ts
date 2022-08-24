@@ -29,4 +29,9 @@ export class RoleCollectionController {
     addRolesToRoleCollection(@Req() req, @Res() res) {
         return this.roleColleactionService.addRolesToRoleCollection(req, res);
     }
+
+    @Delete("/role")
+    deleteRoleFromRoleCollection(@Req() req, @Res() res) {
+        return this.roleColleactionService.deleteRoleFromRoleCollection(req, res);
+    }
 }

@@ -5,7 +5,7 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="Role Collections" />
+                            <Title text="Role Collections ({= ${Collections>/}.length})" />
                         </f:heading>
                         <f:actions>
                             <Button text="Create" press="onOpenDialog">
@@ -18,7 +18,8 @@
                 </f:title>
                 <f:content>
                     <Table 
-                        class="sapFDynamicPageAlignContent"
+                        id="collectionTable"
+                        class="sapFDynamicPageAlignContent sapUiSmallMarginBottom"
                         itemPress="onCollectionsItemPress"
                         items="{Collections>/}"
                         >
@@ -71,13 +72,13 @@
                 </f:title>
                 <f:content>
                     <VBox>
-                        <Panel headerText="Role">
+                        <Panel headerText="Role ({= ${Collection>/roleReferences} ? ${Collection>/roleReferences}.length : '0'})">
                             <content>
-                                <Table items="{Collection>/roleReferences}">
+                                <Table id="roleTable" items="{Collection>/roleReferences}" delete="onDeleteRoleFromRoleCollection">
                                     <headerToolbar>
                                         <OverflowToolbar>
                                             <ToolbarSpacer/>
-                                            <Button text="역할 추가" press="onOpenDialog">
+                                            <Button id="addRoleBtn" text="역할 추가" press="onOpenDialog">
                                                 <customData>
                                                     <core:CustomData key="RolesDialog" value="addRole"/>
                                                 </customData>
@@ -107,7 +108,7 @@
                                 </Table>
                             </content>
                         </Panel>     
-                                    <Panel headerText="유저" class="sapUiSmallMarginTop">
+                                    <Panel headerText="유저 ({= ${Collection>/userReferences} ? ${Collection>/userReferences}.length : '0'})" class="sapUiSmallMarginTop">
                                         <content>
                                             <Table items="{Collection>/userReferences}" mode="Delete" delete="deleteCollectionUser">
                                                 <headerToolbar>

@@ -1,5 +1,5 @@
 <mvc:View 
-controllerName="com.myorg.myUI5App.controller.user.UserOverview" 
+controllerName="com.myorg.myUI5App.controller.MainOverview" 
 xmlns:core="sap.ui.core" 
 xmlns="sap.m" 
 xmlns:f="sap.f" 
@@ -19,7 +19,7 @@ xmlns:mvc="sap.ui.core.mvc">
                                 <core:CustomData key="Users" value="Users" />
                             </customData>
                             <TileContent>
-                                <NumericContent value="{users>/totalResults}" withMargin="false" />
+                                <NumericContent value="{overview>/users/totalResults}" withMargin="false" />
                             </TileContent>
                         </GenericTile>
                         <GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="역할 수" press="onTilePress">
@@ -27,7 +27,15 @@ xmlns:mvc="sap.ui.core.mvc">
                                 <core:CustomData key="Roles" value="Roles" />
                             </customData>
                             <TileContent>
-                                <NumericContent value="{roles>/totalResults}" withMargin="false"/>
+                                <NumericContent value="{= ${overview>/roles} ? ${overview>/roles}.length  : '0'}" withMargin="false"/>
+                            </TileContent>
+                        </GenericTile>
+                        <GenericTile class="sapUiTinyMarginBegin sapUiTinyMarginTop" header="역할 컬렉션 수" press="onTilePress">
+                            <customData>
+                                <core:CustomData key="RoleCollections" value="RoleCollections" />
+                            </customData>
+                            <TileContent>
+                                <NumericContent value="{= ${overview>/collections} ? ${overview>/collections}.length  : '0'}" withMargin="false"/>
                             </TileContent>
                         </GenericTile>
                     </HBox>

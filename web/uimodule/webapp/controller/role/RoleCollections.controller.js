@@ -60,6 +60,18 @@ sap.ui.define([
                     "description": "",
                 };
             },
+            onSearch: function (oEvent) {
+                let oBinding = this.getView().byId("collectionTable").getBinding("items");
+                let sValue = oEvent.getParameter("query");
+                let aFilters = [];
+
+                if (sValue) {
+                    aFilters.push(new sap.ui.model.Filter("name", "Contains", sValue));
+                }
+
+                oBinding.filter([aFilters]);
+
+            },
             onOpenDialog: function (oEvent) {
                 let oView = this.getView();
                 let sDialogName = this.getCustomDataKey(oEvent.getSource());
@@ -92,13 +104,15 @@ sap.ui.define([
                     case "addRole":
                         let aRoles = this._rolesModel.getProperty("/");
                         let aCollectionRoles = this._CollectionModel.getProperty("/roleReferences");
-                        let newRoles = aRoles.filter(role => {
-                            let iIndex = aCollectionRoles.findIndex(CollectionRef => role.name === CollectionRef.name);
-                            if (iIndex > -1) return false;
-                            return true;
-                        });
+                        if (aCollectionRoles) {
+                            let newRoles = aRoles.filter(role => {
+                                let iIndex = aCollectionRoles.findIndex(CollectionRef => role.name === CollectionRef.name);
+                                if (iIndex > -1) return false;
+                                return true;
+                            });
 
-                        this._rolesModel.setProperty("/", newRoles);
+                            this._rolesModel.setProperty("/", newRoles);
+                        }
                         break;
                 }
 
@@ -120,7 +134,7 @@ sap.ui.define([
                 this[sDialogName].then(dialog => dialog.close());
             },
             onSubmit: function () {
-                let oForm = this.getView().byId("CollectionForm");
+                let oForm = this.getView().byId("collectionForm");
                 if (!this.validationCheck(oForm)) return;
 
                 let oCollection = this._CollectionModel.getProperty("/");
@@ -136,15 +150,28 @@ sap.ui.define([
                 this.callSDK("POST", "/app/role-collection", oCollection, this.getRoleCollections);
             },
             editCollection: function ({ name, description }) {
-                let oGroups = { id: name, Collection: { description } };
+                let oGroups = { id: name, collection: { description } };
                 this.callSDK("PUT", "/app/role-collection", oGroups, this.getRoleCollections);
             },
             onCollectionsItemPress: function (oEvent) {
+                let oView = this.getView();
+                let oAddRoleBtn = oView.byId("addRoleBtn");
+                let oRoleTable = oView.byId("roleTable");
                 let oListItem = oEvent.getParameter("listItem");
                 let sPath = oListItem.getBindingContextPath("Collections");
+                let oCollection = this._CollectionsModel.getProperty(sPath);
+                this._CollectionModel.setProperty("/", oCollection);
                 this._CollectionPath = sPath;
-                this._CollectionModel.setProperty("/", this._CollectionsModel.getProperty(sPath));
                 this._FCL.getLayout() === "OneColumn" ? this.onFCLTwoColumn() : "";
+
+                //readOnly가 true 이면 수정 못함
+                if (oCollection.isReadOnly) {
+                    oAddRoleBtn.setEnabled(false);
+                    oRoleTable.setMode("None");
+                    return;
+                }
+                oRoleTable.setMode("Delete");
+                oAddRoleBtn.setEnabled(true);
             },
             deleteRoleCollection: async function () {
                 let sCollectionId = this._CollectionModel.getProperty("/name");
@@ -190,6 +217,43 @@ sap.ui.define([
                 let oFilter = new sap.ui.model.Filter("name", "Contains", sValue);
                 let oBinding = oEvent.getParameter("itemsBinding");
                 oBinding.filter([oFilter]);
-            }
+            },
+            onDeleteRoleFromRoleCollection: async function (oEvent) {
+                let oListItem = oEvent.getParameter("listItem");
+                let bCheck = await this.showWarningBox();
+                let sPath = oListItem.getBindingContextPath("Collection");
+                if (bCheck) {
+                    let oCollection = this._CollectionModel.getProperty(sPath);
+                    let oRoleCollectionName = this._CollectionModel.getProperty("/name");
+                    let oDelete = {
+                        roleCollectionName: oRoleCollectionName,
+                        roleName: oCollection.name,
+                        roleTemplateAppId: oCollection.roleTemplateAppId,
+                        roleTemplateName: oCollection.roleTemplateName
+                    };
+                    this.callSDK("DELETE", "/app/role-collection/role", oDelete, this.getRoleCollections);
+                }
+            },
+            addRolesToRoleCollection: function (oEvent) {
+                let oSelectedItems = oEvent.getParameter("selectedItems");
+                let oRoles = {
+                    collectionName: this._CollectionModel.getProperty("/name"),
+                    roleReference: []
+                };
+
+                oSelectedItems.forEach(seletedItem => {
+                    let sPath = seletedItem.getBindingContextPath("roles");
+                    let oBindingRole = this._rolesModel.getProperty(sPath);
+                    let referenceTemplate = {
+                        description: oBindingRole.description,
+                        name: oBindingRole.name,
+                        roleTemplateAppId: oBindingRole.roleTemplateAppId,
+                        roleTemplateName: oBindingRole.roleTemplateName
+                    };
+                    oRoles.roleReference.push(referenceTemplate);
+                });
+
+                this.callSDK("PUT", "/app/role-collection/role", oRoles, this.getRoleCollections);
+            },
         });
     });

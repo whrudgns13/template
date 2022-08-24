@@ -7,7 +7,8 @@
         <tnt:sideContent>
             <tnt:SideNavigation id="sideNavigation" itemSelect=".onItemSelect">
                 <tnt:NavigationList>
-                    <tnt:NavigationListItem text="User" icon="sap-icon://employee" key="UserOverview">
+                    <tnt:NavigationListItem text="Main" icon="sap-icon://home" key="MainOverview"/>                    
+                    <tnt:NavigationListItem text="User" icon="sap-icon://employee">
                         <tnt:NavigationListItem text="Current User" key="CurrentUser"/>
                         <tnt:NavigationListItem text="Users" key="Users"/>
                     </tnt:NavigationListItem>
@@ -18,14 +19,13 @@
                     <tnt:NavigationListItem text="Security" icon="sap-icon://shield">
                         <tnt:NavigationListItem text="Settings" key="Settings"/>
                     </tnt:NavigationListItem>
-                    <tnt:NavigationListItem text="Event Logs" icon="sap-icon://shield"/>
                 </tnt:NavigationList>
             </tnt:SideNavigation>
         </tnt:sideContent>
         <tnt:mainContents>
             <App id="app">
                 <pages>
-                    <mvc:XMLView viewName="com.myorg.myUI5App.view.user.UserOverview"/>
+                    <mvc:XMLView viewName="com.myorg.myUI5App.view.MainOverview"/>
                 </pages>
             </App>
         </tnt:mainContents>

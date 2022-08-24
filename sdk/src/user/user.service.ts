@@ -1,8 +1,8 @@
 import { Injectable, Req, Res } from '@nestjs/common';
-import {SCIMUsersShadowUsersApi} from "../../PlatformAPI/scim-users-shadow-users-api";
+import { SCIMUsersShadowUsersApi } from "../../PlatformAPI/scim-users-shadow-users-api";
 
 @Injectable()
-export class UserService {    
+export class UserService {
     private destination = { destinationName: 'destination-test' };
 
     async getUsers() {
@@ -16,21 +16,21 @@ export class UserService {
         return res.send(oCurrentUser);
     }
 
-    async createUser(@Req() req, @Res() res){
+    async createUser(@Req() req, @Res() res) {
         const oUser = await SCIMUsersShadowUsersApi.createUserUsingPost(req.body).execute(this.destination);
         return res.send(oUser);
     }
 
-    async deleteUser(@Req() req, @Res() res){
-        const oUser = await SCIMUsersShadowUsersApi.deleteUserUsingDelete(req.body.id).execute(this.destination);        
+    async deleteUser(@Req() req, @Res() res) {
+        const oUser = await SCIMUsersShadowUsersApi.deleteUserUsingDelete(req.body.id).execute(this.destination);
         return res.send(oUser);
     }
 
-    async updateUser(@Req() req, @Res() res){   
+    async updateUser(@Req() req, @Res() res) {
         //If-Match : *     업데이트할 SCIM 모두 허용 
         const oUser = await SCIMUsersShadowUsersApi.updateUserUsingPut(req.body.id, req.body)
-                            .addCustomHeaders({'If-Match' : '*'}).execute(this.destination);
+            .addCustomHeaders({ 'If-Match': '*' }).execute(this.destination);
         return res.send(oUser);
     }
-    
+
 }

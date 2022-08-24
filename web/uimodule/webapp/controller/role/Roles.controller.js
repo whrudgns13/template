@@ -25,9 +25,21 @@ sap.ui.define([
                 this.callSDK("GET", "/app/roles", undefined, this.setRoles);
             },
             setRoles: function (data, xhr) {
-                console.log(data);
                 this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
                 this._rolesModel.setProperty("/", data);
+            },
+            onSearch: function (oEvent) {
+                let oView = this.getView();
+                let oComboBox = oView.byId("rolesSearchCombo");
+                let oBinding = oView.byId("rolesTable").getBinding("items");
+                let sValue = oEvent.getParameter("query");
+                let aFilters = [];
+
+                if (sValue) {
+                    aFilters.push(new sap.ui.model.Filter(oComboBox.getSelectedKey(), "Contains", sValue));
+                }
+
+                oBinding.filter([aFilters]);
             },
             onRoleItemPress: function (oEvent) {
                 let oListItem = oEvent.getParameter("listItem");

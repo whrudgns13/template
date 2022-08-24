@@ -31,6 +31,12 @@ let RoleCollectionController = class RoleCollectionController {
     deleteRoleCollectionByName(req, res) {
         return this.roleColleactionService.deleteRoleCollectionByName(req, res);
     }
+    addRolesToRoleCollection(req, res) {
+        return this.roleColleactionService.addRolesToRoleCollection(req, res);
+    }
+    deleteRoleFromRoleCollection(req, res) {
+        return this.roleColleactionService.deleteRoleFromRoleCollection(req, res);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -64,6 +70,22 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], RoleCollectionController.prototype, "deleteRoleCollectionByName", null);
+__decorate([
+    (0, common_1.Put)("/role"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], RoleCollectionController.prototype, "addRolesToRoleCollection", null);
+__decorate([
+    (0, common_1.Delete)("/role"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], RoleCollectionController.prototype, "deleteRoleFromRoleCollection", null);
 RoleCollectionController = __decorate([
     (0, common_1.Controller)('role-collection'),
     __metadata("design:paramtypes", [role_collection_service_1.RoleCollectionService])

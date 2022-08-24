@@ -11,7 +11,9 @@ export class RoleCollectionService {
     }
 
     async changeRoleCollectionDescription(@Req() req, @Res() res) {
-        const role = await RoleCollectionsApi.changeRoleCollectionDescription(req.body.id, req.body.colleaction).execute(this.destination);
+        const role = await RoleCollectionsApi
+            .changeRoleCollectionDescription(req.body.id, req.body.colleaction.description)
+            .execute(this.destination);
         return res.send(role);
     }
 
@@ -27,7 +29,15 @@ export class RoleCollectionService {
 
     async addRolesToRoleCollection(@Req() req, @Res() res) {
         let body = req.body;
-        const role = await RoleCollectionsApi.addRolesToRoleCollection(body.name, body.roleReference).execute(this.destination);
+        const role = await RoleCollectionsApi.addRolesToRoleCollection(body.collectionName, body.roleReference).execute(this.destination);
+        return res.send(role);
+    }
+
+    async deleteRoleFromRoleCollection(@Req() req, @Res() res) {
+        let body = req.body;
+        const role = await RoleCollectionsApi
+            .deleteRoleFromRoleCollection(body.roleCollectionName, body.roleName, body.roleTemplateAppId, body.roleTemplateName)
+            .execute(this.destination);
         return res.send(role);
     }
 }

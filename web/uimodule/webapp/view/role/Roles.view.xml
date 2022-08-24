@@ -5,20 +5,14 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="Roles" />
+                            <Title text="Roles ({= ${roles>/}.length})" />
                         </f:heading>
-                        <f:actions>
-                            <!-- <Button text="Create" press="onOpenDialog">
-                                <customData>
-                                    <core:CustomData key="CreateEditRoleDialog" value="Create"/>
-                                </customData>
-                            </Button> -->
-                        </f:actions>
                     </f:DynamicPageTitle>
                 </f:title>
                 <f:content>
                     <Table 
-                        class="sapFDynamicPageAlignContent"
+                        id="rolesTable"
+                        class="sapFDynamicPageAlignContent sapUiSmallMarginBottom"
                         growing="true"                        
                         itemPress="onRoleItemPress"
                         items="{
@@ -31,6 +25,14 @@
                         <headerToolbar>
                             <OverflowToolbar>
                                 <ToolbarSpacer />
+                                <ComboBox id="rolesSearchCombo" selectedKey="appName">
+                                    <items>
+                                        <core:Item text="Role Name" key="appName"/>
+                                        <core:Item text="Application ID" key="roleTemplateAppId"/>
+                                        <core:Item text="Role Template" key="roleTemplateName"/>
+                                        <core:Item text="Role TemplateName" key="name"/>
+                                    </items>
+                                </ComboBox>
                                 <SearchField search="onSearch" width="17.5rem" />
                             </OverflowToolbar>
                         </headerToolbar>
@@ -85,7 +87,7 @@
                 </f:title>
                 <f:content>
                     <Table
-                        headerText="범위" 
+                        headerText="범위 ({= ${role>/scopes}.length})" 
                         class="sapFDynamicPageAlignContent"
                         itemPress="onRoleItemPress"
                         items="{role>/scopes}"

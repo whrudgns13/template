@@ -6,7 +6,7 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="Users" />
+                            <Title text="Users ({users>/totalResults})" />
                         </f:heading>
                         <f:actions>
                             <Button text="Create" press="onOpenDialog">

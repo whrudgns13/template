@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
     <SelectDialog
-        title="Users"
+        title="Users ({= ${users>/filter}.length})"
         confirm="onAddUserColleaction"
         cancel="onClose"
         items="{users>/filter}"

@@ -34,6 +34,23 @@ sap.ui.define([
             setRoles: function (data) {
                 this._rolesModel.setProperty("/", data);
             },
+            onAddUserRoleCollection: function (oEvent) {
+                let oSelectedItems = oEvent.getParameter("selectedItems");
+                let aRoleId = oSelectedItems.map(selectedItem => selectedItem.getTitle());
+                let sUserId = this._userModel.getProperty("/id");
+
+                aRoleId.forEach(roleId => {
+                    let oGroups = {
+                        id: roleId,
+                        group: {
+                            "type": "USER",
+                            "value": sUserId,
+                            "origin": "sap.default"
+                        }
+                    };
+                    this.callSDK("POST", "/app/group", oGroups, this.getUser);
+                });
+            },
             onOpenDialog: function () {
                 let aRoles = this._rolesModel.getProperty("/resources");
                 let aUserRoles = this._userModel.getProperty("/groups");

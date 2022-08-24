@@ -85,10 +85,10 @@
           ]
         },
         {
-          "name": "UserOverview",
-          "pattern": "userOverview",
+          "name": "MainOverview",
+          "pattern": "mainOverview",
           "target": [
-            "UserOverview"
+            "MainOverview"
           ]
         },
         {
@@ -143,15 +143,15 @@
           "viewId": "MainToolPage",
           "viewName": "MainToolPage"
         },
-        "UserOverview": {
-          "viewPath": "com.myorg.myUI5App.view.user",
+        "MainOverview": {
+          "viewPath": "com.myorg.myUI5App.view",
           "parent": "MainPage",
           "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
           "clearControlAggregation": false,
-          "viewId": "UserOverview",
-          "viewName": "UserOverview"
+          "viewId": "MainOverview",
+          "viewName": "MainOverview"
         },
         "CurrentUser": {
           "viewPath": "com.myorg.myUI5App.view.user",
