@@ -52,6 +52,7 @@ sap.ui.define(
                     type: sMethod,
                     headers: oHeader,
                     data: JSON.stringify(oData),
+                    async: true,
                     success: function (data, textStatus, xhr) {
                         if (textStatus === "success") {
                             fnCallback.bind(this)(data, xhr);
@@ -59,6 +60,7 @@ sap.ui.define(
                         statusMessage(sMethod, textStatus);
                     }.bind(_self),
                     error: function (error) {
+                        _self.navTo("ErrorPage");
                         console.log(error);
                     }
                 });
@@ -90,7 +92,7 @@ sap.ui.define(
                     }
                 }
             },
-            onRoleSearch: function (oEvent) {
+            onCollectionsSearch: function (oEvent) {
                 let sValue = oEvent.getParameter("value");
                 let oFilter = new sap.ui.model.Filter("id", "Contains", sValue);
                 let oBinding = oEvent.getParameter("itemsBinding");

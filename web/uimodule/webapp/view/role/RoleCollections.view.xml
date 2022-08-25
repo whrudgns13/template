@@ -5,7 +5,7 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="Role Collections ({= ${Collections>/}.length})" />
+                            <Title text="Role Collections ({= ${collections>/}.length})" />
                         </f:heading>
                         <f:actions>
                             <Button text="Create" press="onOpenDialog">
@@ -21,7 +21,7 @@
                         id="collectionTable"
                         class="sapFDynamicPageAlignContent sapUiSmallMarginBottom"
                         itemPress="onCollectionsItemPress"
-                        items="{Collections>/}"
+                        items="{collections>/}"
                         >
                         <headerToolbar>
                             <OverflowToolbar>
@@ -40,8 +40,8 @@
                         <items>
                             <ColumnListItem type="Navigation">
                                 <cells>
-                                    <Text text="{Collections>name}" />
-                                    <Text text="{Collections>description}" />
+                                    <Text text="{collections>name}" />
+                                    <Text text="{collections>description}" />
                                 </cells>
                             </ColumnListItem>
                         </items>
@@ -54,10 +54,10 @@
                 <f:title>
                     <f:DynamicPageTitle>
                         <f:heading>
-                            <Title text="{Collection>/name}" />
+                            <Title text="{collection>/name}" />
                         </f:heading>
                         <f:expandedContent>
-						    <Label text="{Collection>/description}"/>
+						    <Label text="{collection>/description}"/>
 					    </f:expandedContent>
                         <f:actions>
                             <Button text="Edit" type="Emphasized" press="onOpenDialog">
@@ -72,9 +72,9 @@
                 </f:title>
                 <f:content>
                     <VBox>
-                        <Panel headerText="Role ({= ${Collection>/roleReferences} ? ${Collection>/roleReferences}.length : '0'})">
+                        <Panel headerText="Role ({= ${collection>/roleReferences} ? ${collection>/roleReferences}.length : '0'})">
                             <content>
-                                <Table id="roleTable" items="{Collection>/roleReferences}" delete="onDeleteRoleFromRoleCollection">
+                                <Table id="roleTable" items="{collection>/roleReferences}" delete="onDeleteRoleFromRoleCollection">
                                     <headerToolbar>
                                         <OverflowToolbar>
                                             <ToolbarSpacer/>
@@ -99,18 +99,18 @@
                                     <items>
                                         <ColumnListItem>
                                             <cells>
-                                                <Text text="{Collection>name}"/>
-                                                <Text text="{Collection>roleTemplateName}"/>
-                                                <Text text="{Collection>roleTemplateAppId}"/>
+                                                <Text text="{collection>name}"/>
+                                                <Text text="{collection>roleTemplateName}"/>
+                                                <Text text="{collection>roleTemplateAppId}"/>
                                             </cells>
                                         </ColumnListItem>
                                     </items>
                                 </Table>
                             </content>
                         </Panel>     
-                                    <Panel headerText="유저 ({= ${Collection>/userReferences} ? ${Collection>/userReferences}.length : '0'})" class="sapUiSmallMarginTop">
+                                    <Panel headerText="유저 ({= ${collection>/userReferences} ? ${collection>/userReferences}.length : '0'})" class="sapUiSmallMarginTop">
                                         <content>
-                                            <Table items="{Collection>/userReferences}" mode="Delete" delete="deleteCollectionUser">
+                                            <Table items="{collection>/userReferences}" mode="Delete" delete="deleteCollectionUser">
                                                 <headerToolbar>
                                                     <OverflowToolbar>
                                                         <ToolbarSpacer/>
@@ -135,9 +135,9 @@
                                                 <items>
                                                     <ColumnListItem type="Active">
                                                         <cells>
-                                                            <Text text="{Collection>id}" />
-                                                            <Text text="{Collection>username}"/>
-                                                            <Text text="{Collection>email}" />
+                                                            <Text text="{collection>id}" />
+                                                            <Text text="{collection>username}"/>
+                                                            <Text text="{collection>email}" />
                                                         </cells>
                                                     </ColumnListItem>
                                                 </items>                    

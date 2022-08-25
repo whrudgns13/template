@@ -9,10 +9,11 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.role.Roles", {
-            onInit: function () {
+            onBeforeRendering: function () {
                 this._setDefault();
             },
             _setDefault: function () {
+                this.onFCLOneColumn();
                 let oView = this.getView();
                 this._FCL = oView.byId("fcl");
                 oView.setModel(new sap.ui.model.json.JSONModel(), "roles");
@@ -27,6 +28,9 @@ sap.ui.define([
             setRoles: function (data, xhr) {
                 this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
                 this._rolesModel.setProperty("/", data);
+            },
+            setRole: function () {
+                this._roleModel.setProperty("/", this._rolesModel.getProperty(this._rolePath));
             },
             onSearch: function (oEvent) {
                 let oView = this.getView();

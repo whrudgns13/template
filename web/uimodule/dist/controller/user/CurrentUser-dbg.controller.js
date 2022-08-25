@@ -9,30 +9,31 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.user.CurrentUser", {
-            onInit: function () {
+            onBeforeRendering: function () {
                 this._setDefault();
             },
             _setDefault: function () {
+                this.onFCLOneColumn();
                 const oView = this.getView();
                 oView.setModel(new sap.ui.model.json.JSONModel(), "user");
-                oView.setModel(new sap.ui.model.json.JSONModel(), "roles");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "collections");
                 this._userModel = oView.getModel("user");
-                this._rolesModel = oView.getModel("roles");
+                this._collectionsModel = oView.getModel("collections");
                 this.getUser();
-                this.getRoles();
+                this.getRoleCollections();
             },
             getUser: function () {
                 this.callSDK("GET", "/app/users/currentUser", undefined, this.setUser);
             },
-            getRoles: function () {
-                this.callSDK("GET", "/app/group", undefined, this.setRoles);
+            getRoleCollections: function () {
+                this.callSDK("GET", "/app/group", undefined, this.setRoleCollections);
             },
             setUser: function (data, xhr) {
                 this._userModel.setProperty("/", data);
                 this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
             },
-            setRoles: function (data) {
-                this._rolesModel.setProperty("/", data);
+            setRoleCollections: function (data) {
+                this._collectionsModel.setProperty("/", data);
             },
             onAddUserRoleCollection: function (oEvent) {
                 let oSelectedItems = oEvent.getParameter("selectedItems");
@@ -52,21 +53,21 @@ sap.ui.define([
                 });
             },
             onOpenDialog: function () {
-                let aRoles = this._rolesModel.getProperty("/resources");
-                let aUserRoles = this._userModel.getProperty("/groups");
-                const newRoles = aRoles.filter(role => {
-                    const iIndex = aUserRoles.findIndex(userRole => role.id === userRole.value);
+                let aCollections = this._collectionsModel.getProperty("/resources");
+                let aUserCollections = this._userModel.getProperty("/groups");
+                let newCollections = aCollections.filter(collection => {
+                    let iIndex = aUserCollections.findIndex(userCollection => collection.id === userCollection.value);
                     if (iIndex > -1) return false;
                     return true;
-                });
+                })
 
-                this._rolesModel.setProperty("/resources", newRoles);
+                this._collectionsModel.setProperty("/resources", newCollections);
 
                 const oView = this.getView();
 
                 if (!this.oDialog) {
                     this.oDialog = Fragment.load({
-                        name: `com.myorg.myUI5App.view.user.dialog.RolesDialog`,
+                        name: `com.myorg.myUI5App.view.user.dialog.RoleCollectionsDialog`,
                         controller: this
                     })
                 }

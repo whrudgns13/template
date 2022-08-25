@@ -14,14 +14,14 @@
                 <Text text="{user>/meta/lastModified}" />
             </form:content>
         </form:SimpleForm>
-        <List items="{user>/groups}" mode="Delete" delete="onDeleteUserRole" class="sapUiSmallMarginBottom">
+        <List id="collectionsTable" items="{user>/groups}" mode="Delete" delete="onDeleteUserRole" class="sapUiSmallMarginBottom">
             <headerToolbar>
                 <OverflowToolbar>
                     <Text text="역할 컬렉션 ({= ${user>/groups} ? ${user>/groups}.length : '0'})"/>
                     <ToolbarSpacer/>
-                    <Button text="역할 컬렉션 추가" press="onOpenDialog">
+                    <Button text="역할 컬렉션 추가" press="onOpenDialog" enabled="{permission}">
                         <customData>
-                            <core:CustomData key="RolesDialog" value="addRole"/>
+                            <core:CustomData key="RoleCollectionsDialog" value="addCollection"/>
                         </customData>
                     </Button> 
                 </OverflowToolbar>

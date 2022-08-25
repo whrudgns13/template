@@ -1,14 +1,14 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
     <SelectDialog
-        title="Roles ({= ${roles>/resources}.length})"
+        title="Role Collections ({= ${collections>/resources}.length})"
         confirm="onAddUserRoleCollection"
-        items="{roles>/resources}"
-        search="onRoleSearch"
+        items="{collections>/resources}"
+        search="onCollectionsSearch"
         multiSelect="true"
     >
     <StandardListItem
-        title="{roles>id}"
-        description="{roles>description}"
+        title="{collections>id}"
+        description="{collections>description}"
         type="Active" />
     </SelectDialog>
 </core:FragmentDefinition>

@@ -1,7 +1,7 @@
 {
-    "xsappname": "security_test",
-    "tenant-mode": "dedicated",
-	"roles" : [
+	"xsappname": "security_test",
+	"tenant-mode": "dedicated",
+	"roles": [
 		"xs_authorization.read",
 		"xs_authorization.write",
 		"xs_idp.read",
@@ -10,13 +10,5 @@
 		"xs_user.write",
 		"uaa.admin",
 		"scim.write"
-	],
-	"tokenPolicySettings": {
-		"accessTokenValidity" : 1800,
-		"refreshTokenValidity" : 7200
-	},
-	"oauth2-configuration": {
-		"token-validity": 43200, 
-		"refresh-token-validity": 1800
-	}
+	]
 }

@@ -1,9 +1,9 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:f="sap.ui.layout.form">
     <SelectDialog
-        title="Users ({= ${users>/filter}.length})"
-        confirm="onAddUserColleaction"
+        title="Users ({= ${users>/resources}.length})"
+        confirm="onAddUserCollection"
         cancel="onClose"
-        items="{users>/filter}"
+        items="{users>/resources}"
         search="onRoleSearch"
         multiSelect="true"
     >

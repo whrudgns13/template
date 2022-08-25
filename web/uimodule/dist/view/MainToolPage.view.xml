@@ -5,9 +5,9 @@
     height="100%">
     <tnt:ToolPage id="toolPage">
         <tnt:sideContent>
-            <tnt:SideNavigation id="sideNavigation" itemSelect=".onItemSelect">
+            <tnt:SideNavigation id="sideNavigation" itemSelect="onItemSelect">
                 <tnt:NavigationList>
-                    <tnt:NavigationListItem text="Main" icon="sap-icon://home" key="MainOverview"/>                    
+                    <tnt:NavigationListItem text="Main" icon="sap-icon://home" key="MainOverview"/>
                     <tnt:NavigationListItem text="User" icon="sap-icon://employee">
                         <tnt:NavigationListItem text="Current User" key="CurrentUser"/>
                         <tnt:NavigationListItem text="Users" key="Users"/>
@@ -23,11 +23,7 @@
             </tnt:SideNavigation>
         </tnt:sideContent>
         <tnt:mainContents>
-            <App id="app">
-                <pages>
-                    <mvc:XMLView viewName="com.myorg.myUI5App.view.MainOverview"/>
-                </pages>
-            </App>
+            <App id="app"/>
         </tnt:mainContents>
     </tnt:ToolPage>
 </mvc:View>

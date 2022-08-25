@@ -8,7 +8,7 @@ sap.ui.define(
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.user.Users", {
-            onInit: function () {
+            onBeforeRendering: function () {
                 this._setDefault();
             },
             getUserObj: function () {
@@ -26,32 +26,28 @@ sap.ui.define(
                         }
                     ],
                     "origin": "sap.default",
-                    "schemas": ["urn:scim:schemas:core:1.0"],
-                    "phoneNumbers": [
-                        {
-                            "value": ""
-                        }
-                    ]
+                    "schemas": ["urn:scim:schemas:core:1.0"]
                 }
             },
             _setDefault: function () {
+                this.onFCLOneColumn();
                 let oView = this.getView();
                 oView.setModel(new sap.ui.model.json.JSONModel(), "user");
                 oView.setModel(new sap.ui.model.json.JSONModel(), "users");
-                oView.setModel(new sap.ui.model.json.JSONModel(), "roles");
+                oView.setModel(new sap.ui.model.json.JSONModel(), "collections");
                 this._userState = "Edit";
                 this._userModel = oView.getModel("user");
                 this._usersModel = oView.getModel("users");
-                this._rolesModel = oView.getModel("roles");
+                this._collectionsModel = oView.getModel("collections");
                 this._FCL = this.getView().byId("fcl");
                 this.getUsers();
-                this.getRoles();
+                this.getRoleCollections();
             },
             getUsers: function () {
                 this.callSDK("GET", "/app/users", undefined, this.setUsers);
             },
-            getRoles: function () {
-                this.callSDK("GET", "/app/group", undefined, this.setRoles);
+            getRoleCollections: function () {
+                this.callSDK("GET", "/app/group", undefined, this.setRoleCollections);
             },
             setUsers: function (data, xhr) {
                 this.csrfToken = xhr.getResponseHeader("X-CSRF-Token");
@@ -61,8 +57,9 @@ sap.ui.define(
             setUser: function () {
                 this._userModel.setProperty("/", this._usersModel.getProperty(this._userPath));
             },
-            setRoles: function (data) {
-                this._rolesModel.setProperty("/", data);
+            setRoleCollections: function (data) {
+                this.collectionsData = data.resources;
+                this._collectionsModel.setProperty("/", data);
             },
             onUserItemPress: function (oEvent) {
                 let oListItem = oEvent.getParameter("listItem");
@@ -112,16 +109,17 @@ sap.ui.define(
                     case "Edit":
                         this._userState = "edit";
                         break;
-                    case "addRole":
-                        let aRoles = this._rolesModel.getProperty("/resources");
-                        let aUserRoles = this._userModel.getProperty("/groups");
-                        let newRoles = aRoles.filter(role => {
-                            let iIndex = aUserRoles.findIndex(userRole => role.id === userRole.value);
+                    case "addCollection":
+                        let aCollections = this.collectionsData;
+                        let aUserCollections = this._userModel.getProperty("/groups");
+
+                        let newCollections = aCollections.filter(collection => {
+                            let iIndex = aUserCollections.findIndex(userCollection => collection.id === userCollection.value);
                             if (iIndex > -1) return false;
                             return true;
-                        })
+                        });
 
-                        this._rolesModel.setProperty("/resources", newRoles);
+                        this._collectionsModel.setProperty("/resources", newCollections);
                         break;
                 }
 

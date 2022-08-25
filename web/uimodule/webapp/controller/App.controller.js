@@ -18,7 +18,7 @@ sap.ui.define(
                         _self.setModel(new sap.ui.model.json.JSONModel(data));
                     },
                     error: function (error) {
-                        _self.navTo("Forbidden");
+                        _self.navTo("ErrorPage");
                         console.log("Error");
                         console.log(error);
                     }

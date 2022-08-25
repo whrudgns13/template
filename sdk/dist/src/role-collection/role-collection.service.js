@@ -24,8 +24,16 @@ let RoleCollectionService = class RoleCollectionService {
         return res.send(role);
     }
     async changeRoleCollectionDescription(req, res) {
-        const role = await role_collections_api_1.RoleCollectionsApi.changeRoleCollectionDescription(req.body.id, req.body.colleaction).execute(this.destination);
-        return res.send(role);
+        role_collections_api_1.RoleCollectionsApi
+            .changeRoleCollectionDescription(req.body.id, req.body.collection)
+            .execute(this.destination)
+            .then(data => {
+            console.log(data);
+        })
+            .catch(error => {
+            console.log(error);
+        });
+        return res.send(`role`);
     }
     async createRoleCollection(req, res) {
         const role = await role_collections_api_1.RoleCollectionsApi.createRoleCollection(req.body).execute(this.destination);

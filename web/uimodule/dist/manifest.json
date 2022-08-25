@@ -71,10 +71,10 @@
       },
       "routes": [
         {
-          "name": "MainPage",
+          "name": "MainOverview",
           "pattern": "",
           "target": [
-            "MainPage"
+            "MainOverview"
           ]
         },
         {
@@ -127,104 +127,80 @@
           ]
         },
         {
-          "name": "Forbidden",
-          "pattern": "forbidden",
+          "name": "ErrorPage",
+          "pattern": "errorPage",
           "target": [
-            "Forbidden"
+            "ErrorPage"
           ]
         }
       ],
       "targets": {
-        "MainPage": {
-          "controlId": "mainApp",
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "MainToolPage",
-          "viewName": "MainToolPage"
-        },
         "MainOverview": {
           "viewPath": "com.myorg.myUI5App.view",
-          "parent": "MainPage",
-          "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "MainOverview",
           "viewName": "MainOverview"
         },
         "CurrentUser": {
           "viewPath": "com.myorg.myUI5App.view.user",
           "viewType": "XML",
-          "parent": "MainPage",
           "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "CurrentUser",
           "viewName": "CurrentUser"
         },
         "Users": {
           "viewPath": "com.myorg.myUI5App.view.user",
-          "parent": "MainPage",
-          "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "Users",
           "viewName": "Users"
         },
         "Roles": {
           "viewPath": "com.myorg.myUI5App.view.role",
-          "parent": "MainPage",
           "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "Roles",
           "viewName": "Roles"
         },
         "RoleCollections": {
           "viewPath": "com.myorg.myUI5App.view.role",
-          "parent": "MainPage",
           "controlId": "app",
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
           "viewId": "RoleCollections",
           "viewName": "RoleCollections"
         },
         "Settings": {
           "viewPath": "com.myorg.myUI5App.view.security",
           "viewType": "XML",
-          "parent": "MainPage",
           "transition": "slide",
-          "clearControlAggregation": false,
+          "clearControlAggregation": true,
           "viewId": "Settings",
           "viewName": "Settings"
         },
         "EventLogs": {
           "viewPath": "com.myorg.myUI5App.view.events",
           "viewType": "XML",
-          "parent": "MainPage",
           "transition": "slide",
           "clearControlAggregation": false,
           "viewId": "EventLogs",
           "viewName": "EventLogs"
         },
-        "Forbidden": {
-          "controlId": "mainApp",
+        "ErrorPage": {
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Forbidden",
-          "viewName": "Forbidden"
+          "viewId": "ErrorPage",
+          "viewName": "ErrorPage"
         }
       }
     },
     "rootView": {
-      "viewName": "com.myorg.myUI5App.view.App",
+      "viewName": "com.myorg.myUI5App.view.MainToolPage",
       "type": "XML",
       "async": true,
-      "id": "mainApp"
+      "id": "toolpage"
     }
   }
 }

@@ -8,7 +8,7 @@ sap.ui.define([
         "use strict";
 
         return Controller.extend("com.myorg.myUI5App.controller.MainOverview", {
-            onInit: function () {
+            onBeforeRendering: function () {
                 this._setDefault();
             },
             _setDefault: function () {

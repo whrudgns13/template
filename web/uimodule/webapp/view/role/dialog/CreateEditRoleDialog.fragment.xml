@@ -4,9 +4,9 @@
             <f:SimpleForm id="collectionForm">
                 <f:content>
                     <Label text="Name" required="true" visible="{= ${state>/state}==='Create' ? true : false}"/>
-                    <Input value="{Collection>/name}" visible="{= ${state>/state}==='Create' ? true : false}"/>
+                    <Input value="{collection>/name}" visible="{= ${state>/state}==='Create' ? true : false}"/>
                     <Label text="Description" />
-                    <TextArea value="{Collection>/description}"/>
+                    <TextArea value="{collection>/description}"/>
                 </f:content>
             </f:SimpleForm>
         </content>
