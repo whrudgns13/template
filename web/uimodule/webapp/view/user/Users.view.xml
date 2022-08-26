@@ -9,7 +9,7 @@
                             <Title text="Users ({users>/totalResults})" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Create" press="onOpenDialog">
+                            <Button text="Create" press="onOpenDialog" enabled="{permission>/create}">
                                 <customData>
                                     <core:CustomData key="CreateEditUserDialog" value="Create"/>
                                 </customData>
@@ -55,12 +55,12 @@
                             <Title text="{user>/id}" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Edit" type="Emphasized" press="onOpenDialog">
+                            <Button text="Edit" type="Emphasized" press="onOpenDialog" enabled="{permission>/update}">
                                 <customData>
                                     <core:CustomData key="CreateEditUserDialog" value="Edit"/>
                                 </customData>
                             </Button>
-                            <Button text="Delete" type="Emphasized" press="deleteUser"/>
+                            <Button text="Delete" type="Emphasized" press="deleteUser" enabled="{permission>/delete}"/>
                             <Button press="onFCLOneColumn" type="Emphasized" icon="sap-icon://decline" />
                         </f:actions>
                     </f:DynamicPageTitle>

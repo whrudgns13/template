@@ -6,7 +6,7 @@
                     <Title text="Settings" />
                 </f:heading>
                 <f:actions>
-                    <Button text="Edit" press="onChangeState" type="Emphasized" visible="{= ${setting>/visible} ? true : false}"/>
+                    <Button text="Edit" press="onChangeState" type="Emphasized" visible="{= ${setting>/visible} ? true : false}" enabled="{Employee>/permission}"/>
                     <Button text="Save" press="onTokenTimeSave" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
                     <Button text="Cancel" press="onChangeState" type="Emphasized" visible="{= ${setting>/visible} ? false : true}"/>
                 </f:actions>

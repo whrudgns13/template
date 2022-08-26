@@ -24,10 +24,15 @@ let GroupService = class GroupService {
         return roles;
     }
     async addUserRoleColleaction(req, res) {
-        const body = req.body;
-        const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
-            .execute(this.destination);
-        return res.send(role);
+        try {
+            const body = req.body;
+            const role = await scim_groups_role_collections_api_1.SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
+                .execute(this.destination);
+            return res.send(role);
+        }
+        catch (error) {
+            return res.send(error);
+        }
     }
     async deleteUserRoleColleaction(req, res) {
         const body = req.body;

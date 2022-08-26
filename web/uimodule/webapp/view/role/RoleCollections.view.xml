@@ -8,7 +8,7 @@
                             <Title text="Role Collections ({= ${collections>/}.length})" />
                         </f:heading>
                         <f:actions>
-                            <Button text="Create" press="onOpenDialog">
+                            <Button text="Create" press="onOpenDialog" enabled="{permission>/create}">
                                 <customData>
                                     <core:CustomData key="CreateEditRoleDialog" value="Create"/>
                                 </customData>
@@ -60,12 +60,12 @@
 						    <Label text="{collection>/description}"/>
 					    </f:expandedContent>
                         <f:actions>
-                            <Button text="Edit" type="Emphasized" press="onOpenDialog">
+                            <Button text="Edit" type="Emphasized" press="onOpenDialog" enabled="{permission>/update}">
                                 <customData>
                                     <core:CustomData key="CreateEditRoleDialog" value="Edit"/>
                                 </customData>
                             </Button>
-                            <Button text="Delete" type="Emphasized" press="deleteRoleCollection"/>
+                            <Button text="Delete" type="Emphasized" press="deleteRoleCollection" enabled="{permission>/delete}"/>
                             <Button press="onFCLOneColumn" type="Emphasized" icon="sap-icon://decline" />
                         </f:actions>
                     </f:DynamicPageTitle>
@@ -74,11 +74,11 @@
                     <VBox>
                         <Panel headerText="Role ({= ${collection>/roleReferences} ? ${collection>/roleReferences}.length : '0'})">
                             <content>
-                                <Table id="roleTable" items="{collection>/roleReferences}" delete="onDeleteRoleFromRoleCollection">
+                                <Table id="roleTable" mode="{= ${permission>/delete} ? 'Delete' : 'None' }" items="{collection>/roleReferences}" delete="onDeleteRoleFromRoleCollection">
                                     <headerToolbar>
                                         <OverflowToolbar>
                                             <ToolbarSpacer/>
-                                            <Button id="addRoleBtn" text="역할 추가" press="onOpenDialog">
+                                            <Button id="addRoleBtn" text="역할 추가" press="onOpenDialog" enabled="{permission>/update}">
                                                 <customData>
                                                     <core:CustomData key="RolesDialog" value="addRole"/>
                                                 </customData>
@@ -110,11 +110,11 @@
                         </Panel>     
                                     <Panel headerText="유저 ({= ${collection>/userReferences} ? ${collection>/userReferences}.length : '0'})" class="sapUiSmallMarginTop">
                                         <content>
-                                            <Table items="{collection>/userReferences}" mode="Delete" delete="deleteCollectionUser">
+                                            <Table items="{collection>/userReferences}" mode="{= ${permission>/delete} ? 'Delete' : 'None' }" delete="deleteCollectionUser">
                                                 <headerToolbar>
                                                     <OverflowToolbar>
                                                         <ToolbarSpacer/>
-                                                        <Button text="유저 추가" press="onOpenDialog">
+                                                        <Button text="유저 추가" press="onOpenDialog"  enabled="{permission>/update}">
                                                             <customData>
                                                                 <core:CustomData key="AddUserDialog" value="addUser"/>
                                                             </customData>

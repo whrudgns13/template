@@ -20,40 +20,34 @@ let RoleCollectionService = class RoleCollectionService {
         this.destination = { destinationName: 'destination-test' };
     }
     async getRoleCollections(req, res) {
-        const role = await role_collections_api_1.RoleCollectionsApi.getRoleCollections({ showUsers: true }).execute(this.destination);
-        return res.send(role);
+        const collection = await role_collections_api_1.RoleCollectionsApi.getRoleCollections({ showUsers: true }).execute(this.destination);
+        return res.send(collection);
     }
     async changeRoleCollectionDescription(req, res) {
-        role_collections_api_1.RoleCollectionsApi
+        const collection = await role_collections_api_1.RoleCollectionsApi
             .changeRoleCollectionDescription(req.body.id, req.body.collection)
-            .execute(this.destination)
-            .then(data => {
-            console.log(data);
-        })
-            .catch(error => {
-            console.log(error);
-        });
-        return res.send(`role`);
+            .execute(this.destination);
+        return res.send(collection);
     }
     async createRoleCollection(req, res) {
-        const role = await role_collections_api_1.RoleCollectionsApi.createRoleCollection(req.body).execute(this.destination);
-        return res.send(role);
+        const collection = await role_collections_api_1.RoleCollectionsApi.createRoleCollection(req.body).execute(this.destination);
+        return res.send(collection);
     }
     async deleteRoleCollectionByName(req, res) {
-        const role = await role_collections_api_1.RoleCollectionsApi.deleteRoleCollectionByName(req.body.id).execute(this.destination);
-        return res.send(role);
+        const collection = await role_collections_api_1.RoleCollectionsApi.deleteRoleCollectionByName(req.body.id).execute(this.destination);
+        return res.send(collection);
     }
     async addRolesToRoleCollection(req, res) {
         let body = req.body;
-        const role = await role_collections_api_1.RoleCollectionsApi.addRolesToRoleCollection(body.collectionName, body.roleReference).execute(this.destination);
-        return res.send(role);
+        const collection = await role_collections_api_1.RoleCollectionsApi.addRolesToRoleCollection(body.collectionName, body.roleReference).execute(this.destination);
+        return res.send(collection);
     }
     async deleteRoleFromRoleCollection(req, res) {
         let body = req.body;
-        const role = await role_collections_api_1.RoleCollectionsApi
+        const collection = await role_collections_api_1.RoleCollectionsApi
             .deleteRoleFromRoleCollection(body.roleCollectionName, body.roleName, body.roleTemplateAppId, body.roleTemplateName)
             .execute(this.destination);
-        return res.send(role);
+        return res.send(collection);
     }
 };
 __decorate([

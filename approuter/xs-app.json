@@ -1,8 +1,5 @@
 {
     "welcomeFile": "/webapp/index.html",
-    "login" : {
-        "callbackEndpoint": "/login/callback"
-    },
     "logout" : {
         "logoutEndpoint": "/logout"
     },
@@ -23,5 +20,8 @@
             "target": "$1",
             "service": "sap-approuter-userapi"
         }
+    ],
+    "errorPage": [
+        {"status": [400,401,402,403], "file": "./error.html"}
     ]
 }

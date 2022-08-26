@@ -3,34 +3,31 @@
     "tenant-mode": "dedicated",
     "scopes": [
         {
+            "name": "$XSAPPNAME.Admin",
+            "description": "Admin"
+        },
+        {
             "name": "$XSAPPNAME.User",
             "description": "User"
         },
         {
-            "name": "$XSAPPNAME.Admin",
-            "description": "Admin"
-        }
-    ],
-    "attributes": [
-        {
-            "name": "Country",
-            "valueType": "string",
-            "valueRequired": "false"
+            "name": "$XSAPPNAME.Create",
+            "description": "Application Create"
         },
         {
-            "name": "displayName",
-            "valueType": "string",
-            "valueRequired": "false"
+            "name": "$XSAPPNAME.Read",
+            "description": "Application Read"
+        },
+        {
+            "name": "$XSAPPNAME.Update",
+            "description": "Application Update"
+        },
+        {
+            "name": "$XSAPPNAME.Delete",
+            "description": "Application Delete"
         }
     ],
     "role-templates": [
-        {
-            "name": "User",
-            "description": "User",
-            "scope-references": [
-                "$XSAPPNAME.User"
-            ]
-        },
         {
             "name": "Admin",
             "description": "Admin",
@@ -39,31 +36,43 @@
             ]
         },
         {
-            "name": "AssistantRole",
-            "description": "AssistantRole",
+            "name": "User",
+            "description": "User",
             "scope-references": [
-                "$XSAPPNAME.User",
-                "$XSAPPNAME.Admin"
-            ],
-            "attribute-references": [
-                {
-                    "name": "Country"
-                },
-                {
-                    "name": "displayName"
-                }
+                "$XSAPPNAME.User"
+            ]
+        },
+        {
+            "name": "Create",
+            "description": "Role Template Create",
+            "scope-references": [
+                "$XSAPPNAME.Create"
+            ]
+        },
+        {
+            "name": "Read",
+            "description": "Role Template Read",
+            "scope-references": [
+                "$XSAPPNAME.Read"
+            ]
+        },
+        {
+            "name": "Update",
+            "description": "Role Template Update",
+            "scope-references": [
+                "$XSAPPNAME.Update"
+            ]
+        },
+        {
+            "name": "Delete",
+            "description": "Role Template Delete",
+            "scope-references": [
+                "$XSAPPNAME.Delete"
             ]
         }
     ],
     "role-collections": [
         {
-            "name": "User",
-            "description": "User",
-            "role-template-references": [
-                "$XSAPPNAME.User"
-            ]
-        },
-        {
             "name": "Admin",
             "description": "Admin",
             "role-template-references": [
@@ -71,10 +80,38 @@
             ]
         },
         {
-            "name": "AssistantRole",
-            "description": "AssistantRole",
+            "name": "User",
+            "description": "User",
             "role-template-references": [
-                "$XSAPPNAME.AssistantRole"
+                "$XSAPPNAME.User"
+            ]
+        },
+        {
+            "name": "Create",
+            "description": "Collection Create",
+            "role-template-references": [
+                "$XSAPPNAME.Create"
+            ]
+        },
+        {
+            "name": "Read",
+            "description": "Collection Read",
+            "role-template-references": [
+                "$XSAPPNAME.Read"
+            ]
+        },
+        {
+            "name": "Update",
+            "description": "Collection Update",
+            "role-template-references": [
+                "$XSAPPNAME.Update"
+            ]
+        },
+        {
+            "name": "Delete",
+            "description": "Collection Delete",
+            "role-template-references": [
+                "$XSAPPNAME.Delete"
             ]
         }
     ]

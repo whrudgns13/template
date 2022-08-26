@@ -13,7 +13,7 @@ sap.ui.define(
                 this.callSDK("GET", "/app", undefined, this.setPermission);
             },
             setPermission: function (data) {
-                this.setModel(new sap.ui.model.json.JSONModel(data));
+                this.setModel(new sap.ui.model.json.JSONModel(data), "permission");
             },
             onItemSelect: function (oEvent) {
                 let oItem = oEvent.getParameter("item");

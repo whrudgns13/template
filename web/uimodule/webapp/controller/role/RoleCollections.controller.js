@@ -172,13 +172,13 @@ sap.ui.define([
 
                 //readOnly가 true 이면 수정 못함
                 if (oCollection.isReadOnly) {
-                    oAddRoleBtn.setEnabled(false);
+                    oAddRoleBtn.setVisible(false);
                     oRoleTable.setMode("None");
                     return;
                 }
 
                 oRoleTable.setMode("Delete");
-                oAddRoleBtn.setEnabled(true);
+                oAddRoleBtn.setVisible(true);
             },
             deleteRoleCollection: async function () {
                 let sCollectionId = this._collectionModel.getProperty("/name");

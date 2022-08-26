@@ -10,10 +10,14 @@ export class GroupService {
     }
 
     async addUserRoleColleaction(@Req() req, @Res() res) {
-        const body = req.body;
-        const role = await SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
-            .execute(this.destination);
-        return res.send(role);
+        try {
+            const body = req.body;
+            const role = await SCIMGroupsRoleCollectionsApi.addUserRoleUsingPost(body.id, body.group)
+                .execute(this.destination);
+            return res.send(role);
+        } catch (error) {
+            return res.send(error);
+        }
     }
 
     async deleteUserRoleColleaction(@Req() req, @Res() res) {

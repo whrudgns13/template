@@ -7,8 +7,38 @@ export class AppController {
 
   @Get()
   getRolePermission(@Req() req, @Res() res) {
-    if (req.authInfo.checkScope("$XSAPPNAME.Admin")) res.send({ permission: true });
+    let oPermission = {
+      create: false,
+      read: false,
+      update: false,
+      delete: false
+    };
 
-    res.send({ permission: false });
+    if (req.authInfo.checkScope("$XSAPPNAME.Admin")) {
+      oPermission.create = true;
+      oPermission.read = true;
+      oPermission.update = true;
+      oPermission.delete = true;
+
+      res.send(oPermission)
+    };
+
+    if (req.authInfo.checkScope("$XSAPPNAME.Read")) {
+      oPermission.read = true;
+    };
+
+    if (req.authInfo.checkScope("$XSAPPNAME.Create")) {
+      oPermission.create = true;
+    };
+
+    if (req.authInfo.checkScope("$XSAPPNAME.Update")) {
+      oPermission.update = true;
+    };
+
+    if (req.authInfo.checkScope("$XSAPPNAME.Delete")) {
+      oPermission.delete = true;
+    };
+
+    res.send(oPermission);
   }
 }

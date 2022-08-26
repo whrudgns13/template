@@ -1,15 +1,15 @@
 applications:
-#approuter
+  #approuter
   - name: approuter
     path: .
     routes:
-      - route : 68411aqsb-approuter.cfapps.us10.hana.ondemand.com
+      - route: 68411aqsb-approuter.cfapps.us10.hana.ondemand.com
     memory: 128M
     buildpacks:
       - nodejs_buildpack
-    services: 
+    services:
       - security_test-application
-    env: 
+    env:
       SESSION_TIMEOUT: 40
       destinations: >
         [
@@ -23,4 +23,3 @@ applications:
             "url":"https://68411aqsb-webapp.cfapps.us10.hana.ondemand.com"          
           }
         ]
-        
