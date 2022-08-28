@@ -19,23 +19,12 @@ sap.ui.define(
                 this.getSetting();
             },
             getSetting: function () {
-                const _self = this;
-                jQuery.ajax({
-                    url: "/app/security",
-                    type: "GET",
-                    async: false,
-                    headers: {
-                        "X-CSRF-Token": "Fetch"
-                    },
-                    success: function (data, textStatus, xhr) {
-                        _self.csrfToken = xhr.getResponseHeader("x-csrf-token");
-                        data.tokenPolicySettings = _self.tokenTimeConversion(data.tokenPolicySettings);
-                        _self._slider.setProperty("/security", data);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
+                this.callSDK("GET","/app/security",undefined,this.setSetting);
+            },
+            setSetting : function(data){
+                this.csrfToken = xhr.getResponseHeader("x-csrf-token");
+                data.tokenPolicySettings = _self.tokenTimeConversion(data.tokenPolicySettings);
+                this._slider.setProperty("/security", data);
             },
             tokenTimeConversion: function (settings) {
                 settings.accessTokenValidity = settings.accessTokenValidity / 60;
@@ -54,25 +43,8 @@ sap.ui.define(
                 return oTokenSettings;
             },
             onTokenTimeSave: function () {
-                const _self = this;
-
-                jQuery.ajax({
-                    url: "/app/security",
-                    data: JSON.stringify(_self.getUpdateTokenSettings()),
-                    type: "PATCH",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-Token": _self.csrfToken
-                    },
-                    success: function (data, textStatus, xhr) {
-                        if (textStatus === "success") new sap.m.MessageToast.show("변경 성공");
-                        _self.onChangeState();
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-
+                this.callSDK("PATCH","/app/security",this.getUpdateTokenSettings(),this.getSetting);
+                this.onChangeState();
             },
             onChangeState: function () {
                 let bEnabled = this._slider.getProperty("/enabled");
